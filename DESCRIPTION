@@ -17,7 +17,8 @@ Imports:
     pda,
     rlang (>= 1.0.2),
     SqlRender,
-    utils
+    utils,
+    ggplot2
 Suggests:
     devtools,
     knitr,
