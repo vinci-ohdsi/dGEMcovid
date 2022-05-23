@@ -1,0 +1,164 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Execute the Study</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for execute {dGEMcovid}"><tr><td>execute {dGEMcovid}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Execute the Study</h2>
+
+<h3>Description</h3>
+
+<p>Execute the Study
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+execute(
+  databaseDetails,
+  siteId = "site_name",
+  outputFolder,
+  createCohorts = F,
+  createData = F,
+  sampleSize = NULL,
+  createControl = F,
+  siteIds = "",
+  leadSiteNextStep = F,
+  runInitialize = F,
+  runDerive = F,
+  runEstimate = F,
+  runSynthesize = F,
+  verbosity = "INFO",
+  alphaStart = "20201101",
+  alphaEnd = "20210201",
+  deltaStart = "20210701",
+  deltaEnd = "20211001"
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>databaseDetails</code></td>
+<td>
+<p>The connection details and OMOP CDM details. Created using <code>PatientLevelPrediction::createDatabaseDetails</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>siteId</code></td>
+<td>
+<p>The name of your site (can be the university name, site with a number, etc.) tnis needs to be shared with the study administrator</p>
+</td></tr>
+<tr valign="top"><td><code>outputFolder</code></td>
+<td>
+<p>Name of local folder to place results - make sure control is in here; make sure to use forward slashes
+(/). Do not use a folder on a network drive since this greatly impacts
+performance.</p>
+</td></tr>
+<tr valign="top"><td><code>createCohorts</code></td>
+<td>
+<p>Create the cohortTable table with the target population and outcome cohorts?</p>
+</td></tr>
+<tr valign="top"><td><code>createData</code></td>
+<td>
+<p>Create the labelled data set (this is required before runAnalysis)</p>
+</td></tr>
+<tr valign="top"><td><code>sampleSize</code></td>
+<td>
+<p>The number of patients in the target cohort to sample (if NULL uses all patients)</p>
+</td></tr>
+<tr valign="top"><td><code>createControl</code></td>
+<td>
+<p>(for the lead site only) Run this code to create the study control</p>
+</td></tr>
+<tr valign="top"><td><code>siteIds</code></td>
+<td>
+<p>(for the lead site only) vector with the names of all the sites contributing to the study. Required when createControl = TRUE</p>
+</td></tr>
+<tr valign="top"><td><code>runInitialize</code></td>
+<td>
+<p>Runs the initialization step - this require downloading the json control from https://pda-ota.pdamethods.org/</p>
+</td></tr>
+<tr valign="top"><td><code>runDerive</code></td>
+<td>
+<p>Runs the derive step - this require downloading the updated json control from https://pda-ota.pdamethods.org/</p>
+</td></tr>
+<tr valign="top"><td><code>runEstimate</code></td>
+<td>
+<p>Runs the estimate step - this require downloading the updated json control from https://pda-ota.pdamethods.org/</p>
+</td></tr>
+<tr valign="top"><td><code>runSynthesize</code></td>
+<td>
+<p>Once the site estimates are returned, it is now possible to apply each model to the data to calculate
+predictions.  This step requires downloading the updated json control from https://pda-ota.pdamethods.org/</p>
+</td></tr>
+<tr valign="top"><td><code>verbosity</code></td>
+<td>
+<p>Sets the level of the verbosity. If the log level is at or higher in priority than the logger threshold, a message will print. The levels are:
+</p>
+
+<ul>
+<li><p>DEBUGHighest verbosity showing all debug statements
+</p>
+</li>
+<li><p>TRACEShowing information about start and end of steps
+</p>
+</li>
+<li><p>INFOShow informative information (Default)
+</p>
+</li>
+<li><p>WARNShow warning messages
+</p>
+</li>
+<li><p>ERRORShow error messages
+</p>
+</li>
+<li><p>FATALBe silent except for fatal errors
+</p>
+</li></ul>
+  
+<p>@param alphaStart     The start date for the alpha wave in the data in &quot;yyyymmdd&quot; format    
+@param alphaEnd     The end date for the alpha wave in the data in &quot;yyyymmdd&quot; format  
+@param deltaStart     The start date for the delta wave in the data in &quot;yyyymmdd&quot; format  
+@param deltaEnd     The end date for the detla wave in the data in &quot;yyyymmdd&quot; format</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This function executes the dGEMcovid Study.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Not run: 
+connectionDetails &lt;- createConnectionDetails(dbms = "postgresql",
+                                             user = "joe",
+                                             password = "secret",
+                                             server = "myserver")
+
+execute(databaseDetails,
+        siteId = 'site_1',
+        outputFolder = "c:/temp/study_results", 
+        createCohorts = T,
+        createData = T,
+        sampleSize = 10000,
+        createControl = F,
+        siteIds = c('site_1', 'site_2'),
+        leadSiteNextStep = F,
+        runAnalysis = F,
+        runSynthesize = F,
+        verbosity = "INFO"
+        )
+
+## End(Not run)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>dGEMcovid</em> version 0.0.1 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

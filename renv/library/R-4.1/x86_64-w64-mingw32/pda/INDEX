@@ -1,0 +1,6 @@
+getCloudConfig          gather cloud settings into a list
+pda                     PDA: Privacy-preserving Distributed Algorithm
+pdaGet                  Function to download json and return as object
+pdaList                 Function to list available objects
+pdaPut                  Function to upload object to cloud as json
+pdaSync                 pda control synchronize

@@ -1,0 +1,66 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Prepare system to run hydrated packages without further...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for prepareForOfflineStudyPackageExecution {Hydra}"><tr><td>prepareForOfflineStudyPackageExecution {Hydra}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Prepare system to run hydrated packages without further internet connection</h2>
+
+<h3>Description</h3>
+
+<p>Prepare system to run hydrated packages without further internet connection
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+prepareForOfflineStudyPackageExecution(
+  installRpackages = TRUE,
+  installJdbcDrivers = TRUE,
+  skeletons = listSkeletons()
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>installRpackages</code></td>
+<td>
+<p>Install the R packages required by the skeletons?</p>
+</td></tr>
+<tr valign="top"><td><code>installJdbcDrivers</code></td>
+<td>
+<p>Install all JDBC drivers? Requires the DATABASECONNECTOR_JAR_FOLDER
+environmental variable to be set.</p>
+</td></tr>
+<tr valign="top"><td><code>skeletons</code></td>
+<td>
+<p>A list of skeletons to check, for example 'CohortDiagnosticsStudy_v0.0.1.zip'.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Note that when <code>installJdbcDrivers = TRUE</code> this will only include the Jar drivers
+supported by DatabaseConnector::downloadJdbcDrivers. Other drivers (like BigQuery) will
+need to be downloaded manually and placed in the folder identified by the
+DATABASECONNECTOR_JAR_FOLDER environmental variable.
+</p>
+<p>Use <code>list.files(system.file("skeletons", package = "Hydra"), pattern = "*.zip")</code> for a list of
+all skeletons
+</p>
+
+
+<h3>Value</h3>
+
+<p>This function does not return anything. Instead, it installs all dependencies required
+to run the hydrated skeletons. (Only those skeletons that use a renv.lock file)
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>Hydra</em> version 0.3.0 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

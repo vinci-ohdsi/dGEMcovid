@@ -1,0 +1,30 @@
+checkUsagePackage       Check all code in a package
+createRenvLockFile      Create a renv lock file
+findNonAsciiStringsInFolder
+                        Find non-ASCII strings in files
+fixHadesLogo            Fix HADES logo in pkgdown output
+formatRFile             Format an R file
+formatRFolder           Format all R files in a folder
+formatRText             Format R code
+getCorePackages         Get a list of R core packages
+getOhdsiGitHubPackages
+                        Get a list of packages in the OHDSI GitHub.
+insertEnvironmentSnapshotInPackage
+                        Store snapshot of the R environment in the
+                        package
+restoreEnvironment      Restore the R environment to a snapshot
+restoreEnvironmentFromPackage
+                        Restore environment stored in package
+restoreEnvironmentFromPackageOnGithub
+                        Restore environment stored in package
+takeEnvironmentSnapshot
+                        Take a snapshot of the R environment
+updateCopyrightYearFile
+                        Update the copyright year in a R or SQL file
+updateCopyrightYearFolder
+                        Update the copyright year in all R and SQL
+                        files in a folder
+updatePackageName       Update the package name in a R or SQL file
+updatePackageNameFolder
+                        Update the package name in all R and SQL files
+                        in a folder
