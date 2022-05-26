@@ -1,0 +1,156 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Plot Method for 'infl.rma.uni' Objects</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for plot.infl.rma.uni {metafor}"><tr><td>plot.infl.rma.uni {metafor}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Plot Method for 'infl.rma.uni' Objects</h2>
+
+<h3>Description</h3>
+
+<p>Plot method for objects of class <code>"infl.rma.uni"</code>. <script id="MathJax-script" async src="../../mathjaxr/doc/mathjax/es5/tex-chtml-full.js"></script>
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'infl.rma.uni'
+plot(x, plotinf=TRUE, plotdfbs=FALSE, dfbsnew=FALSE, logcov=TRUE,
+     layout, slab.style=1, las=0, pch=21, bg="black",
+     bg.infl="red", col.na="lightgray", ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>an object of class <code>"infl.rma.uni"</code> obtained with <code><a href="influence.rma.uni.html">influence</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>plotinf</code></td>
+<td>
+<p>logical to specify whether the various case diagnostics should be plotted (the default is <code>TRUE</code>). Can also be a vector of up to 8 integers to specify which plots to draw. See &lsquo;Details&rsquo; for the numbers corresponding to the various plots.</p>
+</td></tr>
+<tr valign="top"><td><code>plotdfbs</code></td>
+<td>
+<p>logical to specify whether the DFBETAS values should be plotted (the default is <code>FALSE</code>). Can also be a vector of integers to specify for which coefficient(s) to plot the DFBETAS values.</p>
+</td></tr>
+<tr valign="top"><td><code>dfbsnew</code></td>
+<td>
+<p>logical to specify whether a new device should be opened for plotting the DFBETAS values (the default is <code>FALSE</code>).</p>
+</td></tr>
+<tr valign="top"><td><code>logcov</code></td>
+<td>
+<p>logical to specify whether the covariance ratios should be plotted on a log scale (the default is <code>TRUE</code>).</p>
+</td></tr>
+<tr valign="top"><td><code>layout</code></td>
+<td>
+<p>optional vector of two numbers to specify the number of rows and columns for the layout of the figure.</p>
+</td></tr>
+<tr valign="top"><td><code>slab.style</code></td>
+<td>
+<p>integer to indicate the style of the x-axis labels: 1 = study number, 2 = study label, 3 = abbreviated study label. Note that study labels, even when abbreviated, may be too long to fit in the margins.)</p>
+</td></tr>
+<tr valign="top"><td><code>las</code></td>
+<td>
+<p>integer between 0 and 3 to specify the alignment of the axis labels (see <code><a href="../../graphics/html/par.html">par</a></code>). The most useful alternative to 0 is 3, so that the x-axis labels are drawn vertical to the axis.</p>
+</td></tr>
+<tr valign="top"><td><code>pch</code></td>
+<td>
+<p>plotting symbol to use. By default, a filled circle is used. See <code><a href="../../graphics/html/points.html">points</a></code> for other options.</p>
+</td></tr>
+<tr valign="top"><td><code>bg</code></td>
+<td>
+<p>color to use for filling the plotting symbol (the default is <code>"black"</code>).</p>
+</td></tr>
+<tr valign="top"><td><code>bg.infl</code></td>
+<td>
+<p>color to use for filling the plotting symbol when the point is considered influential (the default is <code>"red"</code>).</p>
+</td></tr>
+<tr valign="top"><td><code>col.na</code></td>
+<td>
+<p>color to use for lines connecting two points with <code>NA</code> values in between (the default is <code>"lightgray"</code>).</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>other arguments.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>When <code>plotinf=TRUE</code>, the function plots the (1) externally standardized residuals, (2) DFFITS values, (3) Cook's distances, (4) covariance ratios, (5) leave-one-out \(\tau^2\) estimates, (6) leave-one-out (residual) heterogeneity test statistics, (7) hat values, and (8) weights. If <code>plotdfbs=TRUE</code>, the DFBETAS values are also plotted either after confirming the page change (if <code>dfbsnew=FALSE</code>) or on a separate device (if <code>dfbsnew=TRUE</code>).
+</p>
+<p>A case (which is typically synonymous with study) may be considered to be &lsquo;influential&rsquo; if at least one of the following is true:
+</p>
+
+<ul>
+<li><p> The absolute DFFITS value is larger than \(3 \times \sqrt{p/(k-p)}\), where \(p\) is the number of model coefficients and \(k\) the number of cases.
+</p>
+</li>
+<li><p> The lower tail area of a chi-square distribution with \(p\) degrees of freedom cut off by the Cook's distance is larger than 50%.
+</p>
+</li>
+<li><p> The hat value is larger than \(3 \times (p/k)\).
+</p>
+</li>
+<li><p> Any DFBETAS value is larger than \(1\).
+</p>
+</li></ul>
+<p> Cases which are considered influential with respect to any of these measures are indicated by the color specified for the <code>bg.infl</code> argument (the default is <code>"red"</code>).
+</p>
+<p>The cut-offs described above are indicated in the plot with horizontal reference lines. In addition, on the plot of the externally standardized residuals, horizontal reference lines are drawn at -1.96, 0, and 1.96. On the plot of the hat values, a horizontal reference line is drawn at \(p/k\). Since the sum of the hat values is equal to \(p\), the value \(p/k\) indicates equal hat values for all \(k\) cases. Finally, on the plot of weights, a horizontal reference line is drawn at \(100/k\), corresponding to the value for equal weights (in %) for all \(k\) cases. Note that all weights will automatically be equal to each other when using unweighted model fitting. Also, the hat values will be equal to the weights values (except for their scaling) in models without moderators.
+</p>
+<p>The chosen cut-offs are (somewhat) arbitrary. Substantively informed judgment should always be used when examining the influence of each case on the results.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Wolfgang Viechtbauer <a href="mailto:wvb@metafor-project.org">wvb@metafor-project.org</a> <a href="https://www.metafor-project.org">https://www.metafor-project.org</a>
+</p>
+
+
+<h3>References</h3>
+
+<p>Viechtbauer, W. (2010). Conducting meta-analyses in R with the metafor package. <em>Journal of Statistical Software</em>, <b>36</b>(3), 1&ndash;48. <code style="white-space: pre;">https://doi.org/10.18637/jss.v036.i03</code>
+</p>
+<p>Viechtbauer, W., &amp; Cheung, M. W.-L. (2010). Outlier and influence diagnostics for meta-analysis. <em>Research Synthesis Methods</em>, <b>1</b>(2), 112&ndash;125. <code style="white-space: pre;">https://doi.org/10.1002/jrsm.11</code>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="influence.rma.uni.html">influence.rma.uni</a></code> for the function to compute the various model diagnostics.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+### calculate log risk ratios and corresponding sampling variances
+dat &lt;- escalc(measure="RR", ai=tpos, bi=tneg, ci=cpos, di=cneg, data=dat.bcg)
+
+### fit mixed-effects model with absolute latitude and publication year as moderators
+res &lt;- rma(yi, vi, mods = ~ ablat + year, data=dat)
+
+### compute the diagnostics
+inf &lt;- influence(res)
+
+### plot the values
+plot(inf)
+
+### select which plots to show
+plot(inf, plotinf=1:4)
+plot(inf, plotinf=1:4, layout=c(4,1))
+
+### plot the DFBETAS values
+plot(inf, plotinf=FALSE, plotdfbs=TRUE)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>metafor</em> version 3.4-0 <a href="00Index.html">Index</a>]</div>
+</body></html>

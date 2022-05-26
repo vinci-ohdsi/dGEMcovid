@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Convert a Vector into a Square Matrix</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for vec2mat {metafor}"><tr><td>vec2mat {metafor}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Convert a Vector into a Square Matrix</h2>
+
+<h3>Description</h3>
+
+<p>Function to convert a vector into a square matrix by filling up the lower triangular part of the matrix.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+vec2mat(x, diag=FALSE, corr=!diag, dimnames)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>a vector of the correct length.</p>
+</td></tr>
+<tr valign="top"><td><code>diag</code></td>
+<td>
+<p>logical to specify whether the vector also contains the diagonal values of the lower triangular part of the matrix (the default is <code>FALSE</code>).</p>
+</td></tr>
+<tr valign="top"><td><code>corr</code></td>
+<td>
+<p>logical to specify whether the diagonal of the matrix should be replaced with 1's (the default is to do this when <code>diag=FALSE</code>).</p>
+</td></tr>
+<tr valign="top"><td><code>dimnames</code></td>
+<td>
+<p>optional vector of the correct length with the dimension names of the matrix.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The values in <code>x</code> are filled into the lower triangular part of a square matrix with the appropriate dimensions (which are determined based on the length of <code>x</code>). If <code>diag=TRUE</code>, then <code>x</code> is assumed to also contain the diagonal values of the lower triangular part of the matrix. If <code>corr=TRUE</code>, then the diagonal of the matrix is replaced with 1's.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A matrix.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Wolfgang Viechtbauer <a href="mailto:wvb@metafor-project.org">wvb@metafor-project.org</a> <a href="https://www.metafor-project.org">https://www.metafor-project.org</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+vec2mat(1:6, corr=FALSE)
+vec2mat(seq(0.2, 0.7, by=0.1), corr=TRUE)
+vec2mat(1:10, diag=TRUE)
+vec2mat(1:6, corr=FALSE, dimnames=c("A","B","C","D"))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>metafor</em> version 3.4-0 <a href="00Index.html">Index</a>]</div>
+</body></html>

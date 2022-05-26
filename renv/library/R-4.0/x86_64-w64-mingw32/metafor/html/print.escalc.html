@@ -1,0 +1,167 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Print and Summary Methods for 'escalc' Objects</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for print.escalc {metafor}"><tr><td>print.escalc {metafor}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Print and Summary Methods for 'escalc' Objects</h2>
+
+<h3>Description</h3>
+
+<p>Print and summary methods for objects of class <code>"escalc"</code>. <script id="MathJax-script" async src="../../mathjaxr/doc/mathjax/es5/tex-chtml-full.js"></script>
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'escalc'
+print(x, digits=attr(x,"digits"), ...)
+
+## S3 method for class 'escalc'
+summary(object, out.names=c("sei","zi","pval","ci.lb","ci.ub"), var.names,
+        H0=0, append=TRUE, replace=TRUE, level=95, olim, digits, transf, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>an object of class <code>"escalc"</code> obtained with <code><a href="escalc.html">escalc</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>an object of class <code>"escalc"</code> obtained with <code><a href="escalc.html">escalc</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>digits</code></td>
+<td>
+<p>integer to specify the number of decimal places to which the printed results should be rounded (the default is to take the value from the object).</p>
+</td></tr>
+<tr valign="top"><td><code>out.names</code></td>
+<td>
+<p>character string with four elements to specify the variable names for the standard errors, test statistics, and lower/upper confidence interval bounds.</p>
+</td></tr>
+<tr valign="top"><td><code>var.names</code></td>
+<td>
+<p>character string with two elements to specify the variable names for the observed effect sizes or outcomes and the sampling variances (the default is to take the value from the object if possible).</p>
+</td></tr>
+<tr valign="top"><td><code>H0</code></td>
+<td>
+<p>numeric value to specify the value of the effect size or outcome under the null hypothesis (the default is 0).</p>
+</td></tr>
+<tr valign="top"><td><code>append</code></td>
+<td>
+<p>logical to specify whether the data frame specified via the <code>object</code> argument should be returned together with the additional variables that are calculated by the <code>summary</code> function (the default is <code>TRUE</code>).</p>
+</td></tr>
+<tr valign="top"><td><code>replace</code></td>
+<td>
+<p>logical to specify whether existing values for <code>sei</code>, <code>zi</code>, <code>ci.lb</code>, and <code>ci.ub</code> in the data frame should be replaced. Only relevant when the data frame already contains these variables. If <code>replace=TRUE</code> (the default), all of the existing values will be overwritten. If <code>replace=FALSE</code>, only <code>NA</code> values will be replaced.</p>
+</td></tr>
+<tr valign="top"><td><code>level</code></td>
+<td>
+<p>numeric value between 0 and 100 to specify the confidence interval level (the default is 95).</p>
+</td></tr>
+<tr valign="top"><td><code>olim</code></td>
+<td>
+<p>optional argument to specify observation/outcome limits. If unspecified, no limits are used.</p>
+</td></tr>
+<tr valign="top"><td><code>transf</code></td>
+<td>
+<p>optional argument to specify a function that should be used to transform the observed effect sizes or outcomes and interval bounds (e.g., <code>transf=exp</code>; see also <a href="transf.html">transf</a>). If unspecified, no transformation is used. Any additional arguments needed for the function specified here can be passed via <code>...</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>other arguments.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>The <code>print.escalc</code> function formats and prints the data frame, so that the observed effect sizes or outcomes and sampling variances are rounded (to the number of digits specified).
+</p>
+<p>The <code>summary.escalc</code> function creates an object that is a data frame containing the original data (if <code>append=TRUE</code>) and the following components:
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>yi</code></td>
+<td>
+<p>observed effect sizes or outcomes (transformed if <code>transf</code> is specified).</p>
+</td></tr>
+<tr valign="top"><td><code>vi</code></td>
+<td>
+<p>corresponding sampling variances.</p>
+</td></tr>
+<tr valign="top"><td><code>sei</code></td>
+<td>
+<p>correponding standard errors.</p>
+</td></tr>
+<tr valign="top"><td><code>zi</code></td>
+<td>
+<p>test statistics for testing \(\mbox{H}_0{:}\; \theta_i = \mbox{H0}\) (i.e., <code>(yi-H0)/sei</code>).</p>
+</td></tr>
+<tr valign="top"><td><code>pval</code></td>
+<td>
+<p>corresponding p-values.</p>
+</td></tr>
+<tr valign="top"><td><code>ci.lb</code></td>
+<td>
+<p>lower confidence interval bounds (transformed if <code>transf</code> is specified).</p>
+</td></tr>
+<tr valign="top"><td><code>ci.ub</code></td>
+<td>
+<p>upper confidence interval bounds (transformed if <code>transf</code> is specified).</p>
+</td></tr>
+</table>
+<p>When the <code>transf</code> argument is specified, elements <code>vi</code>, <code>sei</code>, <code>zi</code>, and <code>pval</code> are not included (since these only apply to the untransformed effect sizes or outcomes).
+</p>
+<p>Note that the actual variable names above depend on the <code>out.names</code> (and <code>var.names</code>) arguments. If the data frame already contains variables with names as specified by the <code>out.names</code> argument, the values for these variables will be overwritten when <code>replace=TRUE</code> (which is the default). By setting <code>replace=FALSE</code>, only values that are <code>NA</code> will be replaced.
+</p>
+<p>The <code>print.escalc</code> function again formats and prints the data frame, rounding the added variables to the number of digits specified.
+</p>
+
+
+<h3>Note</h3>
+
+<p>If some transformation function has been specified for the <code>transf</code> argument, then <code>yi</code>, <code>ci.lb</code>, and <code>ci.ub</code> will be transformed accordingly. However, <code>vi</code> and <code>sei</code> then still reflect the sampling variances and standard errors of the untransformed values.
+</p>
+<p>The <code>summary.escalc</code> function computes <code>level</code> % Wald-type confidence intervals, which may or may not be the most accurate method for computing confidence intervals for the chosen effect size or outcome measure.
+</p>
+<p>If the outcome measure used is bounded (e.g., correlations are bounded between -1 and +1, proportions are bounded between 0 and 1), one can use the <code>olim</code> argument to enforce those observation/outcome limits (the observed outcomes and confidence intervals cannot exceed those bounds then).
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Wolfgang Viechtbauer <a href="mailto:wvb@metafor-project.org">wvb@metafor-project.org</a> <a href="https://www.metafor-project.org">https://www.metafor-project.org</a>
+</p>
+
+
+<h3>References</h3>
+
+<p>Viechtbauer, W. (2010). Conducting meta-analyses in R with the metafor package. <em>Journal of Statistical Software</em>, <b>36</b>(3), 1&ndash;48. <code style="white-space: pre;">https://doi.org/10.18637/jss.v036.i03</code>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="escalc.html">escalc</a></code> for the function to create <code>escalc</code> objects.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+### calculate log risk ratios and corresponding sampling variances
+dat &lt;- escalc(measure="RR", ai=tpos, bi=tneg, ci=cpos, di=cneg, data=dat.bcg)
+dat
+
+### apply summary function
+summary(dat)
+summary(dat, transf=exp)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>metafor</em> version 3.4-0 <a href="00Index.html">Index</a>]</div>
+</body></html>

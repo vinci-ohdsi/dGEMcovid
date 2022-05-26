@@ -1,0 +1,249 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Test of Excess Significance</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for tes {metafor}"><tr><td>tes {metafor}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Test of Excess Significance</h2>
+
+<h3>Description</h3>
+
+<p>Function to conduct the test of excess significance. <script id="MathJax-script" async src="../../mathjaxr/doc/mathjax/es5/tex-chtml-full.js"></script>
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+tes(x, vi, sei, subset, data, H0=0, alternative="two.sided", alpha=.05, theta, tau2,
+    test, tes.alternative="greater", progbar=TRUE, tes.alpha=.10, digits, ...)
+
+## S3 method for class 'tes'
+print(x, digits=x$digits, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<p><em>These arguments pertain to data input:</em>
+</p>
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>a vector with the observed effect sizes or outcomes or an object of class <code>"rma"</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>vi</code></td>
+<td>
+<p>vector with the corresponding sampling variances (ignored if <code>x</code> is an object of class <code>"rma"</code>).</p>
+</td></tr>
+<tr valign="top"><td><code>sei</code></td>
+<td>
+<p>vector with the corresponding standard errors (note: only one of the two, <code>vi</code> or <code>sei</code>, needs to be specified).</p>
+</td></tr>
+<tr valign="top"><td><code>subset</code></td>
+<td>
+<p>optional (logical or numeric) vector to specify the subset of studies that should be included (ignored if <code>x</code> is an object of class <code>"rma"</code>).</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>optional data frame containing the variables given to the arguments above.</p>
+</td></tr>
+</table>
+<p><em>These arguments pertain to the tests of the observed effect sizes or outcomes:</em>
+</p>
+<table summary="R argblock">
+<tr valign="top"><td><code>H0</code></td>
+<td>
+<p>numeric value to specify the value of the effect size or outcome under the null hypothesis (the default is 0).</p>
+</td></tr>
+<tr valign="top"><td><code>alternative</code></td>
+<td>
+<p>character string to specify the sidedness of the hypothesis when testing the observed effect sizes or outcomes. Possible options are <code>"two.sided"</code> (the default), <code>"greater"</code>, or <code>"less"</code>. Can be abbreviated.</p>
+</td></tr>
+<tr valign="top"><td><code>alpha</code></td>
+<td>
+<p>alpha level for testing the observed effect sizes or outcomes (the default is .05).</p>
+</td></tr>
+</table>
+<p><em>These arguments pertain to the power of the tests:</em>
+</p>
+<table summary="R argblock">
+<tr valign="top"><td><code>theta</code></td>
+<td>
+<p>optional numeric value to specify the value of the true effect size or outcome under the alternative hypothesis. If unspecified, it will be estimated based on the data or the value is taken from the <code>"rma"</code> object.</p>
+</td></tr>
+<tr valign="top"><td><code>tau2</code></td>
+<td>
+<p>optional numeric value to specify the amount of heterogeneity in the true effect sizes or outcomes. If unspecified, the true effect sizes or outcomes are assumed to be homogeneous or the value is taken from the <code>"rma"</code> object.</p>
+</td></tr>
+</table>
+<p><em>These arguments pertain to the test of excess significance:</em>
+</p>
+<table summary="R argblock">
+<tr valign="top"><td><code>test</code></td>
+<td>
+<p>optional character string to specify the type of test to use for conducting the test of excess significance. Possible options are <code>"chi2"</code>, <code>"binom"</code>, or <code>"exact"</code>. Can be abbreviated. If unspecified, the function chooses the type of test based on the data.</p>
+</td></tr>
+<tr valign="top"><td><code>tes.alternative</code></td>
+<td>
+<p>character string to specify the sidedness of the hypothesis for the test of excess significance. Possible options are <code>"greater"</code> (the default), <code>"two.sided"</code>, or <code>"less"</code>. Can be abbreviated.</p>
+</td></tr>
+<tr valign="top"><td><code>progbar</code></td>
+<td>
+<p>logical to specify whether a progress bar should be shown (the default is <code>TRUE</code>). Only relevant when conducting an exact test.</p>
+</td></tr>
+<tr valign="top"><td><code>tes.alpha</code></td>
+<td>
+<p>alpha level for the test of excess significance (the default is .10). Only relevant for finding the &lsquo;limit estimate&rsquo;.</p>
+</td></tr>
+</table>
+<p><em>Miscellaneous arguments:</em>
+</p>
+<table summary="R argblock">
+<tr valign="top"><td><code>digits</code></td>
+<td>
+<p>optional integer to specify the number of decimal places to which the printed results should be rounded.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>other arguments.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The function carries out the test of excess significance described by Ioannidis and Trikalinos (2007). The test can be used to examine whether the observed number of significant findings is greater than the number of significant findings expected given the power of the tests. An overabundance of significant tests may suggest that the collection of studies is not representative of all studies conducted on a particular topic.
+</p>
+<p>One can either pass a vector with the observed effect sizes or outcomes (via <code>x</code>) and the corresponding sampling variances via <code>vi</code> (or the standard errors via <code>sei</code>) to the function or an object of class <code>"rma"</code>.
+</p>
+<p>The observed effect sizes or outcomes are tested for significance based on a standard Wald-type test, that is, by comparing \[z_i = \frac{y_i - \mbox{H}_0}{\sqrt{v_i}}\] against the appropriate critical value(s) of a standard normal distribution (e.g., \(\pm 1.96\) for <code>alternative="two.sided"</code> and <code>alpha=.05</code>, which are the defaults). Let \(O\) denote the observed number of significant tests.
+</p>
+<p>Given a particular value for the true effect or outcome denoted by \(\theta\) (which, if it is unspecified, is determined by computing the inverse-variance weighted average of the observed effect sizes or outcomes or the value is taken from the model object), let \(1-\beta_i\) denote the power of the \(i\textrm{th}\) test (where \(\beta_i\) denotes the Type II error probability). If \(\tau^2 > 0\), let \(1-\beta_i\) denote the expected power (computed based on integrating the power over a normal distribution with mean \(\theta\) and variance \(\tau^2\)). Let \(E = \sum_{i=1}^k (1-\beta_i)\) denote the expected number of significant tests.
+</p>
+<p>The test of excess significance then tests if \(O\) is significantly greater (if <code>tes.alternative="greater"</code>) than \(E\). This can be done using Pearson's chi-squared test (if <code>test="chi2"</code>), a binomial test (if <code>test="binomial"</code>), or an exact test (if <code>test="exact"</code>). The latter is described in Francis (2013). If argument <code>test</code> is unspecified, the default is to do an exact test if the number of elements in the sum that needs to be computed is less than or equal to <code>10^6</code> and to do a chi-square test otherwise.
+</p>
+<p>One can also iteratively find the value of \(\theta\) such that the p-value of the test of excess significance is equal to <code>tes.alpha</code> (which is <code>.10</code> by default). The resulting value is called the &lsquo;limit estimate&rsquo; and is denoted \(\theta_{lim}\) by Ioannidis and Trikalinos (2007). Note that the limit estimate is not computable if the p-value is larger than <code>tes.alpha</code> even if \(\theta = \mbox{H}_0\).
+</p>
+
+
+<h3>Value</h3>
+
+<p>An object of class <code>"tes"</code>. The object is a list containing the following components:
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>k</code></td>
+<td>
+<p>the number of studies included in the analysis.</p>
+</td></tr>
+<tr valign="top"><td><code>O</code></td>
+<td>
+<p>the observed number of significant tests.</p>
+</td></tr>
+<tr valign="top"><td><code>E</code></td>
+<td>
+<p>the expected number of significant tests.</p>
+</td></tr>
+<tr valign="top"><td><code>OEratio</code></td>
+<td>
+<p>the ratio of O over E.</p>
+</td></tr>
+<tr valign="top"><td><code>test</code></td>
+<td>
+<p>the type of test conducted.</p>
+</td></tr>
+<tr valign="top"><td><code>pval</code></td>
+<td>
+<p>the p-value of the test of excess significance.</p>
+</td></tr>
+<tr valign="top"><td><code>power</code></td>
+<td>
+<p>the (estimated) power of the tests.</p>
+</td></tr>
+<tr valign="top"><td><code>sig</code></td>
+<td>
+<p>logical vector indicating which tests were significant.</p>
+</td></tr>
+<tr valign="top"><td><code>theta</code></td>
+<td>
+<p>the value of \(\theta\) used for computing the power of the tests.</p>
+</td></tr>
+<tr valign="top"><td><code>theta.lim</code></td>
+<td>
+<p>the &lsquo;limit estimate&rsquo; (i.e., \(\theta_{lim}\)).</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>some additional elements/values.</p>
+</td></tr>
+</table>
+<p>The results are formatted and printed with the <code>print</code> function.
+</p>
+
+
+<h3>Note</h3>
+
+<p>When <code>tes.alternative="greater"</code> (the default), then the function tests if \(O\) is significantly greater than \(E\) and hence this is indeed a test of excess significance. When <code>tes.alternative="two.sided"</code>, then the function tests if \(O\) differs significantly from \(E\) in either direction and hence it would be more apt to describe this as a test of (in)consistency (between \(O\) and \(E\)). Finally, one can also set <code>tes.alternative="less"</code>, in which case the function tests if \(O\) is significantly lower than \(E\), which could be considered a test of excess non-significance.
+</p>
+<p>When <code>tes.alternative="two.sided"</code>, one can actually compute two limit estimates. The function attempts to compute both.
+</p>
+<p>The function computes the significance and power of the studies based on Wald-type tests regardless of the effect size or outcome measure used as input. This works as an adequate approximation as long as the within-study sample sizes are not too small.
+</p>
+<p>Note that the test is not a test for publication bias but a test whether the set of studies includes an unusual number of significant findings given the power of the studies. The general usefulness of the test and its usefulness under particular circumstances (e.g., when there is substantial heterogeneity in the true effect sizes or outcomes) has been the subject of considerable debate. See Francis (2013) and the commentaries on this article in the same issue of the journal.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Wolfgang Viechtbauer <a href="mailto:wvb@metafor-project.org">wvb@metafor-project.org</a> <a href="https://www.metafor-project.org">https://www.metafor-project.org</a>
+</p>
+
+
+<h3>References</h3>
+
+<p>Francis, G. (2013). Replication, statistical consistency, and publication bias. <em>Journal of Mathematical Psychology</em>, <b>57</b>(5), 153&ndash;169. <code style="white-space: pre;">https://doi.org/10.1016/j.jmp.2013.02.003</code>
+</p>
+<p>Ioannidis, J. P. A., &amp; Trikalinos, T. A. (2007). An exploratory test for an excess of significant findings. <em>Clinical Trials</em>, <b>4</b>(3), 245&ndash;253. <code style="white-space: pre;">https://doi.org/10.1177/1740774507079441</code>
+</p>
+<p>Viechtbauer, W. (2010). Conducting meta-analyses in R with the metafor package. <em>Journal of Statistical Software</em>, <b>36</b>(3), 1&ndash;48. <code style="white-space: pre;">https://doi.org/10.18637/jss.v036.i03</code>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="ranktest.html">ranktest</a></code> for the rank test, <code><a href="regtest.html">regtest</a></code> for the regression test, <code><a href="trimfill.html">trimfill</a></code> for the trim and fill method, and <code><a href="selmodel.html">selmodel</a></code> for selection models.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+### calculate log risk ratios and corresponding sampling variances
+dat &lt;- escalc(measure="RR", ai=x.a, n1i=n.a, ci=x.p, n2i=n.p, data=dat.dorn2007)
+
+### conduct test of excess significance (using test="chi2" to speed things up)
+tes(yi, vi, data=dat, test="chi2")
+
+### same as fitting an EE model and then passing the object to the function
+res &lt;- rma(yi, vi, data=dat, method="EE")
+tes(res, test="chi2")
+
+### illustrate limit estimate (value of theta where p-value of test is equal to tes.alpha)
+thetas &lt;- seq(0,1,length=101)
+pvals &lt;- sapply(thetas, function(theta) tes(yi, vi, data=dat, test="chi2", theta=theta)$pval)
+plot(thetas, pvals, type="o", pch=19, ylim=c(0,1))
+sav &lt;- tes(yi, vi, data=dat, test="chi2")
+abline(h=sav$tes.alpha, lty="dotted")
+abline(v=sav$theta.lim, lty="dotted")
+
+### examine significance of test as a function of alpha (to examine 'significance chasing')
+alphas &lt;- seq(.01,.99,length=101)
+pvals &lt;- sapply(alphas, function(alpha) tes(yi, vi, data=dat, test="chi2", alpha=alpha)$pval)
+plot(alphas, pvals, type="o", pch=19, ylim=c(0,1))
+abline(v=.05, lty="dotted")
+abline(h=.10, lty="dotted")
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>metafor</em> version 3.4-0 <a href="00Index.html">Index</a>]</div>
+</body></html>

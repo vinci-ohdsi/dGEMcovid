@@ -1,0 +1,529 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Meta-Analysis via Generalized Linear (Mixed-Effects) Models</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for rma.glmm {metafor}"><tr><td>rma.glmm {metafor}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Meta-Analysis via Generalized Linear (Mixed-Effects) Models</h2>
+
+<h3>Description</h3>
+
+<p>Function to fit meta-analytic equal-, fixed-, and random-effects models and (mixed-effects) meta-regression models using a generalized linear (mixed-effects) model framework. See below and the introduction to the <span class="pkg"><a href="metafor-package.html">metafor-package</a></span> for more details on these models. <script id="MathJax-script" async src="../../mathjaxr/doc/mathjax/es5/tex-chtml-full.js"></script>
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+rma.glmm(ai, bi, ci, di, n1i, n2i, x1i, x2i, t1i, t2i, xi, mi, ti, ni,
+         mods, measure, intercept=TRUE, data, slab, subset,
+         add=1/2, to="only0", drop00=TRUE, vtype="LS",
+         model="UM.FS", method="ML", coding=1/2, cor=FALSE, test="z",
+         level=95, digits, btt, nAGQ=7, verbose=FALSE, control, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>ai</code></td>
+<td>
+<p>see below and the documentation of the <code><a href="escalc.html">escalc</a></code> function for more details.</p>
+</td></tr>
+<tr valign="top"><td><code>bi</code></td>
+<td>
+<p>see below and the documentation of the <code><a href="escalc.html">escalc</a></code> function for more details.</p>
+</td></tr>
+<tr valign="top"><td><code>ci</code></td>
+<td>
+<p>see below and the documentation of the <code><a href="escalc.html">escalc</a></code> function for more details.</p>
+</td></tr>
+<tr valign="top"><td><code>di</code></td>
+<td>
+<p>see below and the documentation of the <code><a href="escalc.html">escalc</a></code> function for more details.</p>
+</td></tr>
+<tr valign="top"><td><code>n1i</code></td>
+<td>
+<p>see below and the documentation of the <code><a href="escalc.html">escalc</a></code> function for more details.</p>
+</td></tr>
+<tr valign="top"><td><code>n2i</code></td>
+<td>
+<p>see below and the documentation of the <code><a href="escalc.html">escalc</a></code> function for more details.</p>
+</td></tr>
+<tr valign="top"><td><code>x1i</code></td>
+<td>
+<p>see below and the documentation of the <code><a href="escalc.html">escalc</a></code> function for more details.</p>
+</td></tr>
+<tr valign="top"><td><code>x2i</code></td>
+<td>
+<p>see below and the documentation of the <code><a href="escalc.html">escalc</a></code> function for more details.</p>
+</td></tr>
+<tr valign="top"><td><code>t1i</code></td>
+<td>
+<p>see below and the documentation of the <code><a href="escalc.html">escalc</a></code> function for more details.</p>
+</td></tr>
+<tr valign="top"><td><code>t2i</code></td>
+<td>
+<p>see below and the documentation of the <code><a href="escalc.html">escalc</a></code> function for more details.</p>
+</td></tr>
+<tr valign="top"><td><code>xi</code></td>
+<td>
+<p>see below and the documentation of the <code><a href="escalc.html">escalc</a></code> function for more details.</p>
+</td></tr>
+<tr valign="top"><td><code>mi</code></td>
+<td>
+<p>see below and the documentation of the <code><a href="escalc.html">escalc</a></code> function for more details.</p>
+</td></tr>
+<tr valign="top"><td><code>ti</code></td>
+<td>
+<p>see below and the documentation of the <code><a href="escalc.html">escalc</a></code> function for more details.</p>
+</td></tr>
+<tr valign="top"><td><code>ni</code></td>
+<td>
+<p>see below and the documentation of the <code><a href="escalc.html">escalc</a></code> function for more details.</p>
+</td></tr>
+<tr valign="top"><td><code>mods</code></td>
+<td>
+<p>optional argument to include one or more moderators in the model. A single moderator can be given as a vector of length \(k\) specifying the values of the moderator. Multiple moderators are specified by giving a matrix with \(k\) rows and as many columns as there are moderator variables. Alternatively, a model <code><a href="formula.rma.html">formula</a></code> can be used to specify the model. See &lsquo;Details&rsquo;.</p>
+</td></tr>
+<tr valign="top"><td><code>measure</code></td>
+<td>
+<p>character string to specify the outcome measure to use for the meta-analysis. Possible options are the odds ratio (<code>"OR"</code>), the incidence rate ratio (<code>"IRR"</code>), the logit transformed proportion (<code>"PLO"</code>), or the log transformed incidence rate (<code>"IRLN"</code>).</p>
+</td></tr>
+<tr valign="top"><td><code>intercept</code></td>
+<td>
+<p>logical to specify whether an intercept should be added to the model (the default is <code>TRUE</code>).</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>optional data frame containing the data supplied to the function.</p>
+</td></tr>
+<tr valign="top"><td><code>slab</code></td>
+<td>
+<p>optional vector with labels for the \(k\) studies.</p>
+</td></tr>
+<tr valign="top"><td><code>subset</code></td>
+<td>
+<p>optional (logical or numeric) vector to specify the subset of studies that should be used for the analysis.</p>
+</td></tr>
+<tr valign="top"><td><code>add</code></td>
+<td>
+<p>non-negative number to specify the amount to add to zero cells, counts, or frequencies when calculating the observed effect sizes or outcomes of the individual studies. See below and the documentation of the <code><a href="escalc.html">escalc</a></code> function for more details.</p>
+</td></tr>
+<tr valign="top"><td><code>to</code></td>
+<td>
+<p>character string to specify when the values under <code>add</code> should be added (either <code>"only0"</code>, <code>"all"</code>, <code>"if0all"</code>, or <code>"none"</code>). See below and the documentation of the <code><a href="escalc.html">escalc</a></code> function for more details.</p>
+</td></tr>
+<tr valign="top"><td><code>drop00</code></td>
+<td>
+<p>logical to specify whether studies with no cases/events (or only cases) in both groups should be dropped. See the documentation of the <code><a href="escalc.html">escalc</a></code> function for more details.</p>
+</td></tr>
+<tr valign="top"><td><code>vtype</code></td>
+<td>
+<p>character string to specify the type of sampling variances to calculate when calculating the observed effect sizes or outcomes. See the documentation of the <code><a href="escalc.html">escalc</a></code> function for more details.</p>
+</td></tr>
+<tr valign="top"><td><code>model</code></td>
+<td>
+<p>character string to specify the general model type to use for the analysis (either <code>"UM.FS"</code> (the default), <code>"UM.RS"</code>, <code>"CM.EL"</code>, or <code>"CM.AL"</code>). See &lsquo;Details&rsquo;.</p>
+</td></tr>
+<tr valign="top"><td><code>method</code></td>
+<td>
+<p>character string to specify whether an equal- or a random-effects model should be fitted. An equal-effects model is fitted when using <code>method="EE"</code>. A random-effects model is fitted by setting <code>method="ML"</code> (the default). See &lsquo;Details&rsquo;.</p>
+</td></tr>
+<tr valign="top"><td><code>coding</code></td>
+<td>
+<p>numeric scalar to indicate how the group variable should be coded in the random effects structure for random/mixed-effects models (the default is <code>1/2</code>). See &lsquo;Note&rsquo;.</p>
+</td></tr>
+<tr valign="top"><td><code>cor</code></td>
+<td>
+<p>logical to indicate whether the random study effects should be allowed to be correlated with the random group effects for random/mixed-effects models when <code>model="UM.RS"</code> (the default is <code>FALSE</code>). See &lsquo;Note&rsquo;.</p>
+</td></tr>
+<tr valign="top"><td><code>test</code></td>
+<td>
+<p>character string to specify how test statistics and confidence intervals for the fixed effects should be computed. By default (<code>test="z"</code>), Wald-type tests and CIs are obtained, which are based on a standard normal distribution. When <code>test="t"</code>, a t-distribution is used instead. See &lsquo;Details&rsquo; and also <a href="misc-recs.html">here</a>.</p>
+</td></tr>
+<tr valign="top"><td><code>level</code></td>
+<td>
+<p>numeric value between 0 and 100 to specify the confidence interval level (the default is 95).</p>
+</td></tr>
+<tr valign="top"><td><code>digits</code></td>
+<td>
+<p>optional integer to specify the number of decimal places to which the printed results should be rounded. If unspecified, the default is 4. See also <a href="misc-options.html">here</a> for further details on how to control the number of digits in the output.</p>
+</td></tr>
+<tr valign="top"><td><code>btt</code></td>
+<td>
+<p>optional vector of indices to specify which coefficients to include in the omnibus test of moderators. Can also be a string to <code><a href="../../base/html/grep.html">grep</a></code> for. See &lsquo;Details&rsquo;.</p>
+</td></tr>
+<tr valign="top"><td><code>nAGQ</code></td>
+<td>
+<p>positive integer to specify the number of points per axis for evaluating the adaptive Gauss-Hermite approximation to the log-likelihood. The default is 7. Setting this to 1 corresponds to the Laplacian approximation. See &lsquo;Note&rsquo;.</p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p>logical to specify whether output should be generated on the progress of the model fitting (the default is <code>FALSE</code>). Can also be an integer. Values &gt; 1 generate more verbose output. See &lsquo;Note&rsquo;.</p>
+</td></tr>
+<tr valign="top"><td><code>control</code></td>
+<td>
+<p>optional list of control values for the estimation algorithms. If unspecified, default values are defined inside the function. See &lsquo;Note&rsquo;.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>additional arguments.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+
+
+<h4>Specifying the Data</h4>
+
+<p>The function can be used in combination with the following effect size or outcome measures:
+</p>
+
+<ul>
+<li> <p><code>measure="OR"</code> for odds ratios (analyzed in log units)
+</p>
+</li>
+<li> <p><code>measure="IRR"</code> for incidence rate ratios (analyzed in log units)
+</p>
+</li>
+<li> <p><code>measure="PLO"</code> for logit transformed proportions (i.e., log odds)
+</p>
+</li>
+<li> <p><code>measure="IRLN"</code> for log transformed incidence rates.
+</p>
+</li></ul>
+
+<p>The <code><a href="escalc.html">escalc</a></code> function describes the data/arguments that should be specified/used for these measures.
+</p>
+
+
+
+<h4>Specifying the Model</h4>
+
+<p>A variety of model types are available when analyzing \(2 \times 2\) table data (i.e., when <code>measure="OR"</code>) or two-group event count data (i.e., when <code>measure="IRR"</code>):
+</p>
+
+<ul>
+<li> <p><code>model="UM.FS"</code> for an unconditional generalized linear mixed-effects model with fixed study effects
+</p>
+</li>
+<li> <p><code>model="UM.RS"</code> for an unconditional generalized linear mixed-effects model with random study effects
+</p>
+</li>
+<li> <p><code>model="CM.AL"</code> for a conditional generalized linear mixed-effects model (approximate likelihood)
+</p>
+</li>
+<li> <p><code>model="CM.EL"</code> for a conditional generalized linear mixed-effects model (exact likelihood).
+</p>
+</li></ul>
+
+<p>For <code>measure="OR"</code>, models <code>"UM.FS"</code> and <code>"UM.RS"</code> are essentially (mixed-effects) logistic regression models, while for <code>measure="IRR"</code>, these models are (mixed-effects) Poisson regression models. A choice must be made on how to model study level variability (i.e., differences in outcomes across studies irrespective of group membership). One can choose between using fixed study effects (which means that \(k\) dummy variables are added to the model) or random study effects (which means that random effects corresponding to the levels of the study factor are added to the model).
+</p>
+<p>The conditional model (<code>model="CM.EL"</code>) avoids having to model study level variability by conditioning on the total numbers of cases/events in each study. For <code>measure="OR"</code>, this leads to a non-central hypergeometric distribution for the data within each study and the corresponding model is then a (mixed-effects) conditional logistic model. Fitting this model can be difficult and computationally expensive. When the number of cases in each study is small relative to the group sizes, one can approximate the exact likelihood by a binomial distribution, which leads to a regular (mixed-effects) logistic regression model (<code>model="CM.AL"</code>). For <code>measure="IRR"</code>, the conditional model leads directly to a binomial distribution for the data within each study and the resulting model is again a (mixed-effects) logistic regression model (no approximate likelihood model is needed here).
+</p>
+<p>When analyzing proportions (i.e., <code>measure="PLO"</code>) or incidence rates (i.e., <code>measure="IRLN"</code>) of individual groups, the model type is always a (mixed-effects) logistic or Poisson regression model, respectively (i.e., the <code>model</code> argument is not relevant here).
+</p>
+<p>Aside from choosing the general model type, one has to decide whether to fit an equal- or a random-effects model to the data. An <em>equal-effects model</em> is fitted by setting <code>method="EE"</code>. A <em>random-effects model</em> is fitted by setting <code>method="ML"</code> (the default). Note that random-effects models with dichotomous data are often referred to as &lsquo;binomial-normal&rsquo; models in the meta-analytic literature. Analogously, for event count data, such models could be referred to as &lsquo;Poisson-normal&rsquo; models.
+</p>
+<p>One or more moderators can be included in a model via the <code>mods</code> argument. A single moderator can be given as a (row or column) vector of length \(k\) specifying the values of the moderator. Multiple moderators are specified by giving an appropriate model matrix (i.e., \(X\)) with \(k\) rows and as many columns as there are moderator variables (e.g., <code>mods = cbind(mod1, mod2, mod3)</code>, where <code>mod1</code>, <code>mod2</code>, and <code>mod3</code> correspond to the names of the variables for three moderator variables). The intercept is added to the model matrix by default unless <code>intercept=FALSE</code>.
+</p>
+<p>Alternatively, one can use standard <code><a href="formula.rma.html">formula</a></code> syntax to specify the model. In this case, the <code>mods</code> argument should be set equal to a one-sided formula of the form <code>mods = ~ model</code> (e.g., <code>mods = ~ mod1 + mod2 + mod3</code>). Interactions, polynomial terms, and factors can be easily added to the model in this manner. When specifying a model formula via the <code>mods</code> argument, the <code>intercept</code> argument is ignored. Instead, the inclusion/exclusion of the intercept is controlled by the specified formula (e.g., <code>mods = ~ mod1 + mod2 + mod3 - 1</code> would lead to the removal of the intercept).
+</p>
+
+
+
+<h4>Equal-, Saturated-, and Random/Mixed-Effects Models</h4>
+
+<p>When fitting a particular model, actually up to three different models are fitted within the function:
+</p>
+
+<ul>
+<li><p> the equal-effects model (i.e., where \(\tau^2\) is set to 0),
+</p>
+</li>
+<li><p> the saturated model (i.e., the model with a deviance of 0), and
+</p>
+</li>
+<li><p> the random/mixed-effects model (i.e., where \(\tau^2\) is estimated) (only if <code>method="ML"</code>).
+</p>
+</li></ul>
+<p> The saturated model is obtained by adding as many dummy variables to the model as needed so that the model deviance is equal to zero. Even when <code>method="ML"</code>, the equal- and saturated models are also fitted, as they are used to compute the test statistics for the Wald-type and likelihood ratio tests for (residual) heterogeneity (see below).
+</p>
+
+
+
+<h4>Omnibus Test of Moderators</h4>
+
+<p>For models including moderators, an omnibus test of all model coefficients is conducted that excludes the intercept (the first coefficient) if it is included in the model. If no intercept is included in the model, then the omnibus test includes all of the coefficients in the model including the first. Alternatively, one can manually specify the indices of the coefficients to test via the <code>btt</code> (&lsquo;betas to test&rsquo;) argument (i.e., to test \(\mbox{H}_0{:}\; \beta_{j \in H_0} = 0\), where \(\beta_{j \in H_0}\) is the set of coefficients to be tested). For example, with <code>btt=c(3,4)</code>, only the third and fourth coefficient from the model would be included in the test (if an intercept is included in the model, then it corresponds to the first coefficient in the model). Instead of specifying the coefficient numbers, one can specify a string for <code>btt</code>. In that case, <code><a href="../../base/html/grep.html">grep</a></code> will be used to search for all coefficient names that match the string. The omnibus test is called the \(Q_M\)-test and follows, under the assumptions of the model, a chi-square distribution with \(m\) degrees of freedom (with \(m\) denoting the number of coefficients tested) under the null hypothesis (that the true value of all coefficients tested is equal to 0).
+</p>
+
+
+
+<h4>Categorical Moderators</h4>
+
+<p>Categorical moderator variables can be included in the model via the <code>mods</code> argument in the same way that appropriately (dummy) coded categorical variables can be included in linear models. One can either do the dummy coding manually or use a model formula together with the <code><a href="../../base/html/factor.html">factor</a></code> function to autoamte the coding (note that string/character variables in a model formula are automatically converted to factors).
+</p>
+
+
+
+<h4>Tests and Confidence Intervals</h4>
+
+<p>By default, tests of individual coefficients in the model (and the corresponding confidence intervals) are based on a standard normal distribution, while the omnibus test is based on a chi-square distribution (see above). As an alternative, one can set <code>test="t"</code>, in which case tests of individual coefficients and confidence intervals are based on a t-distribution with \(k-p\) degrees of freedom, while the omnibus test then uses an F-distribution with \(m\) and \(k-p\) degrees of freedom (with \(k\) denoting the total number of estimates included in the analysis and \(p\) the total number of model coefficients including the intercept if it is present). Note that <code>test="t"</code> is not the same as <code>test="knha"</code> in <code><a href="rma.uni.html">rma.uni</a></code>, as no adjustment to the standard errors of the estimated coefficients is made.
+</p>
+
+
+
+<h4>Tests for (Residual) Heterogeneity</h4>
+
+<p>Two different tests for (residual) heterogeneity are automatically carried out by the function. The first is a Wald-type test, which tests the coefficients corresponding to the dummy variables added in the saturated model for significance. The second is a likelihood ratio test, which tests the same set of coefficients, but does so by computing \(-2\) times the difference in the log-likelihoods of the equal-effects and the saturated models. These two tests are not identical for the types of models fitted by the <code>rma.glmm</code> function and may even lead to conflicting conclusions.
+</p>
+
+
+
+<h4>Observed Effect Sizes or Outcomes of the Individual Studies</h4>
+
+<p>The various models do not require the calculation of the observed effect sizes or outcomes of the individual studies (e.g., the observed odds ratios of the \(k\) studies) and directly make use of the table/event counts. Zero cells/events are not a problem (except in extreme cases, such as when one of the two outcomes never occurs or when there are no events in any of the studies). Therefore, it is unnecessary to add some constant to the cell/event counts when there are zero cells/events.
+</p>
+<p>However, for plotting and various other functions, it is necessary to calculate the observed effect sizes or outcomes for the \(k\) studies. Here, zero cells/events can be problematic, so adding a constant value to the cell/event counts ensures that all \(k\) values can be calculated. The <code>add</code> and <code>to</code> arguments are used to specify what value should be added to the cell/event counts and under what circumstances when calculating the observed effect sizes or outcomes. The documentation of the <code><a href="escalc.html">escalc</a></code> function explains how the <code>add</code> and <code>to</code> arguments work. Note that <code>drop00</code> is set to <code>TRUE</code> by default, since studies where <code>ai=ci=0</code> or <code>bi=di=0</code> or studies where <code>x1i=x2i=0</code> are uninformative about the size of the effect.
+</p>
+
+
+
+<h3>Value</h3>
+
+<p>An object of class <code>c("rma.glmm","rma")</code>. The object is a list containing the following components:
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>beta</code></td>
+<td>
+<p>estimated coefficients of the model.</p>
+</td></tr>
+<tr valign="top"><td><code>se</code></td>
+<td>
+<p>standard errors of the coefficients.</p>
+</td></tr>
+<tr valign="top"><td><code>zval</code></td>
+<td>
+<p>test statistics of the coefficients.</p>
+</td></tr>
+<tr valign="top"><td><code>pval</code></td>
+<td>
+<p>corresponding p-values.</p>
+</td></tr>
+<tr valign="top"><td><code>ci.lb</code></td>
+<td>
+<p>lower bound of the confidence intervals for the coefficients.</p>
+</td></tr>
+<tr valign="top"><td><code>ci.ub</code></td>
+<td>
+<p>upper bound of the confidence intervals for the coefficients.</p>
+</td></tr>
+<tr valign="top"><td><code>vb</code></td>
+<td>
+<p>variance-covariance matrix of the estimated coefficients.</p>
+</td></tr>
+<tr valign="top"><td><code>tau2</code></td>
+<td>
+<p>estimated amount of (residual) heterogeneity. Always <code>0</code> when <code>method="EE"</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>sigma2</code></td>
+<td>
+<p>estimated amount of study level variability (only for <code>model="UM.RS"</code>).</p>
+</td></tr>
+<tr valign="top"><td><code>k</code></td>
+<td>
+<p>number of studies included in the analysis.</p>
+</td></tr>
+<tr valign="top"><td><code>p</code></td>
+<td>
+<p>number of coefficients in the model (including the intercept).</p>
+</td></tr>
+<tr valign="top"><td><code>m</code></td>
+<td>
+<p>number of coefficients included in the omnibus test of moderators.</p>
+</td></tr>
+<tr valign="top"><td><code>QE.Wld</code></td>
+<td>
+<p>Wald-type test statistic of the test for (residual) heterogeneity.</p>
+</td></tr>
+<tr valign="top"><td><code>QEp.Wld</code></td>
+<td>
+<p>corresponding p-value.</p>
+</td></tr>
+<tr valign="top"><td><code>QE.LRT</code></td>
+<td>
+<p>likelihood ratio test statistic of the test for (residual) heterogeneity.</p>
+</td></tr>
+<tr valign="top"><td><code>QEp.LRT</code></td>
+<td>
+<p>corresponding p-value.</p>
+</td></tr>
+<tr valign="top"><td><code>QM</code></td>
+<td>
+<p>test statistic of the omnibus test of moderators.</p>
+</td></tr>
+<tr valign="top"><td><code>QMp</code></td>
+<td>
+<p>corresponding p-value.</p>
+</td></tr>
+<tr valign="top"><td><code>I2</code></td>
+<td>
+<p>value of \(I^2\).</p>
+</td></tr>
+<tr valign="top"><td><code>H2</code></td>
+<td>
+<p>value of \(H^2\).</p>
+</td></tr>
+<tr valign="top"><td><code>int.only</code></td>
+<td>
+<p>logical that indicates whether the model is an intercept-only model.</p>
+</td></tr>
+<tr valign="top"><td><code>yi, vi, X</code></td>
+<td>
+<p>the vector of outcomes, the corresponding sampling variances, and the model matrix.</p>
+</td></tr>
+<tr valign="top"><td><code>fit.stats</code></td>
+<td>
+<p>a list with the log-likelihood, deviance, AIC, BIC, and AICc values.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>some additional elements/values.</p>
+</td></tr>
+</table>
+
+
+<h3>Methods</h3>
+
+<p>The results of the fitted model are formatted and printed with the <code><a href="print.rma.html">print</a></code> function. If fit statistics should also be given, use <code><a href="print.rma.html">summary</a></code> (or use the <code><a href="fitstats.html">fitstats</a></code> function to extract them).
+</p>
+
+
+<h3>Note</h3>
+
+<p>When <code>measure="OR"</code> or <code>measure="IRR"</code>, <code>model="UM.FS"</code> or <code>model="UM.RS"</code>, and <code>method="ML"</code>, one has to choose a coding scheme for the group variable in the random effects structure. When <code>code=1/2</code> (the default), the two groups are coded with <code>+1/2</code> and <code>-1/2</code> (i.e., contrast coding), which is invariant under group label switching.
+</p>
+<p>When <code>code=1</code>, the first group is coded with <code>1</code> and the second group with <code>0</code>. Finally, when <code>code=0</code>, the first group is coded with <code>0</code> and the second group with <code>1</code>. Note that these coding schemes are not invariant under group label switching.
+</p>
+<p>Also, when <code>model="UM.RS"</code> and <code>method="ML"</code>, one has to decide whether the random study effects are allowed to be correlated with the random group effects. By default (i.e., when <code>cor=FALSE</code>), no such correlation is allowed (which is typically an appropriate assumption when <code>code=1/2</code>). When using a different coding scheme for the group variable (i.e., <code>code=1</code> or <code>code=0</code>), allowing the random study and group effects to be correlated (i.e., using <code>cor=TRUE</code>) is usually recommended.
+</p>
+<p>Fitting the various types of models requires several different iterative algorithms:
+</p>
+
+<ul>
+<li><p> For <code>model="UM.FS"</code> and <code>model="CM.AL"</code>, iteratively reweighted least squares (IWLS) as implemented in the <code><a href="../../stats/html/glm.html">glm</a></code> function is used for fitting the equal-effects and the saturated models. For <code>method="ML"</code>, adaptive Gauss-Hermite quadrature as implemented in the <code><a href="../../lme4/html/glmer.html">glmer</a></code> function is used. The same applies when <code>model="CM.EL"</code> is used in combination with <code>measure="IRR"</code> or when <code>measure="PLO"</code> or <code>measure="IRLN"</code> (regardless of the model type).
+</p>
+</li>
+<li><p> For <code>model="UM.RS"</code>, adaptive Gauss-Hermite quadrature as implemented in the <code><a href="../../lme4/html/glmer.html">glmer</a></code> function is used to fit all of the models.
+</p>
+</li>
+<li><p> For <code>model="CM.EL"</code> and <code>measure="OR"</code>, the quasi-Newton method optimizer as implemented in the <code><a href="../../stats/html/nlminb.html">nlminb</a></code> function is used by default for fitting the equal-effects and the saturated models. For <code>method="ML"</code>, the same algorithm is used, together with adaptive quadrature as implemented in the <code><a href="../../stats/html/integrate.html">integrate</a></code> function (for the integration over the density of the non-central hypergeometric distribution). Standard errors of the parameter estimates are obtained by inverting the Hessian, which is numerically approximated using the <code><a href="../../numDeriv/html/hessian.html">hessian</a></code> function from the <code>numDeriv</code> package.
+</p>
+<p>One can also chose a different optimizer from <code><a href="../../stats/html/optim.html">optim</a></code> via the <code>control</code> argument (e.g., <code>control=list(optimizer="BFGS")</code>). Besides <code><a href="../../stats/html/nlminb.html">nlminb</a></code> and one of the methods from <code><a href="../../stats/html/optim.html">optim</a></code>, one can also choose one of the optimizers from the <code>minqa</code> package (i.e., <code><a href="../../minqa/html/uobyqa.html">uobyqa</a></code>, <code><a href="../../minqa/html/newuoa.html">newuoa</a></code>, or <code><a href="../../minqa/html/bobyqa.html">bobyqa</a></code>), one of the (derivative-free) algorithms from the <code><a href="../../nloptr/html/nloptr.html">nloptr</a></code> package, the Newton-type algorithm implemented in <code><a href="../../stats/html/nlm.html">nlm</a></code>, the various algorithms implemented in the <code>dfoptim</code> package (<code><a href="../../dfoptim/html/hjk.html">hjk</a></code> for the Hooke-Jeeves, <code><a href="../../dfoptim/html/nmk.html">nmk</a></code> for the Nelder-Mead, and <code><a href="../../dfoptim/html/mads.html">mads</a></code> for the Mesh Adaptive Direct Searches (MADS) algorithm), the quasi-Newton type optimizers <code><a href="../../ucminf/html/ucminf.html">ucminf</a></code> and <code><a href="../../lbfgsb3c/html/lbfgsb3c.html">lbfgsb3c</a></code> and the subspace-searching simplex algorithm <code><a href="../../subplex/html/subplex.html">subplex</a></code> from the packages of the same name, the Barzilai-Borwein gradient decent method implemented in <code><a href="../../BB/html/BBoptim.html">BBoptim</a></code>, or the parallelized version of the L-BFGS-B algorithm implemented in <code><a href="../../optimParallel/html/optimParallel.html">optimParallel</a></code> from the package of the same name.
+</p>
+<p>The optimizer name must be given as a character string (i.e., in quotes). Additional control parameters can be specified via the <code>optCtrl</code> elements of the <code>control</code> argument (e.g., <code>control=list(optCtrl=list(iter.max=1000, rel.tol=1e-8))</code>). For <code><a href="../../nloptr/html/nloptr.html">nloptr</a></code>, the default is to use the BOBYQA implementation from that package with a relative convergence criterion of <code>1e-8</code> on the function value (i.e., log-likelihood), but this can be changed via the <code>algorithm</code> and <code>ftop_rel</code> arguments (e.g., <code>control=list(optimizer="nloptr", optCtrl=list(algorithm="NLOPT_LN_SBPLX", ftol_rel=1e-6))</code>). For <code><a href="../../optimParallel/html/optimParallel.html">optimParallel</a></code>, the control argument <code>ncpus</code> can be used to specify the number of cores to use for the parallelization (e.g., <code>control=list(optimizer="optimParallel", ncpus=2)</code>). With <code>parallel::detectCores()</code>, one can check on the number of available cores on the local machine.</p>
+</li></ul>
+<p> When <code>model="CM.EL"</code> and <code>measure="OR"</code>, actually <code>model="CM.AL"</code> is used first to obtain starting values for <code><a href="../../stats/html/optim.html">optim</a></code>, so either 4 (if <code>method="EE"</code>) or 6 (if <code>method="ML"</code>) models need to be fitted in total.
+</p>
+<p>Various additional control parameters can be adjusted via the <code>control</code> argument:
+</p>
+
+<ul>
+<li> <p><code>glmCtrl</code> is a list of named arguments to be passed on to the <code>control</code> argument of the <code><a href="../../stats/html/glm.html">glm</a></code> function,
+</p>
+</li>
+<li> <p><code>glmerCtrl</code> is a list of named arguments to be passed on to the <code>control</code> argument of the <code><a href="../../lme4/html/glmer.html">glmer</a></code> function, and
+</p>
+</li>
+<li> <p><code>intCtrl</code> is a list of named arguments (i.e., <code>rel.tol</code> and <code>subdivisions</code>) to be passed on to the <code><a href="../../stats/html/integrate.html">integrate</a></code> function.
+</p>
+</li>
+<li> <p><code>hessianCtrl</code> is a list of named arguments to be passed on to the <code>method.args</code> argument of the <code><a href="../../numDeriv/html/hessian.html">hessian</a></code> function. For some borderline cases, it may be necessary to bump up the <code>r</code> argument to a higher number to get sufficient accuracy when approximating the Hessian numerically (the default is <code>control=list(hessianCtrl=list(r=16))</code>).
+</p>
+</li></ul>
+<p> Also, for <code><a href="../../lme4/html/glmer.html">glmer</a></code>, the <code>nAGQ</code> argument is used to specify the number of quadrature points. The default value is 7, which should provide sufficient accuracy in the evaluation of the log-likelihood in most cases, but at the expense of speed. Setting this to 1 corresponds to the Laplacian approximation (which is faster, but less accurate).
+</p>
+<p>Information on the progress of the various algorithms can be obtained by setting <code>verbose=TRUE</code>. Since fitting the various models can be computationally expensive, this option is useful to determine how the model fitting is progressing. One can also set <code>verbose</code> to an integer (<code>verbose=2</code> yields even more information and <code>verbose=3</code> also sets <code>option(warn=1)</code> temporarily).
+</p>
+<p>For <code>model="CM.EL"</code> and <code>measure="OR"</code>, optimization involves repeated calculation of the density of the non-central hypergeometric distribution. When <code>method="ML"</code>, this also requires integration over the same density. This is currently implemented in a rather brute-force manner and may not be numerically stable, especially when models with moderators are fitted. Stability can be improved by scaling the moderators in a similar manner (i.e., don't use a moderator that is coded 0 and 1, while another uses values in the 1000s). For models with an intercept and moderators, the function actually rescales (non-dummy) variables to z-scores during the model fitting (results are given after back-scaling, so this should be transparent to the user). For models without an intercept, this is not done, so sensitivity analyses are highly recommended here (to ensure that the results do not depend on the scaling of the moderators).
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Wolfgang Viechtbauer <a href="mailto:wvb@metafor-project.org">wvb@metafor-project.org</a> <a href="https://www.metafor-project.org">https://www.metafor-project.org</a>
+</p>
+<p>Code for computing the density of the non-central hypergeometric distribution comes from the <a href="https://cran.r-project.org/package=MCMCpack">MCMCpack</a> package, which in turn is based on Liao and Rosen (2001).
+</p>
+
+
+<h3>References</h3>
+
+<p>Agresti, A. (2002). <em>Categorical data analysis</em> (2nd. ed). Hoboken, NJ: Wiley.
+</p>
+<p>Bagos, P. G., &amp; Nikolopoulos, G. K. (2009). Mixed-effects Poisson regression models for meta-analysis of follow-up studies with constant or varying durations. <em>The International Journal of Biostatistics</em>, <b>5</b>(1). <code style="white-space: pre;">https://doi.org/10.2202/1557-4679.1168</code>
+</p>
+<p>van Houwelingen, H. C., Zwinderman, K. H., &amp; Stijnen, T. (1993). A bivariate approach to meta-analysis. <em>Statistics in Medicine</em>, <b>12</b>(24), 2273&ndash;2284. <code style="white-space: pre;">https://doi.org/10.1002/sim.4780122405</code>
+</p>
+<p>Jackson, D., Law, M., Stijnen, T., Viechtbauer, W., &amp; White, I. R. (2018). A comparison of seven random-effects models for meta-analyses that estimate the summary odds ratio. <em>Statistics in Medicine</em>, <b>37</b>(7), 1059-1085. <code style="white-space: pre;">https://doi.org/10.1002/sim.7588</code>
+</p>
+<p>Liao, J. G., &amp; Rosen, O. (2001). Fast and stable algorithms for computing and sampling from the noncentral hypergeometric distribution. <em>American Statistician</em>, <b>55</b>(4), 366&ndash;369. <code style="white-space: pre;">https://doi.org/10.1198/000313001753272547</code>
+</p>
+<p>Simmonds, M. C., &amp; Higgins, J. P. T. (2016). A general framework for the use of logistic regression models in meta-analysis. <em>Statistical Methods in Medical Research</em>, <b>25</b>(6), 2858&ndash;2877. <code style="white-space: pre;">https://doi.org/10.1177/0962280214534409</code>
+</p>
+<p>Stijnen, T., Hamza, T. H., &amp; Ozdemir, P. (2010). Random effects meta-analysis of event outcome in the framework of the generalized linear mixed model with applications in sparse data. <em>Statistics in Medicine</em>, <b>29</b>(29), 3046&ndash;3067. <code style="white-space: pre;">https://doi.org/10.1002/sim.4040</code>
+</p>
+<p>Turner, R. M., Omar, R. Z., Yang, M., Goldstein, H., &amp; Thompson, S. G. (2000). A multilevel model framework for meta-analysis of clinical trials with binary outcomes. <em>Statistics in Medicine</em>, <b>19</b>(24), 3417&ndash;3432. <code style="white-space: pre;">https://doi.org/10.1002/1097-0258(20001230)19:24&lt;3417::aid-sim614&gt;3.0.co;2-l</code>
+</p>
+<p>Viechtbauer, W. (2010). Conducting meta-analyses in R with the metafor package. <em>Journal of Statistical Software</em>, <b>36</b>(3), 1&ndash;48. <code style="white-space: pre;">https://doi.org/10.18637/jss.v036.i03</code>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="rma.uni.html">rma.uni</a></code>, <code><a href="rma.mh.html">rma.mh</a></code>, <code><a href="rma.peto.html">rma.peto</a></code>, and <code><a href="rma.mv.html">rma.mv</a></code> for other model fitting functions.
+</p>
+<p><code><a href="../../metadat/html/dat.nielweise2007.html">dat.nielweise2007</a></code>, <code><a href="../../metadat/html/dat.nielweise2008.html">dat.nielweise2008</a></code>, <code><a href="../../metadat/html/dat.collins1985a.html">dat.collins1985a</a></code>, and <code><a href="../../metadat/html/dat.pritz1997.html">dat.pritz1997</a></code> for further examples of the use of the <code>rma.glmm</code> function.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+### random-effects model using rma.uni() (standard RE model analysis)
+rma(measure="OR", ai=tpos, bi=tneg, ci=cpos, di=cneg, data=dat.bcg, method="ML")
+
+### random-effects models using rma.glmm() (require 'lme4' package)
+
+### unconditional model with fixed study effects
+## Not run: 
+rma.glmm(measure="OR", ai=tpos, bi=tneg, ci=cpos, di=cneg, data=dat.bcg, model="UM.FS")
+
+## End(Not run)
+
+### unconditional model with random study effects
+## Not run: 
+rma.glmm(measure="OR", ai=tpos, bi=tneg, ci=cpos, di=cneg, data=dat.bcg, model="UM.RS")
+
+## End(Not run)
+
+### conditional model with approximate likelihood
+## Not run: 
+rma.glmm(measure="OR", ai=tpos, bi=tneg, ci=cpos, di=cneg, data=dat.bcg, model="CM.AL")
+
+## End(Not run)
+
+### conditional model with exact likelihood
+### note: fitting this model may take a bit of time, so be patient
+## Not run: 
+rma.glmm(measure="OR", ai=tpos, bi=tneg, ci=cpos, di=cneg, data=dat.bcg, model="CM.EL")
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>metafor</em> version 3.4-0 <a href="00Index.html">Index</a>]</div>
+</body></html>

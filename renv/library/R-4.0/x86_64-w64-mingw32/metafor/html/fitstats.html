@@ -1,0 +1,130 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Fit Statistics and Information Criteria for 'rma' Objects</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for fitstats {metafor}"><tr><td>fitstats {metafor}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Fit Statistics and Information Criteria for 'rma' Objects</h2>
+
+<h3>Description</h3>
+
+<p>Functions to extract the log-likelihood, deviance, AIC, BIC, and AICc values from objects of class <code>"rma"</code>. <script id="MathJax-script" async src="../../mathjaxr/doc/mathjax/es5/tex-chtml-full.js"></script>
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+fitstats(object, ...)
+
+## S3 method for class 'rma'
+fitstats(object, ..., REML)
+
+## S3 method for class 'rma'
+logLik(object, REML, ...)
+## S3 method for class 'rma'
+deviance(object, REML, ...)
+
+## S3 method for class 'rma'
+AIC(object, ..., k=2, correct=FALSE)
+## S3 method for class 'rma'
+BIC(object, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>an object of class <code>"rma"</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>optionally more fitted model objects.</p>
+</td></tr>
+<tr valign="top"><td><code>REML</code></td>
+<td>
+<p>logical to specify whether the regular or restricted likelihood function should be used to obtain the fit statistics and information criteria. Defaults to the method of estimation used, that is <code>TRUE</code> if <code>object</code> was fitted with <code>method="REML"</code> and <code>FALSE</code> otherwise.</p>
+</td></tr>
+<tr valign="top"><td><code>k</code></td>
+<td>
+<p>numeric value to specify the penalty per parameter to use. The default (<code>k=2</code>) is the classical AIC. See <code><a href="../../stats/html/AIC.html">AIC</a></code> for more details.</p>
+</td></tr>
+<tr valign="top"><td><code>correct</code></td>
+<td>
+<p>logical to specify whether the regular (default) or corrected (i.e., AICc) should be extracted.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>For <code>fitstats</code>, a data frame with the (restricted) log-likelihood, deviance, AIC, BIC, and AICc values for each model passed to the function.
+</p>
+<p>For <code>logLik</code>, an object of class <code>"logLik"</code>, providing the (restricted) log-likelihood of the model evaluated at the estimated coefficient(s).
+</p>
+<p>For <code>deviance</code>, a numeric value with the corresponding deviance.
+</p>
+<p>For <code>AIC</code> and <code>BIC</code>, either a numeric value with the corresponding AIC, AICc, or BIC or a data frame with rows corresponding to the models and columns representing the number of parameters in the model (<code>df</code>) and the AIC, AICc, or BIC.
+</p>
+
+
+<h3>Note</h3>
+
+<p>Variance components in the model (e.g., \(\tau^2\) in random/mixed-effects models fitted with <code><a href="rma.uni.html">rma.uni</a></code>) are counted as additional parameters in the calculation of the AIC, BIC, and AICc. Also, the fixed effects are counted as parameters in the calculation of the AIC, BIC, and AICc even when using REML estimation.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Wolfgang Viechtbauer <a href="mailto:wvb@metafor-project.org">wvb@metafor-project.org</a> <a href="https://www.metafor-project.org">https://www.metafor-project.org</a>
+</p>
+
+
+<h3>References</h3>
+
+<p>Viechtbauer, W. (2010). Conducting meta-analyses in R with the metafor package. <em>Journal of Statistical Software</em>, <b>36</b>(3), 1&ndash;48. <code style="white-space: pre;">https://doi.org/10.18637/jss.v036.i03</code>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="rma.uni.html">rma.uni</a></code>, <code><a href="rma.mh.html">rma.mh</a></code>, <code><a href="rma.peto.html">rma.peto</a></code>, <code><a href="rma.glmm.html">rma.glmm</a></code>, and <code><a href="rma.mv.html">rma.mv</a></code> for functions to fit models for which fit statistics and information criteria can be extracted.
+</p>
+<p><code><a href="anova.rma.html">anova.rma</a></code> for a function to conduct likelihood ratio tests.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+### calculate log risk ratios and corresponding sampling variances
+dat &lt;- escalc(measure="RR", ai=tpos, bi=tneg, ci=cpos, di=cneg, data=dat.bcg)
+
+### random-effects model
+res1 &lt;- rma(yi, vi, data=dat, method="ML")
+
+### mixed-effects model with absolute latitude and publication year as moderators
+res2 &lt;- rma(yi, vi, mods = ~ ablat + year, data=dat, method="ML")
+
+### compare fit statistics
+fitstats(res1, res2)
+
+### log-likelihoods
+logLik(res1)
+logLik(res2)
+
+### deviances
+deviance(res1)
+deviance(res2)
+
+### AIC, AICc, and BIC values
+AIC(res1, res2)
+AIC(res1, res2, correct=TRUE)
+BIC(res1, res2)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>metafor</em> version 3.4-0 <a href="00Index.html">Index</a>]</div>
+</body></html>

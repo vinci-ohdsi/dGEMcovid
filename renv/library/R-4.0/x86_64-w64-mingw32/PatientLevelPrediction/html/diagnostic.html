@@ -1,0 +1,115 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: diagnostic - Investigates the prediction problem settings -...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for diagnostic {PatientLevelPrediction}"><tr><td>diagnostic {PatientLevelPrediction}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>diagnostic - Investigates the prediction problem settings - use before training a model</h2>
+
+<h3>Description</h3>
+
+<p>This function runs a set of prediction diagnoses to help pick a suitable T, O, TAR and determine 
+whether the prediction problem is worth executing.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+diagnostic(
+  plpData = NULL,
+  cdmDatabaseName = "none",
+  cohortName,
+  outcomeNames,
+  databaseDetails,
+  restrictPlpDataSettings,
+  populationSettings,
+  outputFolder = NULL,
+  minCellCount = 5
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>plpData</code></td>
+<td>
+<p>The data object to do the diagnostic on - if NULL you need to specify the connection settings below</p>
+</td></tr>
+<tr valign="top"><td><code>cdmDatabaseName</code></td>
+<td>
+<p>The name of the database being diagnosed</p>
+</td></tr>
+<tr valign="top"><td><code>cohortName</code></td>
+<td>
+<p>Name of the target cohort</p>
+</td></tr>
+<tr valign="top"><td><code>outcomeNames</code></td>
+<td>
+<p>Vector of outcome names</p>
+</td></tr>
+<tr valign="top"><td><code>databaseDetails</code></td>
+<td>
+<p>(only used is plpData is NULL) The database details created using <code>createDatabaseDetails</code></p>
+</td></tr>
+<tr valign="top"><td><code>restrictPlpDataSettings</code></td>
+<td>
+<p>(only used is plpData is NULL) The restrictPlpDataSettings created using <code>createRestrictPlpDataSettings</code></p>
+</td></tr>
+<tr valign="top"><td><code>populationSettings</code></td>
+<td>
+<p>The population setting details created using <code>createPopulationSettings</code></p>
+</td></tr>
+<tr valign="top"><td><code>outputFolder</code></td>
+<td>
+<p>Location to save results for shiny app</p>
+</td></tr>
+<tr valign="top"><td><code>minCellCount</code></td>
+<td>
+<p>The minimum count that will be displayed</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Users can define set of Ts, Os, databases and population settings.  A list of data.frames containing details such as
+follow-up time distribution, time-to-event information, characteriszation details, time from last prior event, 
+observation time distribution.
+</p>
+
+
+<h3>Value</h3>
+
+<p>An object containing the model or location where the model is save, the data selection settings, the preprocessing
+and training settings as well as various performance measures obtained by the model.
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>distribution</code></td>
+<td>
+<p>list for each O of a data.frame containing: i) Time to observation end distribution, ii) Time from observation start distribution, iii) Time to event distribution and iv) Time from last prior event to index distribution (only for patients in T who have O before index) </p>
+</td></tr>
+<tr valign="top"><td><code>incident</code></td>
+<td>
+<p>list for each O of incidence of O in T during TAR</p>
+</td></tr>
+<tr valign="top"><td><code>characterization</code></td>
+<td>
+<p>list for each O of Characterization of T, TnO, Tn~O</p>
+</td></tr>
+</table>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Not run: 
+#******** EXAMPLE 1 ********* 
+
+## End(Not run) 
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>PatientLevelPrediction</em> version 5.0.5 <a href="00Index.html">Index</a>]</div>
+</body></html>

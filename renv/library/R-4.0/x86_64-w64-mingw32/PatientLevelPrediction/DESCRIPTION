@@ -1,0 +1,53 @@
+Package: PatientLevelPrediction
+Type: Package
+Title: Developing patient level prediction using data in the OMOP Common Data
+    Model
+Version: 5.0.5
+Date: 2022-03-16
+Authors@R: c(
+ person("Jenna", "Reps", email = "jreps@its.jnj.com", role = c("aut", "cre")),
+ person("Martijn", "Schuemie", role = c("aut")),
+ person("Marc", "Suchard", role = c("aut")),
+ person("Patrick", "Ryan", role = c("aut")),
+ person("Peter", "Rijnbeek", role = c("aut"))
+ )
+Maintainer: Jenna Reps <jreps@its.jnj.com>
+Description: A package for creating patient level prediction models. Given a
+ cohort of interest and an outcome of interest, the package can use data in the
+ OMOP Common Data Model to build a large set of features. These features can then
+ be assessed to fit a predictive model using a number of machine learning algorithms.
+ Several performance measures are implemented for model evaluation.
+License: Apache License 2.0
+URL: https://ohdsi.github.io/PatientLevelPrediction,
+    https://github.com/OHDSI/PatientLevelPrediction
+BugReports: https://github.com/OHDSI/PatientLevelPrediction/issues
+VignetteBuilder: knitr
+Depends: R (>= 3.3.0), FeatureExtraction (>= 3.0.0)
+Imports: Andromeda, Cyclops (>= 3.0.0), DatabaseConnector (>= 5.0.0), dplyr,
+    ggplot2, gridExtra, Hmisc, jsonlite, Matrix, memuse, ParallelLogger (>=
+    2.0.0), pROC, PRROC, reticulate (> 1.16), rlang, rms, RSQLite, SqlRender
+    (>= 1.1.3), survival, tibble, tidyr, utils
+Suggests: AUC, BigKnn (>= 1.0.0), DBI, devtools, diagram, DT, Eunomia, gnm,
+    htmlwidgets (> 0.8), htmltools, IterativeHardThresholding, knitr, markdown,
+    Metrics, parallel, plotly, plyr, pool, R6, ResourceSelection, rmarkdown,
+    scoring, shiny, shinycssloaders, shinydashboard, shinyWidgets, SparseM,
+    survAUC, survminer, testthat, withr, xgboost (> 1.3.2.1)
+RoxygenNote: 7.1.2
+Encoding: UTF-8
+Author: Jenna Reps [aut, cre],
+ Martijn Schuemie [aut],
+ Marc Suchard [aut],
+ Patrick Ryan [aut],
+ Peter Rijnbeek [aut]
+Built: R 4.0.1; ; 2022-05-24 19:34:46 UTC; windows
+RemoteType: github
+RemoteHost: api.github.com
+RemoteRepo: PatientLevelPrediction
+RemoteUsername: ohdsi
+RemoteRef: v5.0.5
+GithubHost: api.github.com
+GithubRepo: PatientLevelPrediction
+GithubUsername: ohdsi
+GithubRef: v5.0.5
+Remotes: ohdsi/BigKnn, ohdsi/Eunomia, ohdsi/FeatureExtraction,
+    ohdsi/IterativeHardThresholding, ohdsi/ParallelLogger

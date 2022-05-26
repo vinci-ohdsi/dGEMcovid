@@ -1,0 +1,76 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Construct Block Diagonal Matrix</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for bldiag {metafor}"><tr><td>bldiag {metafor}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Construct Block Diagonal Matrix</h2>
+
+<h3>Description</h3>
+
+<p>Function to construct a block diagonal matrix from (a list of) matrices.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+bldiag(..., order)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>individual matrices or a list of matrices.</p>
+</td></tr>
+<tr valign="top"><td><code>order</code></td>
+<td>
+<p>optional argument to specify a variable based on which a square block diagonal matrix should be ordered.</p>
+</td></tr>
+</table>
+
+
+<h3>Author(s)</h3>
+
+<p>Posted to R-help by Berton Gunter (2 Sep 2005) with some further adjustments by Wolfgang Viechtbauer
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="rma.mv.html">rma.mv</a></code> for the model fitting function that can take such a block diagonal matrix as input (for the <code>V</code> argument).
+</p>
+<p><code><a href="blsplit.html">blsplit</a></code> for a function that can split a block diagonal matrix into a list of sub-matrices.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+### copy data into 'dat'
+dat &lt;- dat.berkey1998
+dat
+
+### construct list with the variance-covariance matrices of the observed outcomes for the studies
+V &lt;- lapply(split(dat[c("v1i","v2i")], dat$trial), as.matrix)
+V
+
+### construct block diagonal matrix
+V &lt;- bldiag(V)
+V
+
+### if we split based on 'author', the list elements in V are in a different order than tha data
+V &lt;- lapply(split(dat[c("v1i","v2i")], dat$author), as.matrix)
+V
+
+### can use 'order' argument to reorder the block-diagonal matrix into the correct order
+V &lt;- bldiag(V, order=dat$author)
+V
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>metafor</em> version 3.4-0 <a href="00Index.html">Index</a>]</div>
+</body></html>

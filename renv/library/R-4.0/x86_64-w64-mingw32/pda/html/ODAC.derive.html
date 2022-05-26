@@ -1,0 +1,55 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Generate pda UWZ derivatives</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for ODAC.derive {pda}"><tr><td>ODAC.derive {pda}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Generate pda UWZ derivatives</h2>
+
+<h3>Description</h3>
+
+<p>Generate pda UWZ derivatives
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+ODAC.derive(ipdata, control, config)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>ipdata</code></td>
+<td>
+<p>individual participant data</p>
+</td></tr>
+<tr valign="top"><td><code>control</code></td>
+<td>
+<p>pda control data</p>
+</td></tr>
+<tr valign="top"><td><code>config</code></td>
+<td>
+<p>local site configuration</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Calculate and broadcast 1st and 2nd order derivative at initial bbar
+for ODAC, this requires 2 substeps: 1st calculate summary stats (U, W, Z), 
+2nd calculate derivatives (logL_D1, logL_D2)
+</p>
+
+
+<h3>Value</h3>
+
+<p>list(T_all=T_all, b_meta=b_meta, site=control$mysite, site_size = nrow(ipdata), U=U, W=W, Z=Z, logL_D1=logL_D1, logL_D2=logL_D2)
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>pda</em> version 1.2-5 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: ODAC initialize</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for ODAC.initialize {pda}"><tr><td>ODAC.initialize {pda}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>ODAC initialize</h2>
+
+<h3>Description</h3>
+
+<p>ODAC initialize
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+ODAC.initialize(ipdata, control, config)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>ipdata</code></td>
+<td>
+<p>individual participant data</p>
+</td></tr>
+<tr valign="top"><td><code>control</code></td>
+<td>
+<p>pda control data</p>
+</td></tr>
+<tr valign="top"><td><code>config</code></td>
+<td>
+<p>local site configuration</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>list(T_i = T_i, bhat_i = fit_i$coef, Vhat_i = summary(fit_i)$coef[,2]^2, site=control$mysite, site_size= nrow(ipdata))
+</p>
+
+
+<h3>References</h3>
+
+<p>Rui Duan, et al. &quot;Learning from local to global: An efficient distributed algorithm for modeling time-to-event data&quot;. 
+Journal of the American Medical Informatics Association, 2020, https://doi.org/10.1093/jamia/ocaa044
+Chongliang Luo, et al. &quot;ODACH: A One-shot Distributed Algorithm for Cox model with Heterogeneous Multi-center Data&quot;.
+medRxiv, 2021, https://doi.org/10.1101/2021.04.18.21255694
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>pda</em> version 1.2-5 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,218 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Model Diagnostics for 'rma.uni' Objects</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for influence.rma.uni {metafor}"><tr><td>influence.rma.uni {metafor}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Model Diagnostics for 'rma.uni' Objects</h2>
+
+<h3>Description</h3>
+
+<p>The functions can be used to compute various outlier and influential case diagnostics (some of which indicate the influence of deleting one case at a time on the model fit or the fitted/residual values) for objects of class <code>"rma.uni"</code>. For the corresponding documentation for <code>"rma.mv"</code> objects, see <code><a href="influence.rma.mv.html">influence.rma.mv</a></code>. <script id="MathJax-script" async src="../../mathjaxr/doc/mathjax/es5/tex-chtml-full.js"></script>
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'rma.uni'
+influence(model, digits, progbar=FALSE, ...)
+
+## S3 method for class 'infl.rma.uni'
+print(x, digits=x$digits, infonly=FALSE, ...)
+
+## S3 method for class 'rma.uni'
+cooks.distance(model, progbar=FALSE, ...)
+## S3 method for class 'rma.uni'
+dfbetas(model, progbar=FALSE, ...)
+## S3 method for class 'rma.uni'
+hatvalues(model, type="diagonal", ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>model</code></td>
+<td>
+<p>an object of class <code>"rma.uni"</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>an object of class <code>"infl.rma.uni"</code> (for <code>print</code>).</p>
+</td></tr>
+<tr valign="top"><td><code>digits</code></td>
+<td>
+<p>optional integer to specify the number of decimal places to which the printed results should be rounded. If unspecified, the default is to take the value from the object.</p>
+</td></tr>
+<tr valign="top"><td><code>progbar</code></td>
+<td>
+<p>logical to specify whether a progress bar should be shown (the default is <code>FALSE</code>).</p>
+</td></tr>
+<tr valign="top"><td><code>infonly</code></td>
+<td>
+<p>logical to specify whether only the influential cases should be printed (the default is <code>FALSE</code>).</p>
+</td></tr>
+<tr valign="top"><td><code>type</code></td>
+<td>
+<p>character string to specify whether only the diagonal of the hat matrix (<code>"diagonal"</code>) or the entire hat matrix (<code>"matrix"</code>) should be returned.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>other arguments.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The term &lsquo;case&rsquo; below refers to a particular row from the dataset used in the model fitting (which is typically synonymous with study).
+</p>
+<p>The <code>influence</code> function calculates the following leave-one-out diagnostics for each case:
+</p>
+
+<ul>
+<li><p> externally standardized residual,
+</p>
+</li>
+<li><p> DFFITS value,
+</p>
+</li>
+<li><p> Cook's distance,
+</p>
+</li>
+<li><p> covariance ratio,
+</p>
+</li>
+<li><p> the leave-one-out amount of (residual) heterogeneity,
+</p>
+</li>
+<li><p> the leave-one-out test statistic of the test for (residual) heterogeneity,
+</p>
+</li>
+<li><p> DFBETAS value(s).
+</p>
+</li></ul>
+<p> The diagonal elements of the hat matrix and the weights (in %) given to the observed effect sizes or outcomes during the model fitting are also provided (except for their scaling, the hat values and weights are the same for models without moderators, but will differ when moderators are included).
+</p>
+<p>For details on externally standardized residuals, see <code><a href="residuals.rma.html">rstudent.rma.uni</a></code>.
+</p>
+<p>The DFFITS value essentially indicates how many standard deviations the predicted (average) effect or outcome for the \(i\textrm{th}\) case changes after excluding the \(i\textrm{th}\) case from the model fitting.
+</p>
+<p>Cook's distance can be interpreted as the Mahalanobis distance between the entire set of predicted values once with the \(i\textrm{th}\) case included and once with the \(i\textrm{th}\) case excluded from the model fitting.
+</p>
+<p>The covariance ratio is defined as the determinant of the variance-covariance matrix of the parameter estimates based on the dataset with the \(i\textrm{th}\) case removed divided by the determinant of the variance-covariance matrix of the parameter estimates based on the complete dataset. A value below 1 therefore indicates that removal of the \(i\textrm{th}\) case yields more precise estimates of the model coefficients.
+</p>
+<p>The leave-one-out amount of (residual) heterogeneity is the estimated value of \(\tau^2\) based on the dataset with the \(i\textrm{th}\) case removed. This is always equal to 0 for equal-effects models.
+</p>
+<p>Similarly, the leave-one-out test statistic of the test for (residual) heterogeneity is the value of the test statistic of the test for (residual) heterogeneity calculated based on the dataset with the \(i\textrm{th}\) case removed.
+</p>
+<p>Finally, the DFBETAS value(s) essentially indicate(s) how many standard deviations the estimated coefficient(s) change(s) after excluding the \(i\textrm{th}\) case from the model fitting.
+</p>
+<p>A case may be considered to be &lsquo;influential&rsquo; if at least one of the following is true:
+</p>
+
+<ul>
+<li><p> The absolute DFFITS value is larger than \(3 \times \sqrt{p/(k-p)}\), where \(p\) is the number of model coefficients and \(k\) the number of cases.
+</p>
+</li>
+<li><p> The lower tail area of a chi-square distribution with \(p\) degrees of freedom cut off by the Cook's distance is larger than 50%.
+</p>
+</li>
+<li><p> The hat value is larger than \(3 \times (p/k)\).
+</p>
+</li>
+<li><p> Any DFBETAS value is larger than \(1\).
+</p>
+</li></ul>
+<p> Cases which are considered influential with respect to any of these measures are marked with an asterisk. Note that the chosen cut-offs are (somewhat) arbitrary. Substantively informed judgment should always be used when examining the influence of each case on the results.
+</p>
+
+
+<h3>Value</h3>
+
+<p>An object of class <code>"infl.rma.uni"</code>, which is a list containing the following components:
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>inf</code></td>
+<td>
+<p>an element of class <code>"list.rma"</code> with the externally standardized residuals, DFFITS values, Cook's distances, covariance ratios, leave-one-out \(\tau^2\) estimates, leave-one-out (residual) heterogeneity test statistics, hat values, weights, and an indicator whether a case is influential.</p>
+</td></tr>
+<tr valign="top"><td><code>dfbs</code></td>
+<td>
+<p>an element of class <code>"list.rma"</code> with the DFBETAS values.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>some additional elements/values.</p>
+</td></tr>
+</table>
+<p>The results are printed with <code>print.infl.rma.uni</code> and plotted with <code><a href="plot.infl.rma.uni.html">plot.infl.rma.uni</a></code>.
+</p>
+
+
+<h3>Note</h3>
+
+<p>Leave-one-out diagnostics are calculated by refitting the model \(k\) times. Depending on how large \(k\) is, it may take a few moments to finish the calculations. There are shortcuts for calculating at least some of these values without refitting the model each time, but these are currently not implemented (and may not exist for all of the leave-one-out diagnostics calculated by the function).
+</p>
+<p>It may not be possible to fit the model after deletion of the \(i\textrm{th}\) case from the dataset. This will result in <code>NA</code> values for that case.
+</p>
+<p>Certain relationships between the leave-one-out diagnostics and the (internally or externally) standardized residuals (Belsley, Kuh, &amp; Welsch, 1980; Cook &amp; Weisberg, 1982) no longer hold for meta-analytic models. Maybe there are other relationships. These remain to be determined.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Wolfgang Viechtbauer <a href="mailto:wvb@metafor-project.org">wvb@metafor-project.org</a> <a href="https://www.metafor-project.org">https://www.metafor-project.org</a>
+</p>
+
+
+<h3>References</h3>
+
+<p>Belsley, D. A., Kuh, E., &amp; Welsch, R. E. (1980). <em>Regression diagnostics</em>. New York: Wiley.
+</p>
+<p>Cook, R. D., &amp; Weisberg, S. (1982). <em>Residuals and influence in regression</em>. London: Chapman and Hall.
+</p>
+<p>Hedges, L. V., &amp; Olkin, I. (1985). <em>Statistical methods for meta-analysis</em>. San Diego, CA: Academic Press.
+</p>
+<p>Viechtbauer, W. (2010). Conducting meta-analyses in R with the metafor package. <em>Journal of Statistical Software</em>, <b>36</b>(3), 1&ndash;48. <code style="white-space: pre;">https://doi.org/10.18637/jss.v036.i03</code>
+</p>
+<p>Viechtbauer, W. (2021). Model checking in meta-analysis. In C. H. Schmid, T. Stijnen, &amp; I. R. White (Eds.), <em>Handbook of meta-analysis</em> (pp. 219&ndash;254). Boca Raton, FL: CRC Press. <code style="white-space: pre;">https://doi.org/10.1201/9781315119403</code>
+</p>
+<p>Viechtbauer, W., &amp; Cheung, M. W.-L. (2010). Outlier and influence diagnostics for meta-analysis. <em>Research Synthesis Methods</em>, <b>1</b>(2), 112&ndash;125. <code style="white-space: pre;">https://doi.org/10.1002/jrsm.11</code>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="plot.infl.rma.uni.html">plot.infl.rma.uni</a></code> for a method to plot the outlier and influential case diagnostics.
+</p>
+<p><code><a href="residuals.rma.html">rstudent.rma.uni</a></code> for externally standardized residuals and <code><a href="weights.rma.html">weights.rma.uni</a></code> for model fitting weights.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+### calculate log risk ratios and corresponding sampling variances
+dat &lt;- escalc(measure="RR", ai=tpos, bi=tneg, ci=cpos, di=cneg, data=dat.bcg)
+
+### fit mixed-effects model with absolute latitude and publication year as moderators
+res &lt;- rma(yi, vi, mods = ~ ablat + year, data=dat)
+
+### compute the diagnostics
+inf &lt;- influence(res)
+inf
+
+### plot the values
+plot(inf)
+
+### compute Cook's distances, DFBETAS values, and hat values
+cooks.distance(res)
+dfbetas(res)
+hatvalues(res)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>metafor</em> version 3.4-0 <a href="00Index.html">Index</a>]</div>
+</body></html>

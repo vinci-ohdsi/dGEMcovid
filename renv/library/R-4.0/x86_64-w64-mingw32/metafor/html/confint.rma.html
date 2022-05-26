@@ -1,0 +1,281 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Confidence Intervals for 'rma' Objects</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for confint.rma {metafor}"><tr><td>confint.rma {metafor}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Confidence Intervals for 'rma' Objects</h2>
+
+<h3>Description</h3>
+
+<p>The function computes confidence intervals for the model coefficients and/or other parameters in the model. <script id="MathJax-script" async src="../../mathjaxr/doc/mathjax/es5/tex-chtml-full.js"></script>
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'rma.uni'
+confint(object, parm, level, fixed=FALSE, random=TRUE, type,
+        digits, transf, targs, verbose=FALSE, control, ...)
+
+## S3 method for class 'rma.mh'
+confint(object, parm, level, digits, transf, targs, ...)
+
+## S3 method for class 'rma.peto'
+confint(object, parm, level, digits, transf, targs, ...)
+
+## S3 method for class 'rma.glmm'
+confint(object, parm, level, digits, transf, targs, ...)
+
+## S3 method for class 'rma.mv'
+confint(object, parm, level, fixed=FALSE, sigma2, tau2, rho, gamma2, phi,
+        digits, transf, targs, verbose=FALSE, control, ...)
+
+## S3 method for class 'rma.uni.selmodel'
+confint(object, parm, level, fixed=FALSE, tau2, delta,
+        digits, transf, targs, verbose=FALSE, control, ...)
+
+## S3 method for class 'rma.ls'
+confint(object, parm, level, fixed=FALSE, alpha,
+        digits, transf, targs, verbose=FALSE, control, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>an object of class <code>"rma.uni"</code>, <code>"rma.mh"</code>, <code>"rma.peto"</code>, <code>"rma.mv"</code>, <code>"rma.uni.selmodel"</code>, or <code>"rma.ls"</code>. The method is not yet implemented for objects of class <code>"rma.glmm"</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>parm</code></td>
+<td>
+<p>this argument is here for compatibility with the generic function <code><a href="confint.rma.html">confint</a></code>, but is (currently) ignored.</p>
+</td></tr>
+<tr valign="top"><td><code>fixed</code></td>
+<td>
+<p>logical to specify whether confidence intervals for the model coefficients should be returned.</p>
+</td></tr>
+<tr valign="top"><td><code>random</code></td>
+<td>
+<p>logical to specify whether a confidence interval for the amount of (residual) heterogeneity should be returned.</p>
+</td></tr>
+<tr valign="top"><td><code>type</code></td>
+<td>
+<p>optional character string to specify the method to use for computing the confidence interval for the amount of (residual) heterogeneity (either <code>"QP"</code>, <code>"GENQ"</code>, or <code>"PL"</code>).</p>
+</td></tr>
+<tr valign="top"><td><code>sigma2</code></td>
+<td>
+<p>integer to specify for which \(\sigma^2\) parameter a confidence interval should be obtained.</p>
+</td></tr>
+<tr valign="top"><td><code>tau2</code></td>
+<td>
+<p>integer to specify for which \(\tau^2\) parameter a confidence interval should be obtained.</p>
+</td></tr>
+<tr valign="top"><td><code>rho</code></td>
+<td>
+<p>integer to specify for which \(\rho\) parameter the confidence interval should be obtained.</p>
+</td></tr>
+<tr valign="top"><td><code>gamma2</code></td>
+<td>
+<p>integer to specify for which \(\gamma^2\) parameter a confidence interval should be obtained.</p>
+</td></tr>
+<tr valign="top"><td><code>phi</code></td>
+<td>
+<p>integer to specify for which \(\phi\) parameter a confidence interval should be obtained.</p>
+</td></tr>
+<tr valign="top"><td><code>delta</code></td>
+<td>
+<p>integer to specify for which \(\delta\) parameter a confidence interval should be obtained.</p>
+</td></tr>
+<tr valign="top"><td><code>alpha</code></td>
+<td>
+<p>integer to specify for which \(\alpha\) parameter a confidence interval should be obtained.</p>
+</td></tr>
+<tr valign="top"><td><code>level</code></td>
+<td>
+<p>numeric value between 0 and 100 to specify the confidence interval level. If unspecified, the default is to take the value from the object.</p>
+</td></tr>
+<tr valign="top"><td><code>digits</code></td>
+<td>
+<p>optional integer to specify the number of decimal places to which the results should be rounded. If unspecified, the default is to take the value from the object.</p>
+</td></tr>
+<tr valign="top"><td><code>transf</code></td>
+<td>
+<p>optional argument to specify a function that should be used to transform the model coefficients and interval bounds (e.g., <code>transf=exp</code>; see also <a href="transf.html">transf</a>). If unspecified, no transformation is used.</p>
+</td></tr>
+<tr valign="top"><td><code>targs</code></td>
+<td>
+<p>optional arguments needed by the function specified under <code>transf</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p>logical to specify whether output should be generated on the progress of the iterative algorithms used to obtain the confidence intervals (the default is <code>FALSE</code>). See &lsquo;Details&rsquo;.</p>
+</td></tr>
+<tr valign="top"><td><code>control</code></td>
+<td>
+<p>list of control values for the iterative algorithms. If unspecified, default values are defined inside the function. See &lsquo;Note&rsquo;.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>other arguments.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Confidence intervals for the model coefficients can be obtained by setting <code>fixed=TRUE</code> and are simply the usual Wald-type intervals (which are also shown when printing the fitted object).
+</p>
+<p>Other parameter(s) for which confidence intervals can be obtained depend on the model object:
+</p>
+
+<ul>
+<li><p> For objects of class <code>"rma.uni"</code> obtained with the <code><a href="rma.uni.html">rma.uni</a></code> function, a confidence interval for the amount of (residual) heterogeneity (i.e., \(\tau^2\)) can be obtained by setting <code>random=TRUE</code> (which is the default). The interval is obtained iteratively either via the Q-profile method or via the generalized Q-statistic method (Hartung and Knapp, 2005; Viechtbauer, 2007; Jackson, 2013; Jackson et al., 2014). The latter is automatically used when the model was fitted with <code>method="GENQ"</code> or <code>method="GENQM"</code>, the former is used in all other cases. Either method provides an exact confidence interval for \(\tau^2\) in random- and mixed-effects models. The square root of the interval bounds is also returned for easier interpretation. Confidence intervals for \(I^2\) and \(H^2\) are also provided (Higgins &amp; Thompson, 2002). Since \(I^2\) and \(H^2\) are just monotonic transformations of \(\tau^2\) (for details, see <code><a href="print.rma.html">print</a></code>), the confidence intervals for \(I^2\) and \(H^2\) are also exact. One can also set <code>type="PL"</code> to obtain a profile likelihood confidence interval for \(\tau^2\) (and corresponding CIs for \(I^2\) and \(H^2\)), which would be more consistent with the use of ML/REML estimation, but is not exact (see &lsquo;Note&rsquo;).
+</p>
+</li>
+<li><p> For objects of class <code>"rma.mv"</code> obtained with the <code><a href="rma.mv.html">rma.mv</a></code> function, confidence intervals are obtained by default for all (non-fixed) variance and correlation components of the model. Alternatively, one can use the <code>sigma2</code>, <code>tau2</code>, <code>rho</code>, <code>gamma2</code>, or <code>phi</code> arguments to specify for which variance/correlation parameter a confidence interval should be obtained. Only one of these arguments can be used at a time. A single integer is used to specify the number of the parameter. The function provides profile likelihood confidence intervals for these parameters. It is a good idea to examine the corresponding profile likelihood plots (via the <code><a href="profile.rma.html">profile</a></code> function) to make sure that the bounds obtained are sensible.
+</p>
+</li>
+<li><p> For selection model objects of class <code>"rma.uni.selmodel"</code> obtained with the <code><a href="selmodel.html">selmodel</a></code> function, confidence intervals are obtained by default for \(\tau^2\) (for models where this is an estimated parameter) and all (non-fixed) selection model parameters. Alternatively, one can choose to obtain a confidence interval only for \(\tau^2\) by setting <code>tau2=TRUE</code> or for one of the selection model parameters by specifying its number via the <code>delta</code> argument. The function provides profile likelihood confidence intervals for these parameters. It is a good idea to examine the corresponding profile likelihood plots (via the <code><a href="profile.rma.html">profile</a></code> function) to make sure that the bounds obtained are sensible.
+</p>
+</li>
+<li><p> For location-scale model objects of class <code>"rma.ls"</code> obtained with the <code><a href="rma.uni.html">rma.uni</a></code> function, confidence intervals are obtained by default for all (non-fixed) scale parameters. Alternatively, one can choose to obtain a confidence interval for one of the scale parameters by specifying its number via the <code>alpha</code> argument. The function provides profile likelihood confidence intervals for these parameters. It is a good idea to examine the corresponding profile likelihood plots (via the <code><a href="profile.rma.html">profile</a></code> function) to make sure that the bounds obtained are sensible.
+</p>
+</li></ul>
+
+<p>The methods used to find confidence intervals for these parameters are iterative and require the use of the <code><a href="../../stats/html/uniroot.html">uniroot</a></code> function. By default, the desired accuracy (<code>tol</code>) is set equal to <code>.Machine$double.eps^0.25</code> and the maximum number of iterations (<code>maxiter</code>) to <code>1000</code>. These values can be adjusted with <code>control=list(tol=value, maxiter=value)</code>, but the defaults should be adequate for most purposes. If <code>verbose=TRUE</code>, output is generated on the progress of the iterative algorithms. This is especially useful when model fitting is slow, in which case finding the confidence interval bounds can also take considerable amounts of time.
+</p>
+<p>When using the <code><a href="../../stats/html/uniroot.html">uniroot</a></code> function, one must also set appropriate end points of the interval to be searched for the confidence interval bounds. The function tries to set some sensible defaults for the end points, but it may happen that the function is only able to determine that a bound is below/above a certain limit (this is indicated in the output accordingly with <code>&lt;</code> or <code>&gt;</code> signs). It can also happen that the model cannot be fitted or does not converge especially at the extremes of the interval to be searched. This will result in missing (<code>NA</code>) bounds and corresponding warnings. It may then be necessary to adjust the end points manually (see &lsquo;Note&rsquo;).
+</p>
+<p>Finally, it is also possible that the lower and upper confidence interval bounds for a variance component both fall below zero. Since both bounds then fall outside of the parameter space, the confidence interval then consists of the null/empty set. Alternatively, one could interpret this as a confidence interval with bounds \([0,0]\) or as indicating &lsquo;highly/overly homogeneous&rsquo; data.
+</p>
+
+
+<h3>Value</h3>
+
+<p>An object of class <code>"confint.rma"</code>. The object is a list with either one or two elements (named <code>fixed</code> and <code>random</code>) with the following elements:
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>estimate</code></td>
+<td>
+<p>estimate of the model coefficient, variance/correlation component, or selection model parameter.</p>
+</td></tr>
+<tr valign="top"><td><code>ci.lb</code></td>
+<td>
+<p>lower bound of the confidence interval.</p>
+</td></tr>
+<tr valign="top"><td><code>ci.ub</code></td>
+<td>
+<p>upper bound of the confidence interval.</p>
+</td></tr>
+</table>
+<p>When obtaining confidence intervals for multiple components, the object is a list of class <code>"list.confint.rma"</code>, where each element is a <code>"confint.rma"</code> object as described above.
+</p>
+<p>The results are formatted and printed with the <code><a href="print.confint.rma.html">print</a></code> function.
+</p>
+
+
+<h3>Note</h3>
+
+<p>When computing a CI for \(\tau^2\) for objects of class <code>"rma.uni"</code>, the estimate of \(\tau^2\) will usually fall within the CI bounds provided by the Q-profile method. However, this is not guaranteed. Depending on the method used to estimate \(\tau^2\) and the width of the CI, it can happen that the CI does not actually contain the estimate. Using the empirical Bayes or Paule-Mandel estimator of \(\tau^2\) when fitting the model (i.e., using <code>method="EB"</code> or <code>method="PM"</code>) usually ensures that the estimate of \(\tau^2\) falls within the CI (for <code>method="PMM"</code>, this is guaranteed). When <code>method="GENQ"</code> was used to fit the model, the corresponding CI obtained via the generalized Q-statistic method also usually contains the estimate \(\tau^2\) (for <code>method="GENQM"</code>, this is guaranteed). When using ML/REML estimation, the profile likelihood CI (obtained when setting <code>type="PL"</code>) is guaranteed to contain the estimate of \(\tau^2\).
+</p>
+<p>When computing a CI for \(\tau^2\) for objects of class <code>"rma.uni"</code>, the end points of the interval to be searched for the CI bounds are \([0,100]\) (or, for the upper bound, ten times the estimate of \(\tau^2\), whichever is greater). The upper bound should be large enough for most cases, but can be adjusted with <code>control=list(tau2.max=value)</code>. One can also adjust the lower end point with <code>control=list(tau2.min=value)</code>. You should only play around with this value if you know what you are doing.
+</p>
+<p>For objects of class <code>"rma.mv"</code>, the function provides profile likelihood CIs for the variance/correlation parameters in the model. For variance components, the lower end point of the interval to be searched is set to 0 and the upper end point to the larger of 10 and 100 times the value of the component. For correlations, the function tries to set the lower end point to a sensible default depending on the type of variance structure chosen, while the upper end point is set to 1. One can adjust the lower and/or upper end points with <code>control=list(vc.min=value, vc.max=value)</code>. Also, the function tries to adjust the lower/upper end points when the model does not converge at these extremes (the end points are then moved closer to the estimated value of the component). The total number of tries for setting/adjusting the end points in this manner is determined via <code>control=list(eptries=value)</code>, with the default being 10 tries.
+</p>
+<p>For objects of class <code>"rma.uni.selmodel"</code> or <code>"rma.ls"</code>, the function also sets some sensible defaults for the end points of the interval to be searched for the CI bounds (of the \(\tau^2\), \(\delta\), and \(\alpha\) parameter(s)). One can again adjust the end points and the number of retries (as described above) with <code>control=list(vc.min=value, vc.max=value, eptries=value)</code>.
+</p>
+<p>The Q-profile and generalized Q-statistic methods are both exact under the assumptions of the random- and mixed-effects models (i.e., normally distributed observed and true effect sizes or outcomes and known sampling variances). In practice, these assumptions are usually only approximately true, turning CIs for \(\tau^2\) also into approximations. Profile likelihood CIs are not exact by construction and rely on the asymptotic behavior of the likelihood ratio statistic, so they may be inaccurate in small samples, but they are inherently consistent with the use of ML/REML estimation.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Wolfgang Viechtbauer <a href="mailto:wvb@metafor-project.org">wvb@metafor-project.org</a> <a href="https://www.metafor-project.org">https://www.metafor-project.org</a>
+</p>
+
+
+<h3>References</h3>
+
+<p>Hardy, R. J., &amp; Thompson, S. G. (1996). A likelihood approach to meta-analysis with random effects. <em>Statistics in Medicine</em>, <b>15</b>(6), 619&ndash;629. <code style="white-space: pre;">https://doi.org/10.1002/(sici)1097-0258(19960330)15:6%3C619::aid-sim188%3E3.0.co;2-a</code>
+</p>
+<p>Hartung, J., &amp; Knapp, G. (2005). On confidence intervals for the among-group variance in the one-way random effects model with unequal error variances. <em>Journal of Statistical Planning and Inference</em>, <b>127</b>(1-2), 157&ndash;177. <code style="white-space: pre;">https://doi.org/10.1016/j.jspi.2003.09.032</code>
+</p>
+<p>Higgins, J. P. T., &amp; Thompson, S. G. (2002). Quantifying heterogeneity in a meta-analysis. <em>Statistics in Medicine</em>, <b>21</b>(11), 1539&ndash;1558. <code style="white-space: pre;">https://doi.org/10.1002/sim.1186</code>
+</p>
+<p>Jackson, D. (2013). Confidence intervals for the between-study variance in random effects meta-analysis using generalised Cochran heterogeneity statistics. <em>Research Synthesis Methods</em>, <b>4</b>(3), 220&ndash;229. <code style="white-space: pre;">https://doi.org/10.1186/s12874-016-0219-y</code>
+</p>
+<p>Jackson, D., Turner, R., Rhodes, K., &amp; Viechtbauer, W. (2014). Methods for calculating confidence and credible intervals for the residual between-study variance in random effects meta-regression models. <em>BMC Medical Research Methodology</em>, <b>14</b>, 103. <code style="white-space: pre;">https://doi.org/10.1186/1471-2288-14-103</code>
+</p>
+<p>Viechtbauer, W. (2007). Confidence intervals for the amount of heterogeneity in meta-analysis. <em>Statistics in Medicine</em>, <b>26</b>(1), 37&ndash;52. <code style="white-space: pre;">https://doi.org/10.1002/sim.2514</code>
+</p>
+<p>Viechtbauer, W. (2010). Conducting meta-analyses in R with the metafor package. <em>Journal of Statistical Software</em>, <b>36</b>(3), 1&ndash;48. <code style="white-space: pre;">https://doi.org/10.18637/jss.v036.i03</code>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="rma.uni.html">rma.uni</a></code>, <code><a href="rma.mh.html">rma.mh</a></code>, <code><a href="rma.peto.html">rma.peto</a></code>, <code><a href="rma.glmm.html">rma.glmm</a></code>, <code><a href="rma.mv.html">rma.mv</a></code>, and <code><a href="selmodel.html">selmodel.rma.uni</a></code> for functions to fit models for which confidence intervals can be computed.
+</p>
+<p><code><a href="profile.rma.html">profile.rma.uni</a></code>, <code><a href="profile.rma.html">profile.rma.mv</a></code>, and <code><a href="profile.rma.html">profile.rma.uni.selmodel</a></code> for functions to create profile likelihood plots corresponding to profile likelihood confidence intervals.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+### calculate log risk ratios and corresponding sampling variances
+dat &lt;- escalc(measure="RR", ai=tpos, bi=tneg, ci=cpos, di=cneg, data=dat.bcg)
+
+### meta-analysis of the log risk ratios using a random-effects model
+res &lt;- rma(yi, vi, data=dat, method="REML")
+
+### confidence interval for the total amount of heterogeneity
+confint(res)
+
+### mixed-effects model with absolute latitude in the model
+res &lt;- rma(yi, vi, mods = ~ ablat, data=dat)
+
+### confidence interval for the residual amount of heterogeneity
+confint(res)
+
+### multilevel random-effects model
+res &lt;- rma.mv(yi, vi, random = ~ 1 | district/school, data=dat.konstantopoulos2011)
+
+### profile plots and confidence intervals for the variance components
+## Not run: 
+par(mfrow=c(2,1))
+profile(res, sigma2=1, steps=40, cline=TRUE)
+sav &lt;- confint(res, sigma2=1)
+sav
+abline(v=sav$random[1,2:3], lty="dotted")
+profile(res, sigma2=2, steps=40, cline=TRUE)
+sav &lt;- confint(res, sigma2=2)
+sav
+abline(v=sav$random[1,2:3], lty="dotted")
+
+## End(Not run)
+
+### multivariate parameterization of the model
+res &lt;- rma.mv(yi, vi, random = ~ school | district, data=dat.konstantopoulos2011)
+
+### profile plots and confidence intervals for the variance component and correlation
+## Not run: 
+par(mfrow=c(2,1))
+profile(res, tau2=1, steps=40, cline=TRUE)
+sav &lt;- confint(res, tau2=1)
+sav
+abline(v=sav$random[1,2:3], lty="dotted")
+profile(res, rho=1, steps=40, cline=TRUE)
+sav &lt;- confint(res, rho=1)
+sav
+abline(v=sav$random[1,2:3], lty="dotted")
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>metafor</em> version 3.4-0 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,198 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Cumulative Meta-Analysis for 'rma' Objects</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for cumul {metafor}"><tr><td>cumul {metafor}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Cumulative Meta-Analysis for 'rma' Objects</h2>
+
+<h3>Description</h3>
+
+<p>The functions repeatedly fit the specified model, adding one study at a time to the model. <script id="MathJax-script" async src="../../mathjaxr/doc/mathjax/es5/tex-chtml-full.js"></script>
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+cumul(x, ...)
+
+## S3 method for class 'rma.uni'
+cumul(x, order, digits, transf, targs, progbar=FALSE, ...)
+## S3 method for class 'rma.mh'
+cumul(x, order, digits, transf, targs, progbar=FALSE, ...)
+## S3 method for class 'rma.peto'
+cumul(x, order, digits, transf, targs, progbar=FALSE, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>an object of class <code>"rma.uni"</code>, <code>"rma.mh"</code>, or <code>"rma.peto"</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>order</code></td>
+<td>
+<p>optional argument to specify a variable based on which the studies will be ordered for the cumulative meta-analysis.</p>
+</td></tr>
+<tr valign="top"><td><code>digits</code></td>
+<td>
+<p>optional integer to specify the number of decimal places to which the printed results should be rounded. If unspecified, the default is to take the value from the object.</p>
+</td></tr>
+<tr valign="top"><td><code>transf</code></td>
+<td>
+<p>optional argument to specify a function that should be used to transform the model coefficients and interval bounds (e.g., <code>transf=exp</code>; see also <a href="transf.html">transf</a>). If unspecified, no transformation is used.</p>
+</td></tr>
+<tr valign="top"><td><code>targs</code></td>
+<td>
+<p>optional arguments needed by the function specified under <code>transf</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>progbar</code></td>
+<td>
+<p>logical to specify whether a progress bar should be shown (the default is <code>FALSE</code>).</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>other arguments.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>For <code>"rma.uni"</code> objects, the model specified via <code>x</code> must be a model without moderators (i.e., either an equal- or a random-effects model).
+</p>
+<p>If argument <code>order</code> is not specified, the studies are added according to their order in the original dataset.
+</p>
+<p>When a variable is specified for <code>order</code>, the variable is assumed to be of the same length as the original dataset that was used in the model fitting (and if the <code>data</code> argument was used in the original model fit, then the variable will be searched for within this data frame first). Any subsetting and removal of studies with missing values that was applied during the model fitting is also automatically applied to the variable specified via the <code>order</code> argument. See &lsquo;Examples&rsquo;.
+</p>
+
+
+<h3>Value</h3>
+
+<p>An object of class <code>c("list.rma","cumul.rma")</code>. The object is a list containing the following components:
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>estimate</code></td>
+<td>
+<p>estimated (average) outcomes.</p>
+</td></tr>
+<tr valign="top"><td><code>se</code></td>
+<td>
+<p>corresponding standard errors.</p>
+</td></tr>
+<tr valign="top"><td><code>zval</code></td>
+<td>
+<p>corresponding test statistics.</p>
+</td></tr>
+<tr valign="top"><td><code>pval</code></td>
+<td>
+<p>corresponding p-values.</p>
+</td></tr>
+<tr valign="top"><td><code>ci.lb</code></td>
+<td>
+<p>lower bounds of the confidence intervals.</p>
+</td></tr>
+<tr valign="top"><td><code>ci.ub</code></td>
+<td>
+<p>upper bounds of the confidence intervals.</p>
+</td></tr>
+<tr valign="top"><td><code>Q</code></td>
+<td>
+<p>test statistics for the test of heterogeneity.</p>
+</td></tr>
+<tr valign="top"><td><code>Qp</code></td>
+<td>
+<p>corresponding p-values.</p>
+</td></tr>
+<tr valign="top"><td><code>tau2</code></td>
+<td>
+<p>estimated amount of heterogeneity (only for random-effects models).</p>
+</td></tr>
+<tr valign="top"><td><code>I2</code></td>
+<td>
+<p>values of \(I^2\).</p>
+</td></tr>
+<tr valign="top"><td><code>H2</code></td>
+<td>
+<p>values of \(H^2\).</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>other arguments.</p>
+</td></tr>
+</table>
+<p>When the model was fitted with <code>test="t"</code> or <code>test="knha"</code>, then <code>zval</code> is called <code>tval</code> in the object that is returned by the function.
+</p>
+<p>The object is formatted and printed with the <code><a href="print.list.rma.html">print</a></code> function. A forest plot showing the results from the cumulative meta-analysis can be obtained with <code><a href="forest.cumul.rma.html">forest</a></code>. Alternatively, <code><a href="plot.cumul.rma.html">plot</a></code> can also be used to visualize the results.
+</p>
+
+
+<h3>Note</h3>
+
+<p>When using the <code>transf</code> option, the transformation is applied to the estimated coefficients and the corresponding interval bounds. The standard errors are then set equal to <code>NA</code> and are omitted from the printed output.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Wolfgang Viechtbauer <a href="mailto:wvb@metafor-project.org">wvb@metafor-project.org</a> <a href="https://www.metafor-project.org">https://www.metafor-project.org</a>
+</p>
+
+
+<h3>References</h3>
+
+<p>Chalmers, T. C., &amp; Lau, J. (1993). Meta-analytic stimulus for changes in clinical trials. <em>Statistical Methods in Medical Research</em>, <b>2</b>(2), 161&ndash;172. <code style="white-space: pre;">https://doi.org/10.1177/096228029300200204</code>
+</p>
+<p>Lau, J., Schmid, C. H., &amp; Chalmers, T. C. (1995). Cumulative meta-analysis of clinical trials builds evidence for exemplary medical care. <em>Journal of Clinical Epidemiology</em>, <b>48</b>(1), 45&ndash;57. <code style="white-space: pre;">https://doi.org/10.1016/0895-4356(94)00106-z</code>
+</p>
+<p>Viechtbauer, W. (2010). Conducting meta-analyses in R with the metafor package. <em>Journal of Statistical Software</em>, <b>36</b>(3), 1&ndash;48. <code style="white-space: pre;">https://doi.org/10.18637/jss.v036.i03</code>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="forest.cumul.rma.html">forest.cumul.rma</a></code> for a function to draw cumulative forest plots and <code><a href="plot.cumul.rma.html">plot.cumul.rma</a></code> for a different visualization of the cumulative results.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+### calculate log risk ratios and corresponding sampling variances
+dat &lt;- escalc(measure="RR", ai=tpos, bi=tneg, ci=cpos, di=cneg, data=dat.bcg)
+
+### fit random-effects model
+res &lt;- rma(yi, vi, data=dat)
+
+### cumulative meta-analysis (in the order of publication year)
+cumul(res, transf=exp, order=year)
+
+### meta-analysis of the (log) risk ratios using the Mantel-Haenszel method
+res &lt;- rma.mh(measure="RR", ai=tpos, bi=tneg, ci=cpos, di=cneg, data=dat.bcg)
+
+### cumulative meta-analysis
+cumul(res, order=year)
+cumul(res, order=year, transf=TRUE)
+
+### meta-analysis of the (log) odds ratios using Peto's method
+res &lt;- rma.peto(ai=tpos, bi=tneg, ci=cpos, di=cneg, data=dat.bcg)
+
+### cumulative meta-analysis
+cumul(res, order=year)
+cumul(res, order=year, transf=TRUE)
+
+### make first log risk ratio missing and fit model without study 2; then the
+### variable specified via 'order' should still be of the same length as the
+### original dataset; subsetting and removal of studies with missing values is
+### automatically done by the cumul() function
+dat$yi[1] &lt;- NA
+res &lt;- rma(yi, vi, data=dat, subset=-2)
+cumul(res, transf=exp, order=year)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>metafor</em> version 3.4-0 <a href="00Index.html">Index</a>]</div>
+</body></html>

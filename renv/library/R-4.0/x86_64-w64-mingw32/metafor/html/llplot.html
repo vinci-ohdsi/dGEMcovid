@@ -1,0 +1,176 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Plot of Likelihoods for Individual Studies</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for llplot {metafor}"><tr><td>llplot {metafor}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Plot of Likelihoods for Individual Studies</h2>
+
+<h3>Description</h3>
+
+<p>Function to plot the likelihood of a certain parameter corresponding to an effect size or outcome measure given the study data. <script id="MathJax-script" async src="../../mathjaxr/doc/mathjax/es5/tex-chtml-full.js"></script>
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+llplot(measure, yi, vi, sei, ai, bi, ci, di, n1i, n2i, data, subset, drop00=TRUE,
+       xvals=1000, xlim, ylim, xlab, ylab, scale=TRUE,
+       lty, lwd, col, level=99.99, refline=0, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>measure</code></td>
+<td>
+<p>a character string to specify for which effect size or outcome measure the likelihoods should be calculated. See &lsquo;Details&rsquo; for possible options and how the data should then be specified.</p>
+</td></tr>
+<tr valign="top"><td><code>yi</code></td>
+<td>
+<p>vector with the observed effect sizes or outcomes.</p>
+</td></tr>
+<tr valign="top"><td><code>vi</code></td>
+<td>
+<p>vector with the corresponding sampling variances.</p>
+</td></tr>
+<tr valign="top"><td><code>sei</code></td>
+<td>
+<p>vector to specify the corresponding standard.</p>
+</td></tr>
+<tr valign="top"><td><code>ai</code></td>
+<td>
+<p>vector to specify the \(2 \times 2\) table frequencies (upper left cell).</p>
+</td></tr>
+<tr valign="top"><td><code>bi</code></td>
+<td>
+<p>vector to specify the \(2 \times 2\) table frequencies (upper right cell).</p>
+</td></tr>
+<tr valign="top"><td><code>ci</code></td>
+<td>
+<p>vector to specify the \(2 \times 2\) table frequencies (lower left cell).</p>
+</td></tr>
+<tr valign="top"><td><code>di</code></td>
+<td>
+<p>vector to specify the \(2 \times 2\) table frequencies (lower right cell).</p>
+</td></tr>
+<tr valign="top"><td><code>n1i</code></td>
+<td>
+<p>vector to specify the group sizes or row totals (first group/row).</p>
+</td></tr>
+<tr valign="top"><td><code>n2i</code></td>
+<td>
+<p>vector to specify the group sizes or row totals (second group/row).</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>optional data frame containing the variables given to the arguments above.</p>
+</td></tr>
+<tr valign="top"><td><code>subset</code></td>
+<td>
+<p>optional (logical or numeric) vector to specify the subset of studies that should be included in the plot.</p>
+</td></tr>
+<tr valign="top"><td><code>drop00</code></td>
+<td>
+<p>logical to specify whether studies with no cases (or only cases) in both groups should be dropped. See &lsquo;Details&rsquo;.</p>
+</td></tr>
+<tr valign="top"><td><code>xvals</code></td>
+<td>
+<p>integer to specify for how many distinct values the likelihood should be evaluated.</p>
+</td></tr>
+<tr valign="top"><td><code>xlim</code></td>
+<td>
+<p>x-axis limits. If unspecified, the function tries to set the x-axis limits to some sensible values.</p>
+</td></tr>
+<tr valign="top"><td><code>ylim</code></td>
+<td>
+<p>y-axis limits. If unspecified, the function tries to set the y-axis limits to some sensible values.</p>
+</td></tr>
+<tr valign="top"><td><code>xlab</code></td>
+<td>
+<p>title for the x-axis. If unspecified, the function tries to set an appropriate axis title.</p>
+</td></tr>
+<tr valign="top"><td><code>ylab</code></td>
+<td>
+<p>title for the y-axis. If unspecified, the function tries to set an appropriate axis title.</p>
+</td></tr>
+<tr valign="top"><td><code>scale</code></td>
+<td>
+<p>logical to specify whether the likelihood values should be scaled, so that the total area under each curve is (approximately) equal to 1.</p>
+</td></tr>
+<tr valign="top"><td><code>lty</code></td>
+<td>
+<p>the line types (either a single value or a vector of length \(k\)). If unspecified, the function sets the line types according to some characteristics of the likelihood function. See &lsquo;Details&rsquo;.</p>
+</td></tr>
+<tr valign="top"><td><code>lwd</code></td>
+<td>
+<p>the line widths (either a single value or a vector of length \(k\)). If unspecified, the function sets the widths according to the sampling variances (so that the line is thicker for more precise studies and vice-versa).</p>
+</td></tr>
+<tr valign="top"><td><code>col</code></td>
+<td>
+<p>the line colors (either a single value or a vector of length \(k\)). If unspecified, the function uses various shades of gray according to the sampling variances (so that darker shades are used for more precise studies and vice-versa).</p>
+</td></tr>
+<tr valign="top"><td><code>level</code></td>
+<td>
+<p>numeric value between 0 and 100 to specify the plotting limits for each likelihood line in terms of the confidence interval (the default is 99.99).</p>
+</td></tr>
+<tr valign="top"><td><code>refline</code></td>
+<td>
+<p>numeric value to specify the location of the vertical &lsquo;reference&rsquo; line (the default is 0). The line can be suppressed by setting this argument to <code>NA</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>other arguments.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>At the moment, the function only accepts <code>measure="GEN"</code> or <code>measure="OR"</code>.
+</p>
+<p>For <code>measure="GEN"</code>, one must specify arguments <code>yi</code> for the observed effect sizes or outcomes and <code>vi</code> for the corresponding sampling variances (instead of specifying <code>vi</code>, one can specify the standard errors via the <code>sei</code> argument). The function then plots the likelihood of the true effect size or outcome based on a normal sampling distribution with observed outcome as given by <code>yi</code> and variance as given by <code>vi</code> for each study.
+</p>
+<p>For <code>measure="OR"</code>, one must specify arguments <code>ai</code>, <code>bi</code>, <code>ci</code>, and <code>di</code>, which denote the cell frequencies of the \(2 \times 2\) tables. Alternatively, one can specify <code>ai</code>, <code>ci</code>, <code>n1i</code>, and <code>n2i</code>. See <code><a href="escalc.html">escalc</a></code> function for more details. The function then plots the likelihood of the true log odds ratio based on the non-central hypergeometric distribution for each \(2 \times 2\) table. Since studies with no cases (or only cases) in both groups have a flat likelihood and are not informative about the odds ratio, they are dropped by default (i.e., <code>drop00=TRUE</code>) and are hence not drawn (if <code>drop00=FALSE</code>, these likelihood are indicated by dotted lines). For studies that have a single zero count, the MLE of the odds ratio is infinite and these likelihoods are indicated by dashed lines.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Wolfgang Viechtbauer <a href="mailto:wvb@metafor-project.org">wvb@metafor-project.org</a> <a href="https://www.metafor-project.org">https://www.metafor-project.org</a>
+</p>
+
+
+<h3>References</h3>
+
+<p>van Houwelingen, H. C., Zwinderman, K. H., &amp; Stijnen, T. (1993). A bivariate approach to meta-analysis. <em>Statistics in Medicine</em>, <b>12</b>(24), 2273&ndash;2284. <code style="white-space: pre;">https://doi.org/10.1002/sim.4780122405</code>
+</p>
+<p>Viechtbauer, W. (2010). Conducting meta-analyses in R with the metafor package. <em>Journal of Statistical Software</em>, <b>36</b>(3), 1&ndash;48. <code style="white-space: pre;">https://doi.org/10.18637/jss.v036.i03</code>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="rma.uni.html">rma.uni</a></code> and <code><a href="rma.glmm.html">rma.glmm</a></code> for model fitting functions that are based on corresponding likelihood functions.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+### calculate log risk ratios and corresponding sampling variances
+dat &lt;- escalc(measure="RR", ai=tpos, bi=tneg, ci=cpos, di=cneg, data=dat.bcg)
+
+### draw likelihoods
+llplot(measure="GEN", yi=yi, vi=vi, data=dat, lwd=1, refline=NA, xlim=c(-3,2))
+
+### create plot (Figure 2 in van Houwelingen, Zwinderman, &amp; Stijnen, 1993)
+llplot(measure="OR", ai=b.xci, n1i=nci, ci=b.xti, n2i=nti, data=dat.collins1985a,
+       lwd=1, refline=NA, xlim=c(-4,4), drop00=FALSE)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>metafor</em> version 3.4-0 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,175 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Plot Method for 'permutest.rma.uni' Objects</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for plot.permutest.rma.uni {metafor}"><tr><td>plot.permutest.rma.uni {metafor}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Plot Method for 'permutest.rma.uni' Objects</h2>
+
+<h3>Description</h3>
+
+<p>Plot method for objects of class <code>"permutest.rma.uni"</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'permutest.rma.uni'
+plot(x, beta, alpha, QM=FALSE, QS=FALSE,
+     breaks="Scott", freq=FALSE, col="lightgray", border=NULL,
+     col.out=rgb(1,0,0,0.5), col.ref="black", col.density="blue",
+     adjust=1, lwd=c(2,0,0,4), layout, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>an object of class <code>"permutest.rma.uni"</code> obtained with <code><a href="permutest.html">permutest</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>beta</code></td>
+<td>
+<p>optional vector of indices to specify which (location) coefficients should be plotted.</p>
+</td></tr>
+<tr valign="top"><td><code>alpha</code></td>
+<td>
+<p>optional vector of indices to specify which scale coefficients should be plotted. Only relevant for location-scale models (see <code><a href="rma.uni.html">rma.uni</a></code>).</p>
+</td></tr>
+<tr valign="top"><td><code>QM</code></td>
+<td>
+<p>logical to specify whether the permutation distribution of the omnibus test of the (location) coefficients should be plotted (the default is <code>FALSE</code>).</p>
+</td></tr>
+<tr valign="top"><td><code>QS</code></td>
+<td>
+<p>logical to specify whether the permutation distribution of the omnibus test of the scale coefficients should be plotted (the default is <code>FALSE</code>). Only relevant for location-scale models (see <code><a href="rma.uni.html">rma.uni</a></code>).</p>
+</td></tr>
+<tr valign="top"><td><code>breaks</code></td>
+<td>
+<p>argument to be passed on to the corresponding argument of <code><a href="../../graphics/html/hist.html">hist</a></code> to set (the method for determining) the (number of) breakpoints.</p>
+</td></tr>
+<tr valign="top"><td><code>freq</code></td>
+<td>
+<p>logical to indicate whether frequencies or probability densities should be plotted (the default is <code>FALSE</code> to plot densities).</p>
+</td></tr>
+<tr valign="top"><td><code>col</code></td>
+<td>
+<p>character string to specify the color for the bars (the default is a light gray).</p>
+</td></tr>
+<tr valign="top"><td><code>border</code></td>
+<td>
+<p>character string to specify the color for the border around the bars (the default is <code>NULL</code> to use the standard foreground color).</p>
+</td></tr>
+<tr valign="top"><td><code>col.out</code></td>
+<td>
+<p>character string to specify the color for the bars that are more extreme than the observed test statistic (the default is a semi-transparent shade of red).</p>
+</td></tr>
+<tr valign="top"><td><code>col.ref</code></td>
+<td>
+<p>character string to specify the color of the theoretical reference/null distribution that is superimposed on top of the histogram (the default is black).</p>
+</td></tr>
+<tr valign="top"><td><code>col.density</code></td>
+<td>
+<p>character string to specify the color of the kernel density estimate of the permutation distribution that is superimposed on top of the histogram (the default is blue).</p>
+</td></tr>
+<tr valign="top"><td><code>adjust</code></td>
+<td>
+<p>numeric value to be passed on to the corresponding argument of <code><a href="../../stats/html/density.html">density</a></code> (for adjusting the bandwidth of the kernel density estimate).</p>
+</td></tr>
+<tr valign="top"><td><code>lwd</code></td>
+<td>
+<p>numeric vector to specify the width of the vertical lines corresponding to the value of the observed test statistic, of the reference/null distribution, of the density estimate, and of the vertical line at 0. Note: by default, the reference/null distribution and the density estimate have a line width of 0 and are therefore not plotted.</p>
+</td></tr>
+<tr valign="top"><td><code>layout</code></td>
+<td>
+<p>optional vector of two numbers to specify the number of rows and columns for the layout of the figure.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>other arguments.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The function plots the permutation distribution(s) of the model coefficient(s) as histograms.
+</p>
+<p>For models with moderators, one can choose via argument <code>beta</code> which coefficients to plot (by default, all permutation distributions except that of the intercept are plotted). One can also choose to plot the permutation distribution of the omnibus test of the model coefficients (by setting <code>QM=TRUE</code>).
+</p>
+<p>Arguments <code>breaks</code>, <code>freq</code>, <code>col</code>, and <code>border</code> are passed on to the <code><a href="../../graphics/html/hist.html">hist</a></code> function for the plotting.
+</p>
+<p>Argument <code>col.out</code> is used to specify the color for the bars that are more extreme than the observed test statistic. The p-value of a permutation test corresponds to the area of these bars.
+</p>
+<p>One can superimpose the theoretical reference/null distribution on top of the histogram (i.e., the distribution as assumed by the model). The p-value for the standard (i.e., non-permutation) test is the area that is more extreme than the observed test statistic under this reference/null distribution.
+</p>
+<p>A kernel density estimate of the permutation distribution can also be superimposed on top of the histogram (as a smoothed representation of the permutation distribution).
+</p>
+<p>Note that the theoretical reference/null distribution and the kernel density estimate of the permutation distribution are only shown when setting the line width for these elements greater than 0 via the <code>lwd</code> argument.
+</p>
+<p>For location-scale models (see <code><a href="rma.uni.html">rma.uni</a></code> for details), one can also use arguments <code>alpha</code> and <code>QS</code> to specify which scale coefficients to plot and whether to also plot the permutation distribution of the omnibus test of the scale coefficients (by setting <code>QS=TRUE</code>).
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Wolfgang Viechtbauer <a href="mailto:wvb@metafor-project.org">wvb@metafor-project.org</a> <a href="https://www.metafor-project.org">https://www.metafor-project.org</a>
+</p>
+
+
+<h3>References</h3>
+
+<p>Viechtbauer, W. (2010). Conducting meta-analyses in R with the metafor package. <em>Journal of Statistical Software</em>, <b>36</b>(3), 1&ndash;48. <code style="white-space: pre;">https://doi.org/10.18637/jss.v036.i03</code>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="permutest.html">permutest.rma.uni</a></code> for the function to create <code>permutest.rma.uni</code> objects.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+### calculate log risk ratios and corresponding sampling variances
+dat &lt;- escalc(measure="RR", ai=tpos, bi=tneg, ci=cpos, di=cneg, data=dat.bcg)
+
+### random-effects model
+res &lt;- rma(yi, vi, data=dat)
+res
+
+## Not run: 
+### permutation test (exact)
+set.seed(1234) # for reproducibility
+permres &lt;- permutest(res, exact=TRUE)
+permres
+
+### plot of the permutation distribution
+### dashed horizontal line: the observed value of the test statistic (in both tails)
+### black curve: standard normal density (theoretical reference/null distribution)
+### blue curve: kernel density estimate of the permutation distribution
+plot(permres, lwd=c(2,3,3,4))
+
+### mixed-effects model with two moderators (absolute latitude and publication year)
+res &lt;- rma(yi, vi, mods = ~ ablat + year, data=dat)
+res
+
+### permutation test (approximate)
+set.seed(1234) # for reproducibility
+permres &lt;- permutest(res, iter=10000)
+permres
+
+### plot of the permutation distribution for absolute latitude
+### note: the tail area under the permutation distribution is larger
+### than under a standard normal density (hence, the larger p-value)
+plot(permres, beta=2, lwd=c(2,3,3,4), xlim=c(-5,5), ylim=c(0,.4))
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>metafor</em> version 3.4-0 <a href="00Index.html">Index</a>]</div>
+</body></html>

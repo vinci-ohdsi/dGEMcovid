@@ -1,0 +1,92 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Methods for 'list.rma' Objects</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for methods.list.rma {metafor}"><tr><td>methods.list.rma {metafor}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Methods for 'list.rma' Objects</h2>
+
+<h3>Description</h3>
+
+<p>Methods for objects of class <code>"list.rma"</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'list.rma'
+as.data.frame(x, ...)
+## S3 method for class 'list.rma'
+as.matrix(x, ...)
+## S3 method for class 'list.rma'
+x[i, ...]
+## S3 method for class 'list.rma'
+head(x, n=6L, ...)
+## S3 method for class 'list.rma'
+tail(x, n=6L, ...)
+## S3 replacement method for class 'list.rma'
+x$name &lt;- value
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>an object of class <code>"list.rma"</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>other arguments.</p>
+</td></tr>
+</table>
+
+
+<h3>Note</h3>
+
+<p>For the <code>`[`</code> method, any variables specified as part of the <code>i</code> argument will be searched for within object <code>x</code> first (see &lsquo;Examples&rsquo;).
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Wolfgang Viechtbauer <a href="mailto:wvb@metafor-project.org">wvb@metafor-project.org</a> <a href="https://www.metafor-project.org">https://www.metafor-project.org</a>
+</p>
+
+
+<h3>References</h3>
+
+<p>Viechtbauer, W. (2010). Conducting meta-analyses in R with the metafor package. <em>Journal of Statistical Software</em>, <b>36</b>(3), 1&ndash;48. <code style="white-space: pre;">https://doi.org/10.18637/jss.v036.i03</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+### copy data into 'dat' and examine data
+dat &lt;- dat.viechtbauer2021
+
+### calculate log odds ratios and corresponding sampling variances
+dat &lt;- escalc(measure="OR", ai=xTi, n1i=nTi, ci=xCi, n2i=nCi, add=1/2, to="all", data=dat)
+
+### fit mixed-effects meta-regression model
+res &lt;- rma(yi, vi, mods = ~ dose, data=dat)
+
+### get studentized residuals
+sav &lt;- rstudent(res)
+sav
+
+### studies with studentized residuals larger than +-1.96
+sav[abs(sav$z) &gt; 1.96,]
+
+### variables specified are automatically searched for within the object itself
+sav[abs(z) &gt; 1.96,]
+
+### note: this behavior is specific to 'rma.list' objects; this doesn't work for regular data frames
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>metafor</em> version 3.4-0 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,238 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Transformation Functions</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for transf {metafor}"><tr><td>transf {metafor}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Transformation Functions</h2>
+
+<h3>Description</h3>
+
+<p>A set of transformation functions useful for meta-analyses. <script id="MathJax-script" async src="../../mathjaxr/doc/mathjax/es5/tex-chtml-full.js"></script>
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+transf.rtoz(xi, ...)
+transf.ztor(xi, ...)
+transf.logit(xi, ...)
+transf.ilogit(xi, ...)
+transf.arcsin(xi, ...)
+transf.iarcsin(xi, ...)
+transf.pft(xi, ni, ...)
+transf.ipft(xi, ni, ...)
+transf.ipft.hm(xi, targs, ...)
+transf.isqrt(xi, ...)
+transf.irft(xi, ti, ...)
+transf.iirft(xi, ti, ...)
+transf.ahw(xi, ...)
+transf.iahw(xi, ...)
+transf.abt(xi, ...)
+transf.iabt(xi, ...)
+transf.ztor.int(xi, targs, ...)
+transf.exp.int(xi, targs, ...)
+transf.ilogit.int(xi, targs, ...)
+transf.dtou1(xi, ...)
+transf.dtou2(xi, ...)
+transf.dtou3(xi, ...)
+transf.dtorpb(xi, n1i, n2i, ...)
+transf.dtobesd(xi, ...)
+transf.dtomd(xi, targs, ...)
+transf.logortord(xi, pc, ...)
+transf.logortorr(xi, pc, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>xi</code></td>
+<td>
+<p>vector of values to be transformed.</p>
+</td></tr>
+<tr valign="top"><td><code>ni</code></td>
+<td>
+<p>vector of sample sizes.</p>
+</td></tr>
+<tr valign="top"><td><code>n1i</code></td>
+<td>
+<p>vector of sample sizes for the first group.</p>
+</td></tr>
+<tr valign="top"><td><code>n2i</code></td>
+<td>
+<p>vector of sample sizes for the second group.</p>
+</td></tr>
+<tr valign="top"><td><code>ti</code></td>
+<td>
+<p>vector of person-times at risk.</p>
+</td></tr>
+<tr valign="top"><td><code>pc</code></td>
+<td>
+<p>control group risk (either a single value or a vector).</p>
+</td></tr>
+<tr valign="top"><td><code>targs</code></td>
+<td>
+<p>list with additional arguments for the transformation function. See &lsquo;Details&rsquo;.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>other arguments.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The following transformation functions are currently implemented:
+</p>
+
+<ul>
+<li> <p><code>transf.rtoz</code>: Fisher's r-to-z transformation for correlations.
+</p>
+</li>
+<li> <p><code>transf.ztor</code>: inverse of Fisher's r-to-z transformation.
+</p>
+</li>
+<li> <p><code>transf.logit</code>: logit (log odds) transformation for proportions.
+</p>
+</li>
+<li> <p><code>transf.ilogit</code>: inverse of the logit transformation.
+</p>
+</li>
+<li> <p><code>transf.arcsin</code>: arcsine square root transformation for proportions.
+</p>
+</li>
+<li> <p><code>transf.iarcsin</code>: inverse of the arcsine transformation.
+</p>
+</li>
+<li> <p><code>transf.pft</code>: Freeman-Tukey (double arcsine) transformation for proportions. See Freeman &amp; Tukey (1950). The <code>xi</code> argument is used to specify the proportions and the <code>ni</code> argument the corresponding sample sizes.
+</p>
+</li>
+<li> <p><code>transf.ipft</code>: inverse of the Freeman-Tukey (double arcsine) transformation for proportions. See Miller (1978).
+</p>
+</li>
+<li> <p><code>transf.ipft.hm</code>: inverse of the Freeman-Tukey (double arcsine) transformation for proportions using the harmonic mean of the sample sizes for the back-transformation. See Miller (1978). The sample sizes are specified via the <code>targs</code> argument (the list element should be called <code>ni</code>).
+</p>
+</li>
+<li> <p><code>transf.isqrt</code>: inverse of the square root transformation (i.e., function to square a number).
+</p>
+</li>
+<li> <p><code>transf.irft</code>: Freeman-Tukey transformation for incidence rates. See Freeman &amp; Tukey (1950). The <code>xi</code> argument is used to specify the incidence rates and the <code>ti</code> argument the corresponding person-times at risk.
+</p>
+</li>
+<li> <p><code>transf.iirft</code>: inverse of the Freeman-Tukey transformation for incidence rates.
+</p>
+</li>
+<li> <p><code>transf.ahw</code>: transformation of coefficient alpha as suggested by Hakstian &amp; Whalen (1976).
+</p>
+</li>
+<li> <p><code>transf.iahw</code>: inverse of the transformation of coefficient alpha as suggested by Hakstian &amp; Whalen (1976).
+</p>
+</li>
+<li> <p><code>transf.abt</code>: transformation of coefficient alpha as suggested by Bonett (2002).
+</p>
+</li>
+<li> <p><code>transf.iabt</code>: inverse of the transformation of coefficient alpha as suggested by Bonett (2002).
+</p>
+</li>
+<li> <p><code>transf.ztor.int</code>: integral transformation method for the z-to-r transformation.
+</p>
+</li>
+<li> <p><code>transf.exp.int</code>: integral transformation method for the exponential transformation.
+</p>
+</li>
+<li> <p><code>transf.ilogit.int</code>: integral transformation method for the inverse of the logit transformation.
+</p>
+</li>
+<li> <p><code>transf.dtou1</code>: transformation of standardized mean differences to Cohen's U1 values (Cohen, 1988).
+</p>
+</li>
+<li> <p><code>transf.dtou2</code>: transformation of standardized mean differences to Cohen's U2 values (Cohen, 1988).
+</p>
+</li>
+<li> <p><code>transf.dtou3</code>: transformation of standardized mean differences to Cohen's U3 values (Cohen, 1988).
+</p>
+</li>
+<li> <p><code>transf.dtocles</code>: transformation of standardized mean differences to common language effect size values (McGraw &amp; Wong, 1992).
+</p>
+</li>
+<li> <p><code>transf.dtorpb</code>: transformation of standardized mean differences to point-biserial correlations. If <code>n1i</code> and <code>n2i</code> are not specified, the function assumes <code>n1i=n2i</code> and uses an approximate formula. If <code>n1i</code> and <code>n2i</code> are specified, the exact transformation formula is used.
+</p>
+</li>
+<li> <p><code>transf.dtobesd</code>: transformation of standardized mean differences to binomial effect size display values (Rosenthal &amp; Rubin, 1982). Note that the function only provides the proportion in the first group scoring above the median (the proportion in the second group scoring above the median is simply one minus the proportion in the first group scoring above the median).
+</p>
+</li>
+<li> <p><code>transf.dtomd</code>: transformation of standardized mean differences to mean differences given a known standard deviation, which must be specified via the <code>targs</code> argument.
+</p>
+</li>
+<li> <p><code>transf.logortord</code>: transformation of log odds ratios to risk differences, assuming a particular value for the control group risk (which needs to be specified via the <code>pc</code> argument).
+</p>
+</li>
+<li> <p><code>transf.logortorr</code>: transformation of log odds ratios to risk ratios, assuming a particular value for the control group risk (which needs to be specified via the <code>pc</code> argument).
+</p>
+</li></ul>
+
+
+
+<h3>Value</h3>
+
+<p>A vector with the transformed values.
+</p>
+
+
+<h3>Note</h3>
+
+<p>The integral transformation method for a transformation function \(h(z)\) integrates \(h(z) f(z)\) over \(z\) using the limits <code>targs$lower</code> and <code>targs$upper</code>, where \(f(z)\) is the density of a normal distribution with mean equal to <code>xi</code> and variance equal to <code>targs$tau2</code>. An example is provided below.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Wolfgang Viechtbauer <a href="mailto:wvb@metafor-project.org">wvb@metafor-project.org</a> <a href="https://www.metafor-project.org">https://www.metafor-project.org</a>
+</p>
+
+
+<h3>References</h3>
+
+<p>Bonett, D. G. (2002). Sample size requirements for testing and estimating coefficient alpha. <em>Journal of Educational and Behavioral Statistics</em>, <b>27</b>(4), 335&ndash;340. <code style="white-space: pre;">https://doi.org/10.3102/10769986027004335</code>
+</p>
+<p>Cohen, J. (1988). <em>Statistical power analysis for the behavioral sciences</em> (2nd ed.). Hillsdale, NJ: Lawrence Erlbaum Associates.
+</p>
+<p>Fisher, R. A. (1921). On the &ldquo;probable error&rdquo; of a coefficient of correlation deduced from a small sample. <em>Metron</em>, <b>1</b>, 1&ndash;32. <code style="white-space: pre;">http://hdl.handle.net/2440/15169</code>
+</p>
+<p>Freeman, M. F., &amp; Tukey, J. W. (1950). Transformations related to the angular and the square root. <em>Annals of Mathematical Statistics</em>, <b>21</b>(4), 607&ndash;611. <code style="white-space: pre;">https://doi.org/10.1214/aoms/1177729756</code>
+</p>
+<p>Hakstian, A. R., &amp; Whalen, T. E. (1976). A k-sample significance test for independent alpha coefficients. <em>Psychometrika</em>, <b>41</b>(2), 219&ndash;231. <code style="white-space: pre;">https://doi.org/10.1007/BF02291840</code>
+</p>
+<p>McGraw, K. O., &amp; Wong, S. P. (1992). A common language effect size statistic. <em>Psychological Bulletin</em>, <b>111</b>(2), 361&ndash;365. <code style="white-space: pre;">https://doi.org/10.1037/0033-2909.111.2.361</code>
+</p>
+<p>Miller, J. J. (1978). The inverse of the Freeman-Tukey double arcsine transformation. <em>American Statistician</em>, <b>32</b>(4), 138. <code style="white-space: pre;">https://doi.org/10.1080/00031305.1978.10479283</code>
+</p>
+<p>Rosenthal, R., &amp; Rubin, D. B. (1982). A simple, general purpose display of magnitude of experimental effect. <em>Journal of Educational Psychology</em>, <b>74</b>(2), 166&ndash;169. <code style="white-space: pre;">https://doi.org/10.1037/0022-0663.74.2.166</code>
+</p>
+<p>Viechtbauer, W. (2010). Conducting meta-analyses in R with the metafor package. <em>Journal of Statistical Software</em>, <b>36</b>(3), 1&ndash;48. <code style="white-space: pre;">https://doi.org/10.18637/jss.v036.i03</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+### calculate log risk ratios and corresponding sampling variances
+dat &lt;- escalc(measure="RR", ai=tpos, bi=tneg, ci=cpos, di=cneg, data=dat.bcg)
+
+### fit random-effects model
+res &lt;- rma(yi, vi, data=dat)
+
+### average risk ratio with 95% CI (but technically, this provides an
+### estimate of the median risk ratio, not the mean risk ratio!)
+predict(res, transf=exp)
+
+### average risk ratio with 95% CI using the integral transformation
+predict(res, transf=transf.exp.int, targs=list(tau2=res$tau2, lower=-4, upper=4))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>metafor</em> version 3.4-0 <a href="00Index.html">Index</a>]</div>
+</body></html>

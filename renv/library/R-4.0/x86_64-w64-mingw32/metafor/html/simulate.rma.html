@@ -1,0 +1,108 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Simulate Method for 'rma' Objects</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for simulate.rma {metafor}"><tr><td>simulate.rma {metafor}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Simulate Method for 'rma' Objects</h2>
+
+<h3>Description</h3>
+
+<p>The function simulates effect sizes or outcomes based on <code>"rma"</code> model object.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'rma'
+simulate(object, nsim=1, seed=NULL, olim, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>an object of class <code>"rma"</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>nsim</code></td>
+<td>
+<p>number of response vectors to simulate (defaults to 1).</p>
+</td></tr>
+<tr valign="top"><td><code>seed</code></td>
+<td>
+<p>an object to specify if and how the random number generator should be initialized (&lsquo;seeded&rsquo;). Either <code>NULL</code> or an integer that will be used in a call to <code>set.seed</code> before simulating the response vectors. If set, the value is saved as the <code>"seed"</code> attribute of the returned value. The default, <code>NULL</code> will not change the random generator state, and return <code><a href="../../base/html/Random.html">.Random.seed</a></code> as the <code>"seed"</code> attribute; see &lsquo;Value&rsquo;.</p>
+</td></tr>
+<tr valign="top"><td><code>olim</code></td>
+<td>
+<p>optional argument to specify observation/outcome limits for the simulated values. If unspecified, no limits are used.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>other arguments.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The model specified via <code>object</code> must be a model fitted with either the <code><a href="rma.uni.html">rma.uni</a></code> or <code><a href="rma.mv.html">rma.mv</a></code> function.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A data frame with <code>nsim</code> columns with the simulated effect sizes or outcomes.
+</p>
+<p>The data frame comes with an attribute <code>"seed"</code>. If argument <code>seed</code> is <code>NULL</code>, the attribute is the value of <code><a href="../../base/html/Random.html">.Random.seed</a></code> before the simulation was started; otherwise it is the value of the <code>seed</code> argument with a <code>"kind"</code> attribute with value <code>as.list(RNGkind())</code>.
+</p>
+
+
+<h3>Note</h3>
+
+<p>If the outcome measure used for the analysis is bounded (e.g., correlations are bounded between -1 and +1, proportions are bounded between 0 and 1), one can use the <code>olim</code> argument to enforce those observation/outcome limits when simulating values (simulated values cannot exceed those bounds then).
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Wolfgang Viechtbauer <a href="mailto:wvb@metafor-project.org">wvb@metafor-project.org</a> <a href="https://www.metafor-project.org">https://www.metafor-project.org</a>
+</p>
+
+
+<h3>References</h3>
+
+<p>Viechtbauer, W. (2010). Conducting meta-analyses in R with the metafor package. <em>Journal of Statistical Software</em>, <b>36</b>(3), 1&ndash;48. <code style="white-space: pre;">https://doi.org/10.18637/jss.v036.i03</code>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="rma.uni.html">rma.uni</a></code> and <code><a href="rma.mv.html">rma.mv</a></code> for functions to fit models for which simulated effect sizes or outcomes can be generated.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+### copy BCG vaccine data into 'dat'
+dat &lt;- dat.bcg
+
+### calculate log risk ratios and corresponding sampling variances
+dat &lt;- escalc(measure="RR", ai=tpos, bi=tneg, ci=cpos, di=cneg, data=dat)
+dat
+
+### fit random-effects model
+res &lt;- rma(yi, vi, data=dat)
+res
+
+### simulate 5 sets of new outcomes based on the fitted model
+newdat &lt;- simulate(res, nsim=5, seed=1234)
+newdat
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>metafor</em> version 3.4-0 <a href="00Index.html">Index</a>]</div>
+</body></html>

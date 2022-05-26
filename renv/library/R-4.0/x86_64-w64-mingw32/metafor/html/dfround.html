@@ -1,0 +1,68 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Round Variables in a Data Frame</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for dfround {metafor}"><tr><td>dfround {metafor}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Round Variables in a Data Frame</h2>
+
+<h3>Description</h3>
+
+<p>Function to round the numeric variables in a data frame.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+dfround(x, digits)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>a data frame.</p>
+</td></tr>
+<tr valign="top"><td><code>digits</code></td>
+<td>
+<p>either a single integer or a numeric vector of the same length as there are columns in <code>x</code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>A simple convenience function to round the numeric variables in a data frame, possibly to different numbers of digits. Hence, <code>digits</code> can either be a single integer (which will then be used to round all numeric variables to the specified number of digits) or a numeric vector (of the same length as there are columns in <code>x</code>) to specify the number of digits to which each variable should be rounded.
+</p>
+<p>Non-numeric variables are skipped. If <code>digits</code> is a vector, some arbitrary value (or <code>NA</code>) can be specified for those variables.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Returns the data frame with variables rounded as specified.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Wolfgang Viechtbauer <a href="mailto:wvb@metafor-project.org">wvb@metafor-project.org</a> <a href="https://www.metafor-project.org">https://www.metafor-project.org</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+dat &lt;- dat.bcg
+dat &lt;- escalc(measure="RR", ai=tpos, bi=tneg, ci=cpos, di=cneg, data=dat)
+res &lt;- rma(yi, vi, mods = ~ ablat + year, data=dat)
+coef(summary(res))
+dfround(coef(summary(res)), digits=c(2,3,2,3,2,2))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>metafor</em> version 3.4-0 <a href="00Index.html">Index</a>]</div>
+</body></html>

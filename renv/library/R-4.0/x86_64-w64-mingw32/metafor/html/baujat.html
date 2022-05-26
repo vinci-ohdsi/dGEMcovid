@@ -1,0 +1,161 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Baujat Plots for 'rma' Objects</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for baujat {metafor}"><tr><td>baujat {metafor}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Baujat Plots for 'rma' Objects</h2>
+
+<h3>Description</h3>
+
+<p>Function to create Baujat plots for objects of class <code>"rma"</code>. <script id="MathJax-script" async src="../../mathjaxr/doc/mathjax/es5/tex-chtml-full.js"></script>
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+baujat(x, ...)
+
+## S3 method for class 'rma'
+baujat(x, xlim, ylim, xlab, ylab, cex, symbol="ids", grid=TRUE, progbar=FALSE, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>an object of class <code>"rma"</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>xlim</code></td>
+<td>
+<p>x-axis limits. If unspecified, the function tries to set the x-axis limits to some sensible values.</p>
+</td></tr>
+<tr valign="top"><td><code>ylim</code></td>
+<td>
+<p>y-axis limits. If unspecified, the function tries to set the y-axis limits to some sensible values.</p>
+</td></tr>
+<tr valign="top"><td><code>xlab</code></td>
+<td>
+<p>title for the x-axis. If unspecified, the function tries to set an appropriate axis title.</p>
+</td></tr>
+<tr valign="top"><td><code>ylab</code></td>
+<td>
+<p>title for the y-axis. If unspecified, the function tries to set an appropriate axis title.</p>
+</td></tr>
+<tr valign="top"><td><code>cex</code></td>
+<td>
+<p>optional character expansion factor. If unspecified, the function tries to set this to a sensible value.</p>
+</td></tr>
+<tr valign="top"><td><code>symbol</code></td>
+<td>
+<p>either an integer to specify the <code>pch</code> value (i.e., plotting symbol), or <code>"slab"</code> to plot the study labels, or <code>"ids"</code> (the default) to plot the study id numbers.</p>
+</td></tr>
+<tr valign="top"><td><code>grid</code></td>
+<td>
+<p>logical to specify whether a grid should be added to the plot. Can also be a color name.</p>
+</td></tr>
+<tr valign="top"><td><code>progbar</code></td>
+<td>
+<p>logical to specify whether a progress bar should be shown (the default is <code>FALSE</code>).</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>other arguments.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The model specified via <code>x</code> must be a model fitted with either the <code><a href="rma.uni.html">rma.uni</a></code>, <code><a href="rma.mh.html">rma.mh</a></code>, or <code><a href="rma.peto.html">rma.peto</a></code> functions.
+</p>
+<p>Baujat et al. (2002) proposed a diagnostic plot to detect sources of heterogeneity in meta-analytic data. The plot shows the contribution of each study to the overall \(Q\)-test statistic for heterogeneity on the x-axis versus the influence of each study (defined as the standardized squared difference between the overall estimate based on an equal-effects model with and without the study included in the model fitting) on the y-axis. The same type of plot can be produced by first fitting an equal-effects model with either the <code><a href="rma.uni.html">rma.uni</a></code> (using <code>method="EE"</code>), <code><a href="rma.mh.html">rma.mh</a></code>, or <code><a href="rma.peto.html">rma.peto</a></code> functions and then passing the fitted model object to the <code>baujat</code> function.
+</p>
+<p>For models fitted with the <code><a href="rma.uni.html">rma.uni</a></code> function (which may be random-effects or mixed-effects meta-regressions models), the idea underlying this type of plot can be generalized as follows (Viechtbauer, 2021): The x-axis then corresponds to the squared Pearson residual of a study, while the y-axis corresponds to the standardized squared difference between the predicted/fitted value for the study with and without the study included in the model fitting.
+</p>
+<p>By default, the points plotted are the study id numbers, but one can also plot the study labels by setting <code>symbol="slab"</code> (if study labels are available within the model object) or one can specify a plotting symbol via the <code>symbol</code> argument that gets passed to <code>pch</code> (see <code><a href="../../graphics/html/points.html">points</a></code> for possible options).
+</p>
+
+
+<h3>Value</h3>
+
+<p>A data frame with components:
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>the x-axis coordinates of the points that were plotted.</p>
+</td></tr>
+<tr valign="top"><td><code>y</code></td>
+<td>
+<p>the y-axis coordinates of the points that were plotted.</p>
+</td></tr>
+<tr valign="top"><td><code>ids</code></td>
+<td>
+<p>the study id numbers.</p>
+</td></tr>
+<tr valign="top"><td><code>slab</code></td>
+<td>
+<p>the study labels.</p>
+</td></tr>
+</table>
+<p>Note that the data frame is returned invisibly.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Wolfgang Viechtbauer <a href="mailto:wvb@metafor-project.org">wvb@metafor-project.org</a> <a href="https://www.metafor-project.org">https://www.metafor-project.org</a>
+</p>
+
+
+<h3>References</h3>
+
+<p>Baujat, B., Mahe, C., Pignon, J.-P., &amp; Hill, C. (2002). A graphical method for exploring heterogeneity in meta-analyses: Application to a meta-analysis of 65 trials. <em>Statistics in Medicine</em>, <b>21</b>(18), 2641&ndash;2652. <code style="white-space: pre;">https://doi.org/10.1002/sim.1221</code>
+</p>
+<p>Viechtbauer, W. (2010). Conducting meta-analyses in R with the metafor package. <em>Journal of Statistical Software</em>, <b>36</b>(3), 1&ndash;48. <code style="white-space: pre;">https://doi.org/10.18637/jss.v036.i03</code>
+</p>
+<p>Viechtbauer, W. (2021). Model checking in meta-analysis. In C. H. Schmid, T. Stijnen, &amp; I. R. White (Eds.), <em>Handbook of meta-analysis</em> (pp. 219&ndash;254). Boca Raton, FL: CRC Press. <code style="white-space: pre;">https://doi.org/10.1201/9781315119403</code>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="rma.uni.html">rma.uni</a></code>, <code><a href="rma.mh.html">rma.mh</a></code> and <code><a href="rma.peto.html">rma.peto</a></code> for functions to fit models for which Baujat plots can be created.
+</p>
+<p><code><a href="influence.rma.uni.html">influence.rma.uni</a></code> for other model diagnostics.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+### copy data from Pignon et al. (2000) into 'dat'
+dat &lt;- dat.pignon2000
+
+### calculate estimated log hazard ratios and sampling variances
+dat$yi &lt;- with(dat, OmE/V)
+dat$vi &lt;- with(dat, 1/V)
+
+### meta-analysis based on all 65 trials
+res &lt;- rma(yi, vi, data=dat, method="EE", slab=trial)
+
+### create Baujat plot
+baujat(res)
+
+### some variations of the plotting symbol
+baujat(res, symbol=19)
+baujat(res, symbol="slab")
+
+### label only a selection of the more 'extreme' points
+sav &lt;- baujat(res, symbol=19, xlim=c(0,20))
+sav &lt;- sav[sav$x &gt;= 10 | sav$y &gt;= 0.10,]
+text(sav$x, sav$y, sav$slab, pos=1)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>metafor</em> version 3.4-0 <a href="00Index.html">Index</a>]</div>
+</body></html>

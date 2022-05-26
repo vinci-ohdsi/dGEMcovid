@@ -1,0 +1,156 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Model Diagnostics for 'rma.mv' Objects</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for influence.rma.mv {metafor}"><tr><td>influence.rma.mv {metafor}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Model Diagnostics for 'rma.mv' Objects</h2>
+
+<h3>Description</h3>
+
+<p>The functions can be used to compute various outlier and influential case diagnostics (some of which indicate the influence of deleting one case at a time on the model fit or the fitted/residual values) for objects of class <code>"rma.mv"</code>. <script id="MathJax-script" async src="../../mathjaxr/doc/mathjax/es5/tex-chtml-full.js"></script>
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'rma.mv'
+cooks.distance(model, progbar=FALSE, cluster,
+               reestimate=TRUE, parallel="no", ncpus=1, cl, ...)
+
+## S3 method for class 'rma.mv'
+dfbetas(model, progbar=FALSE, cluster,
+        reestimate=TRUE, parallel="no", ncpus=1, cl, ...)
+
+## S3 method for class 'rma.mv'
+hatvalues(model, type="diagonal", ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>model</code></td>
+<td>
+<p>an object of class <code>"rma.mv"</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>progbar</code></td>
+<td>
+<p>logical to specify whether a progress bar should be shown (the default is <code>FALSE</code>).</p>
+</td></tr>
+<tr valign="top"><td><code>cluster</code></td>
+<td>
+<p>optional vector to specify a clustering variable to use for computing the Cook's distances or DFBETAS values. If not specified, these measures are computed for the individual observed effect sizes or outcomes.</p>
+</td></tr>
+<tr valign="top"><td><code>reestimate</code></td>
+<td>
+<p>logical to specify whether variance/correlation components should be re-estimated after deletion of the \(i\textrm{th}\) case (the default is <code>TRUE</code>).</p>
+</td></tr>
+<tr valign="top"><td><code>parallel</code></td>
+<td>
+<p>character string to specify whether parallel processing should be used (the default is <code>"no"</code>). For parallel processing, set to either <code>"snow"</code> or <code>"multicore"</code>. See &lsquo;Details&rsquo;.</p>
+</td></tr>
+<tr valign="top"><td><code>ncpus</code></td>
+<td>
+<p>integer to specify the number of processes to use in the parallel processing.</p>
+</td></tr>
+<tr valign="top"><td><code>cl</code></td>
+<td>
+<p>optional cluster to use if <code>parallel="snow"</code>. If unspecified, a cluster on the local machine is created for the duration of the call.</p>
+</td></tr>
+<tr valign="top"><td><code>type</code></td>
+<td>
+<p>character string to specify whether only the diagonal of the hat matrix (<code>"diagonal"</code>) or the entire hat matrix (<code>"matrix"</code>) should be returned.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>other arguments.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The term &lsquo;case&rsquo; below refers to a particular row from the dataset used in the model fitting (when argument <code>cluster</code> is not specified) or each level of the variable specified via <code>cluster</code>.
+</p>
+<p>Cook's distance for the \(i\textrm{th}\) case can be interpreted as the Mahalanobis distance between the entire set of predicted values once with the \(i\textrm{th}\) case included and once with the \(i\textrm{th}\) case excluded from the model fitting.
+</p>
+<p>The DFBETAS value(s) essentially indicate(s) how many standard deviations the estimated coefficient(s) change(s) after excluding the \(i\textrm{th}\) case from the model fitting.
+</p>
+
+
+<h3>Value</h3>
+
+<p>The <code>cooks.distance</code> function returns a vector. The <code>dfbetas</code> function returns a data frame. The <code>hatvalues</code> function returns either a vector with the diagonal elements of the hat matrix or the entire hat matrix.
+</p>
+
+
+<h3>Note</h3>
+
+<p>The variable specified via <code>cluster</code> is assumed to be of the same length as the data originally passed to the <code>rma.mv</code> function (and if the <code>data</code> argument was used in the original model fit, then the variable will be searched for within this data frame first). Any subsetting and removal of studies with missing values that was applied during the model fitting is also automatically applied to the variable specified via the <code>cluster</code> argument.
+</p>
+<p>Leave-one-out diagnostics are calculated by refitting the model \(k\) times (where \(k\) denotes the number of cases). Depending on how large \(k\) is, it may take a few moments to finish the calculations. For complex models fitted with <code><a href="rma.mv.html">rma.mv</a></code>, this can become computationally expensive.
+</p>
+<p>On machines with multiple cores, one can usually speed things up by delegating the model fitting to separate worker processes, that is, by setting <code>parallel="snow"</code> or <code>parallel="multicore"</code> and <code>ncpus</code> to some value larger than 1. Parallel processing makes use of the <code><a href="../../parallel/html/parallel.html">parallel</a></code> package, using the <code><a href="../../parallel/html/makePSOCKcluster.html">makePSOCKcluster</a></code> and <code><a href="../../parallel/html/parLapply.html">parLapply</a></code> functions when <code>parallel="snow"</code> or using <code><a href="../../parallel/html/mclapply.html">mclapply</a></code> when <code>parallel="multicore"</code> (the latter only works on Unix/Linux-alikes). With <code>parallel::detectCores()</code>, one can check on the number of available cores on the local machine.
+</p>
+<p>Alternatively (or in addition to using parallel processing), one can also set <code>reestimate=FALSE</code>, in which case any variance/correlation components in the model are not re-estimated after deleting the \(i\textrm{th}\) case from the dataset. Doing so only yields an approximation to the Cook's distances and DFBETAS values that ignores the influence of the \(i\textrm{th}\) case on the variance/correlation components, but is considerably faster (and often yields similar results).
+</p>
+<p>It may not be possible to fit the model after deletion of the \(i\textrm{th}\) case from the dataset. This will result in <code>NA</code> values for that case.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Wolfgang Viechtbauer <a href="mailto:wvb@metafor-project.org">wvb@metafor-project.org</a> <a href="https://www.metafor-project.org">https://www.metafor-project.org</a>
+</p>
+
+
+<h3>References</h3>
+
+<p>Belsley, D. A., Kuh, E., &amp; Welsch, R. E. (1980). <em>Regression diagnostics</em>. New York: Wiley.
+</p>
+<p>Cook, R. D., &amp; Weisberg, S. (1982). <em>Residuals and influence in regression</em>. London: Chapman and Hall.
+</p>
+<p>Viechtbauer, W. (2010). Conducting meta-analyses in R with the metafor package. <em>Journal of Statistical Software</em>, <b>36</b>(3), 1&ndash;48. <code style="white-space: pre;">https://doi.org/10.18637/jss.v036.i03</code>
+</p>
+<p>Viechtbauer, W. (2021). Model checking in meta-analysis. In C. H. Schmid, T. Stijnen, &amp; I. R. White (Eds.), <em>Handbook of meta-analysis</em> (pp. 219&ndash;254). Boca Raton, FL: CRC Press. <code style="white-space: pre;">https://doi.org/10.1201/9781315119403</code>
+</p>
+<p>Viechtbauer, W., &amp; Cheung, M. W.-L. (2010). Outlier and influence diagnostics for meta-analysis. <em>Research Synthesis Methods</em>, <b>1</b>(2), 112&ndash;125. <code style="white-space: pre;">https://doi.org/10.1002/jrsm.11</code>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="residuals.rma.html">rstudent.rma.mv</a></code> for externally standardized residuals and <code><a href="weights.rma.html">weights.rma.mv</a></code> for model fitting weights.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+### copy data from Konstantopoulos (2011) into 'dat'
+dat &lt;- dat.konstantopoulos2011
+
+### multilevel random-effects model
+res &lt;- rma.mv(yi, vi, random = ~ 1 | district/school, data=dat)
+print(res, digits=3)
+
+### Cook's distance for each observed outcome
+x &lt;- cooks.distance(res)
+x
+plot(x, type="o", pch=19, xlab="Observed Outcome", ylab="Cook's Distance")
+
+### Cook's distance for each district
+x &lt;- cooks.distance(res, cluster=district)
+x
+plot(x, type="o", pch=19, xlab="District", ylab="Cook's Distance", xaxt="n")
+axis(side=1, at=seq_along(x), labels=as.numeric(names(x)))
+
+### hat values
+hatvalues(res)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>metafor</em> version 3.4-0 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: ODAH derivatives</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for ODAH.derive {pda}"><tr><td>ODAH.derive {pda}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>ODAH derivatives</h2>
+
+<h3>Description</h3>
+
+<p>ODAH derivatives
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+ODAH.derive(ipdata,control,config)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>ipdata</code></td>
+<td>
+<p>individual participant data</p>
+</td></tr>
+<tr valign="top"><td><code>control</code></td>
+<td>
+<p>pda control data</p>
+</td></tr>
+<tr valign="top"><td><code>config</code></td>
+<td>
+<p>local site configuration</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>derivatives list(site = config$site_id, site_size = nrow(ipdata), 
+logL_D1_zero = logL_D1_zero, logL_D1_count = logL_D1_count,
+logL_D2_zero = logL_D2_zero, logL_D2_count = logL_D2_count)
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>pda</em> version 1.2-5 <a href="00Index.html">Index</a>]</div>
+</body></html>

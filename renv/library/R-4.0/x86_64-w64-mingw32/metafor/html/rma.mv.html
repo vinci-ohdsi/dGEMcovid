@@ -1,0 +1,525 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Meta-Analysis via Multivariate/Multilevel Linear...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for rma.mv {metafor}"><tr><td>rma.mv {metafor}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Meta-Analysis via Multivariate/Multilevel Linear (Mixed-Effects) Models</h2>
+
+<h3>Description</h3>
+
+<p>Function to fit meta-analytic multivariate/multilevel fixed- and random/mixed-effects models with or without moderators via linear (mixed-effects) models. See below and the introduction to the <span class="pkg"><a href="metafor-package.html">metafor-package</a></span> for more details on these models. <script id="MathJax-script" async src="../../mathjaxr/doc/mathjax/es5/tex-chtml-full.js"></script>
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+rma.mv(yi, V, W, mods, random, struct="CS", intercept=TRUE,
+       data, slab, subset, method="REML", test="z", dfs="residual",
+       level=95, digits, btt, R, Rscale="cor",
+       sigma2, tau2, rho, gamma2, phi,
+       cvvc=FALSE, sparse=FALSE, verbose=FALSE, control, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>yi</code></td>
+<td>
+<p>vector of length \(k\) with the observed effect sizes or outcomes. See &lsquo;Details&rsquo;.</p>
+</td></tr>
+<tr valign="top"><td><code>V</code></td>
+<td>
+<p>vector of length \(k\) with the corresponding sampling variances or a \(k \times k\) variance-covariance matrix of the sampling errors. See &lsquo;Details&rsquo;.</p>
+</td></tr>
+<tr valign="top"><td><code>W</code></td>
+<td>
+<p>optional argument to specify a vector of length \(k\) with user-defined weights or a \(k \times k\) user-defined weight matrix. See &lsquo;Details&rsquo;.</p>
+</td></tr>
+<tr valign="top"><td><code>mods</code></td>
+<td>
+<p>optional argument to include one or more moderators in the model. A single moderator can be given as a vector of length \(k\) specifying the values of the moderator. Multiple moderators are specified by giving a matrix with \(k\) rows and as many columns as there are moderator variables. Alternatively, a model <code><a href="formula.rma.html">formula</a></code> can be used to specify the model. See &lsquo;Details&rsquo;.</p>
+</td></tr>
+<tr valign="top"><td><code>random</code></td>
+<td>
+<p>either a single one-sided formula or list of one-sided formulas to specify the random-effects structure of the model. See &lsquo;Details&rsquo;.</p>
+</td></tr>
+<tr valign="top"><td><code>struct</code></td>
+<td>
+<p>character string to specify the variance structure of an <code>~ inner | outer</code> formula in the <code>random</code> argument. Either <code>"CS"</code> for compound symmetry, <code>"HCS"</code> for heteroscedastic compound symmetry, <code>"UN"</code> or <code>"GEN"</code> for an unstructured variance-covariance matrix, <code>"ID"</code> for a scaled identity matrix, <code>"DIAG"</code> for a diagonal matrix, <code>"AR"</code> for an AR(1) autoregressive structure, <code>"HAR"</code> for a heteroscedastic AR(1) autoregressive structure, <code>"CAR"</code> for a continuous-time autoregressive structure, or one of <code>"SPEXP"</code>, <code>"SPGAU"</code>, <code>"SPLIN"</code>, <code>"SPRAT"</code>, or <code>"SPSPH"</code> for one of the spatial correlation structures. See &lsquo;Details&rsquo;.</p>
+</td></tr>
+<tr valign="top"><td><code>intercept</code></td>
+<td>
+<p>logical to specify whether an intercept should be added to the model (the default is <code>TRUE</code>). Ignored when <code>mods</code> is a formula.</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>optional data frame containing the data supplied to the function.</p>
+</td></tr>
+<tr valign="top"><td><code>slab</code></td>
+<td>
+<p>optional vector with labels for the \(k\) outcomes/studies.</p>
+</td></tr>
+<tr valign="top"><td><code>subset</code></td>
+<td>
+<p>optional (logical or numeric) vector to specify the subset of studies (or more precisely, rows of the dataset) that should be used for the analysis.</p>
+</td></tr>
+<tr valign="top"><td><code>method</code></td>
+<td>
+<p>character string to specify whether the model should be fitted via maximum likelihood (<code>"ML"</code>) or via restricted maximum likelihood (<code>"REML"</code>) estimation. Default is <code>"REML"</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>test</code></td>
+<td>
+<p>character string to specify how test statistics and confidence intervals for the fixed effects should be computed. By default (<code>test="z"</code>), Wald-type tests and CIs are obtained, which are based on a standard normal distribution. When <code>test="t"</code>, a t-distribution is used instead. See &lsquo;Details&rsquo; and also <a href="misc-recs.html">here</a>.</p>
+</td></tr>
+<tr valign="top"><td><code>dfs</code></td>
+<td>
+<p>character string to specify how the (denominator) degrees of freedom should be calculated when <code>test="t"</code>. Either <code>dfs="residual"</code> or <code>dfs="contain"</code>. Can also be a numeric vector with the degrees of freedom for each model coefficient. See &lsquo;Details&rsquo;.</p>
+</td></tr>
+<tr valign="top"><td><code>level</code></td>
+<td>
+<p>numeric value between 0 and 100 to specify the confidence interval level (the default is 95).</p>
+</td></tr>
+<tr valign="top"><td><code>digits</code></td>
+<td>
+<p>optional integer to specify the number of decimal places to which the printed results should be rounded. If unspecified, the default is 4. See also <a href="misc-options.html">here</a> for further details on how to control the number of digits in the output.</p>
+</td></tr>
+<tr valign="top"><td><code>btt</code></td>
+<td>
+<p>optional vector of indices to specify which coefficients to include in the omnibus test of moderators. Can also be a string to <code><a href="../../base/html/grep.html">grep</a></code> for. See &lsquo;Details&rsquo;.</p>
+</td></tr>
+<tr valign="top"><td><code>R</code></td>
+<td>
+<p>an optional named list of known correlation matrices corresponding to (some of) the components specified via the <code>random</code> argument. See &lsquo;Details&rsquo;.</p>
+</td></tr>
+<tr valign="top"><td><code>Rscale</code></td>
+<td>
+<p>character string, integer, or logical to specify how matrices specified via the <code>R</code> argument should be scaled. See &lsquo;Details&rsquo;.</p>
+</td></tr>
+<tr valign="top"><td><code>sigma2</code></td>
+<td>
+<p>optional numeric vector (of the same length as the number of random intercept components specified via the <code>random</code> argument) to fix the corresponding \(\sigma^2\) value(s). A specific \(\sigma^2\) value can be fixed by setting the corresponding element of this argument to the desired value. A specific \(\sigma^2\) value will be estimated if the corresponding element is set equal to <code>NA</code>. See &lsquo;Details&rsquo;.</p>
+</td></tr>
+<tr valign="top"><td><code>tau2</code></td>
+<td>
+<p>optional numeric value (for <code>struct="CS"</code>, <code>"AR"</code>, <code>"CAR"</code>, or a spatial correlation structure) or vector (for <code>struct="HCS"</code>, <code>"UN"</code>, or <code>"HAR"</code>) to fix the amount of (residual) heterogeneity for the levels of the <code>inner</code> factor corresponding to an <code>~ inner | outer</code> formula specified in the <code>random</code> argument. A numeric value fixes a particular \(\tau^2\) value, while <code>NA</code> means that the value should be estimated. See &lsquo;Details&rsquo;.</p>
+</td></tr>
+<tr valign="top"><td><code>rho</code></td>
+<td>
+<p>optional numeric value (for <code>struct="CS"</code>, <code>"HCS"</code>, <code>"AR"</code>, <code>"HAR"</code>, <code>"CAR"</code>, or a spatial correlation structure) or vector (for <code>struct="UN"</code>) to fix the correlation between the levels of the <code>inner</code> factor corresponding to an <code>~ inner | outer</code> formula specified in the <code>random</code> argument. A numeric value fixes a particular \(\rho\) value, while <code>NA</code> means that the value should be estimated. See &lsquo;Details&rsquo;.</p>
+</td></tr>
+<tr valign="top"><td><code>gamma2</code></td>
+<td>
+<p>as <code>tau2</code> argument, but for a second <code>~ inner | outer</code> formula specified in the <code>random</code> argument. See &lsquo;Details&rsquo;.</p>
+</td></tr>
+<tr valign="top"><td><code>phi</code></td>
+<td>
+<p>as <code>rho</code> argument, but for a second <code>~ inner | outer</code> formula specified in the <code>random</code> argument. See &lsquo;Details&rsquo;.</p>
+</td></tr>
+<tr valign="top"><td><code>cvvc</code></td>
+<td>
+<p>logical to specify whether to calculate the variance-covariance matrix of the variance/correlation component estimates (can also be set to <code>"varcov"</code> or <code>"varcor"</code>). See &lsquo;Details&rsquo;.</p>
+</td></tr>
+<tr valign="top"><td><code>sparse</code></td>
+<td>
+<p>logical to specify whether the function should use sparse matrix objects to the extent possible (can speed up model fitting substantially for certain models). See &lsquo;Note&rsquo;.</p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p>logical to specify whether output should be generated on the progress of the model fitting (the default is <code>FALSE</code>). Can also be an integer. Values &gt; 1 generate more verbose output. See &lsquo;Note&rsquo;.</p>
+</td></tr>
+<tr valign="top"><td><code>control</code></td>
+<td>
+<p>optional list of control values for the estimation algorithms. If unspecified, default values are defined inside the function. See &lsquo;Note&rsquo;.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>additional arguments.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+
+
+<h4>Specifying the Data</h4>
+
+<p>The function can be used in combination with any of the usual effect size or outcome measures used in meta-analyses (e.g., log risk ratios, log odds ratios, risk differences, mean differences, standardized mean differences, log transformed ratios of means, raw correlation coefficients, correlation coefficients transformed with Fisher's r-to-z transformation), or, more generally, any set of estimates (with corresponding sampling variances) one would like to meta-analyze. Simply specify the observed effect sizes or outcomes via the <code>yi</code> argument and the corresponding sampling variances via the <code>V</code> argument. In case the sampling errors are correlated, then one can specify the entire variance-covariance matrix of the sampling errors via the <code>V</code> argument.
+</p>
+<p>The <code><a href="escalc.html">escalc</a></code> function can be used to compute a wide variety of effect size or outcome measures (and the corresponding sampling variances) based on summary statistics. Equations for computing the covariance between the sampling errors for a variety of different effect size or outcome measures can be found, for example, in Gleser and Olkin (2009), Lajeunesse (2011), and Wei and Higgins (2013). For raw and Fisher r-to-z transformed correlations, one can find suitable equations, for example, in Steiger (1980). The latter are implemented in the <code><a href="rcalc.html">rcalc</a></code> function. See also <code><a href="vcalc.html">vcalc</a></code> for a function that can be used to construct or approximate the variance-covariance matrix of dependent effect sizes or outcomes for a wide variety of circumstances. See also <a href="misc-recs.html">here</a> for some recommendations on a general workflow for meta-analyses involving complex dependency structures.
+</p>
+
+
+
+<h4>Specifying Fixed Effects</h4>
+
+<p>With <code>rma.mv(yi, V)</code>, a fixed-effects model is fitted to the data (note: arguments <code>struct</code>, <code>sigma2</code>, <code>tau2</code>, <code>rho</code>, <code>gamma2</code>, <code>phi</code>, <code>R</code>, and <code>Rscale</code> are not relevant then and are ignored). The model is then simply given by \(y \sim N(\theta, V)\), where \(y\) is a (column) vector with the observed outcomes, \(\theta\) is the (average) true outcome, and \(V\) is the variance-covariance matrix of the sampling errors (if a vector of sampling variances is provided via the <code>V</code> argument, then \(V\) is assumed to be diagonal). Note that the argument is <code>V</code>, not <code>v</code> (<span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> is case sensitive!).
+</p>
+<p>One or more moderators can be included in the model via the <code>mods</code> argument. A single moderator can be given as a (row or column) vector of length \(k\) specifying the values of the moderator. Multiple moderators are specified by giving an appropriate model matrix (i.e., \(X\)) with \(k\) rows and as many columns as there are moderator variables (e.g., <code>mods = cbind(mod1, mod2, mod3)</code>, where <code>mod1</code>, <code>mod2</code>, and <code>mod3</code> correspond to the names of the variables for the three moderator variables). The intercept is added to the model matrix by default unless <code>intercept=FALSE</code>.
+</p>
+<p>Alternatively, one can use standard <code><a href="formula.rma.html">formula</a></code> syntax to specify the model. In this case, the <code>mods</code> argument should be set equal to a one-sided formula of the form <code>mods = ~ model</code> (e.g., <code>mods = ~ mod1 + mod2 + mod3</code>). Interactions, polynomial terms, and factors can be easily added to the model in this manner. When specifying a model formula via the <code>mods</code> argument, the <code>intercept</code> argument is ignored. Instead, the inclusion/exclusion of the intercept is controlled by the specified formula (e.g., <code>mods = ~ mod1 + mod2 + mod3 - 1</code> would lead to the removal of the intercept). One can also directly specify moderators via the <code>yi</code> argument (e.g., <code>rma.mv(yi ~ mod1 + mod2 + mod3, V)</code>). In that case, the <code>mods</code> argument is ignored and the inclusion/exclusion of the intercept again is controlled by the specified formula.
+</p>
+<p>With moderators included, the model is then given by \(y \sim N(X \beta, V)\), where \(X\) denotes the model matrix containing the moderator values (and possibly the intercept) and \(\beta\) is a column vector containing the corresponding model coefficients. The model coefficients (i.e., \(\beta\)) are then estimated with \(b = (X'WX')^{-1} X'Wy\), where \(W = V^{-1}\) is the weight matrix (without moderators, \(X\) is just a column vector of 1's). With the <code>W</code> argument, one can also specify user-defined weights (or a weight matrix).
+</p>
+
+
+
+<h4>Specifying Random Effects</h4>
+
+<p>One can fit random/mixed-effects models to the data by specifying the desired random effects structure via the <code>random</code> argument. The <code>random</code> argument is either a single one-sided formula or a list of one-sided formulas. One formula type that can be specified via this argument is of the form <code>random = ~ 1 | id</code>. Such a formula adds a random effect corresponding to the grouping variable <code>id</code> to the model. Outcomes with the same value of the <code>id</code> variable receive the same value of the random effect, while outcomes with different values of the <code>id</code> variable are assumed to be independent. The variance component corresponding to such a formula is denoted by \(\sigma^2\). An arbitrary number of such formulas can be specified as a list of formulas (e.g., <code>random = list(~ 1 | id1, ~ 1 | id2)</code>), with variance components \(\sigma^2_1\), \(\sigma^2_2\), and so on. Nested random effects of this form can also be added using <code>random = ~ 1 | id1/id2</code>, which adds a random effect corresponding to the grouping variable <code>id1</code> and a random effect corresponding to <code>id2</code> within <code>id1</code> to the model. This can be extended to models with even more levels of nesting (e.g., <code>random = ~ 1 | id1/id2/id3</code>).
+</p>
+<p>Random effects of this form are useful to model clustering (and hence non-independence) induced by a multilevel structure in the data (e.g., outcomes derived from the same paper, lab, research group, or species may be more similar to each other than outcomes derived from different papers, labs, research groups, or species). See, for example, Konstantopoulos (2011) and Nakagawa and Santos (2012) for more details.
+</p>
+<p>See <code><a href="../../metadat/html/dat.konstantopoulos2011.html">dat.konstantopoulos2011</a></code>, <code><a href="../../metadat/html/dat.bornmann2007.html">dat.bornmann2007</a></code>, <code><a href="../../metadat/html/dat.obrien2003.html">dat.obrien2003</a></code>, and <code><a href="../../metadat/html/dat.crede2010.html">dat.crede2010</a></code> for examples of multilevel meta-analyses.
+</p>
+<p>In addition or alternatively to specifying one or multiple <code>~ 1 | id</code> terms, the <code>random</code> argument can also contain a formula of the form <code>~ inner | outer</code>. Outcomes with the same value of the <code>outer</code> grouping variable share correlated random effects corresponding to the levels of the <code>inner</code> grouping variable, while outcomes with different values of the <code>outer</code> grouping variable are assumed to be independent (note that the <code>inner</code> variable is automatically treated as a factor). The <code>struct</code> argument is used to specify the variance structure corresponding to the <code>inner</code> variable. With <code>struct="CS"</code>, a compound symmetric structure is assumed (i.e., a single variance component \(\tau^2\) corresponding to the \(j = 1, \ldots, J\) levels of the <code>inner</code> variable and a single correlation coefficient \(\rho\) for the correlation between the different levels). With <code>struct="HCS"</code>, a heteroscedastic compound symmetric structure is assumed (with \(\tau^2_j\) denoting the variance component corresponding to the \(j\textrm{th}\) level of the <code>inner</code> variable and a single correlation coefficient \(\rho\) for the correlation between the different levels). With <code>struct="UN"</code>, an unstructured (but positive definite) variance-covariance matrix is assumed (with \(\tau^2_j\) as described above and correlation coefficient \(\rho_{jj'}\) for the combination of the \(j\textrm{th}\) and \(j'\textrm{th}\) level of the <code>inner</code> variable). For example, for an <code>inner</code> variable with four levels, the three structures correspond to variance-covariance matrices of the form:
+</p>
+\[\begin{array}{ccc}\texttt{struct="CS"} & \texttt{struct="HCS"} & \texttt{struct="UN"} \\ \begin{bmatrix} \tau^2 & & & \\ \rho\tau^2 & \tau^2 & & \\ \rho\tau^2 & \rho\tau^2 & \tau^2 & \\ \rho\tau^2 & \rho\tau^2 & \rho\tau^2 & \tau^2 \end{bmatrix} & \begin{bmatrix} \tau_1^2 & & & \\ \rho\tau_2\tau_1 & \tau_2^2 & & \\ \rho\tau_3\tau_1 & \rho\tau_3\tau_2 & \tau_3^2 & \\ \rho\tau_4\tau_1 & \rho\tau_4\tau_2 & \rho\tau_4\tau_3 & \tau_4^2 \end{bmatrix} & \begin{bmatrix} \tau_1^2 & & & \\ \rho_{21}\tau_2\tau_1 & \tau_2^2 & & \\ \rho_{31}\tau_3\tau_1 & \rho_{32}\tau_3\tau_2 & \tau_3^2 & \\ \rho_{41}\tau_4\tau_1 & \rho_{42}\tau_4\tau_2 & \rho_{43}\tau_4\tau_3 & \tau_4^2 \end{bmatrix} \end{array}\]
+<p>Structures <code>struct="ID"</code> and <code>struct="DIAG"</code> are just like <code>struct="CS"</code> and <code>struct="HCS"</code>, respectively, except that \(\rho\) is set to 0, so that we either get a scaled identity matrix or a diagonal matrix.
+</p>
+<p>With the <code>outer</code> term corresponding to a study identification variable and the <code>inner</code> term to a variable indicating the treatment type or study arm, such a random effect could be used to estimate how strongly different treatment effects or outcomes within the same study are correlated and/or whether the amount of heterogeneity differs across different treatment types/arms. Network meta-analyses (also known as mixed treatment comparisons) will also typically require such a random effect (e.g., Salanti et al., 2008). The meta-analytic bivariate model (e.g., van Houwelingen, Arends, &amp; Stijnen, 2002) can also be fitted in this manner (see the examples below). The <code>inner</code> term could also correspond to a variable indicating different types of outcomes measured within the same study, which allows for fitting multivariate models with multiple correlated effects/outcomes per study (e.g., Berkey et al., 1998; Kalaian &amp; Raudenbush, 1996).
+</p>
+<p>See <code><a href="../../metadat/html/dat.berkey1998.html">dat.berkey1998</a></code>, <code><a href="../../metadat/html/dat.assink2016.html">dat.assink2016</a></code>, <code><a href="../../metadat/html/dat.kalaian1996.html">dat.kalaian1996</a></code>, <code><a href="../../metadat/html/dat.dagostino1998.html">dat.dagostino1998</a></code>, and <code><a href="../../metadat/html/dat.craft2003.html">dat.craft2003</a></code> for examples of multivariate meta-analyses with multiple outcomes. See <code><a href="../../metadat/html/dat.knapp2017.html">dat.knapp2017</a></code>, <code><a href="../../metadat/html/dat.mccurdy2020.html">dat.mccurdy2020</a></code>, and <code><a href="../../metadat/html/dat.tannersmith2016.html">dat.tannersmith2016</a></code> for further examples of multilevel/multivariate models with complex data structures (see also <a href="misc-recs.html">here</a> for a related discussion of a recommended workflow for such cases). See <code><a href="../../metadat/html/dat.kearon1998.html">dat.kearon1998</a></code> for an example using a bivariate model to analyze sensitivity and specificity. See <code><a href="../../metadat/html/dat.hasselblad1998.html">dat.hasselblad1998</a></code>, <code><a href="../../metadat/html/dat.pagliaro1992.html">dat.pagliaro1992</a></code>, <code><a href="../../metadat/html/dat.lopez2019.html">dat.lopez2019</a></code>, and <code><a href="../../metadat/html/dat.senn2013.html">dat.senn2013</a></code> for examples of network meta-analyses.
+</p>
+<p>For meta-analyses of studies reporting outcomes at multiple time points, it may also be reasonable to assume that the true effects/outcomes are correlated over time according to an autoregressive structure (Ishak et al., 2007; Trikalinos &amp; Olkin, 2012). For this purpose, one can choose <code>struct="AR"</code>, corresponding to a structure with a single variance component \(\tau^2\) and AR(1) autocorrelation among the values of the random effect. The values of the <code>inner</code> variable should then reflect the various time points, with increasing values reflecting later time points. This structure assumes equally spaced time points, so the actual values of the <code>inner</code> variable are not relevant, only their ordering. One can also use <code>struct="HAR"</code>, which allows for fitting a heteroscedastic AR(1) structure (with \(\tau^2_j\) denoting the variance component of the \(j\textrm{th}\) measurement occasion). Finally, when time points are not evenly spaced, one might consider using <code>struct="CAR"</code> for a continuous-time autoregressive structure, in which case the values of the <code>inner</code> variable should reflect the exact time points of the measurement occasions. For example, for an <code>inner</code> variable with four time points, these structures correspond to variance-covariance matrices of the form:
+</p>
+\[\begin{array}{ccc}\texttt{struct="AR"} & \texttt{struct="HAR"} & \texttt{struct="CAR"} \\ \begin{bmatrix} \tau^2 & & & \\ \rho\tau^2 & \tau^2 & & \\ \rho^2\tau^2 & \rho\tau^2 & \tau^2 & \\ \rho^3\tau^2 & \rho^2\tau^2 & \rho\tau^2 & \tau^2 \end{bmatrix} & \begin{bmatrix} \tau_1^2 & & & \\ \rho\tau_2\tau_1 & \tau_2^2 & & \\ \rho^2\tau_3\tau_1 & \rho\tau_3\tau_2 & \tau_3^2 & \\ \rho^3\tau_4\tau_1 & \rho^2\tau_4\tau_2 & \rho\tau_4\tau_3 & \tau_4^2 \end{bmatrix} & \begin{bmatrix} \tau^2 & & & \\ \rho^{|t_2-t_1|}\tau^2 & \tau^2 & & \\ \rho^{|t_3-t_1|}\tau^2 & \rho^{|t_3-t_2|}\tau^2 & \tau^2 & \\ \rho^{|t_4-t_1|}\tau^2 & \rho^{|t_4-t_2|}\tau^2 & \rho^{|t_4-t_3|}\tau^2 & \tau^2 \end{bmatrix} \end{array}\]
+<p>See <code><a href="../../metadat/html/dat.fine1993.html">dat.fine1993</a></code> and <code><a href="../../metadat/html/dat.ishak2007.html">dat.ishak2007</a></code> for examples involving such structures.
+</p>
+<p>For outcomes that have a known spatial configuration, various spatial correlation structures are also available. For these structures, the formula is of the form <code>random = ~ var1 + var2 + ... | outer</code>, where <code>var1</code>, <code>var2</code>, and so on are variables to indicate the spatial coordinates (e.g., longitude and latitude) based on which distances (by default Euclidean) will be computed. Let \(d\) denote the distance between two points that share the same value of the <code>outer</code> variable (if all true effects/outcomes are allowed to be spatially correlated, simply set <code>outer</code> to a variable that is a constant). Then the correlation between the true effects/outcomes corresponding to these two points is a function of \(d\) and the parameter \(\rho\). The following table shows the types of spatial correlation structures that can be specified and the equations for the correlation. The covariance between the true effects/outcomes is then the correlation times \(\tau^2\).
+</p>
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: left;">
+      structure          </td><td style="text-align: left;"> &emsp; </td><td style="text-align: left;"> <code>struct</code>  </td><td style="text-align: left;"> &emsp; </td><td style="text-align: left;"> correlation </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+      exponential        </td><td style="text-align: left;"> &emsp; </td><td style="text-align: left;"> <code>"SPEXP"</code> </td><td style="text-align: left;"> &emsp; </td><td style="text-align: left;"> \(\exp(-d/\rho)\) </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+      Gaussian           </td><td style="text-align: left;"> &emsp; </td><td style="text-align: left;"> <code>"SPGAU"</code> </td><td style="text-align: left;"> &emsp; </td><td style="text-align: left;"> \(\exp(-d^2/\rho^2)\) </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+      linear             </td><td style="text-align: left;"> &emsp; </td><td style="text-align: left;"> <code>"SPLIN"</code> </td><td style="text-align: left;"> &emsp; </td><td style="text-align: left;"> \((1 - d/\rho) I(d < \rho)\) </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+      rational quadratic </td><td style="text-align: left;"> &emsp; </td><td style="text-align: left;"> <code>"SPRAT"</code> </td><td style="text-align: left;"> &emsp; </td><td style="text-align: left;"> \(1 - (d/\rho)^2 / (1 + (d/\rho)^2)\) </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+      spherical          </td><td style="text-align: left;"> &emsp; </td><td style="text-align: left;"> <code>"SPSPH"</code> </td><td style="text-align: left;"> &emsp; </td><td style="text-align: left;"> \((1 - 1.5(d/\rho) + 0.5(d/\rho)^3) I(d < \rho)\)
+      </td>
+</tr>
+
+</table>
+<p> Note that \(I(d < \rho)\) is equal to \(1\) if \(d < \rho\) and \(0\) otherwise. The parameterization of the various structures is based on Pinheiro and Bates (2000). Instead of Euclidean distances, one can also use other distance measures by setting (the undocumented) argument <code>dist</code> to either <code>"maximum"</code> for the maximum distance between two points (supremum norm), to <code>"manhattan"</code> for the absolute distance between the coordinate vectors (L1 norm), or to <code>"gcd"</code> for the great-circle distance (WGS84 ellipsoid method). In the latter case, only two variables, namely the longitude and latitude (in decimal degrees, with minus signs for West and South), must be specified.
+</p>
+<p>If a distance matrix has already been computed, one can also pass this matrix as a list element to the <code>dist</code> argument. In this case, one should use a formula of the form <code>random = ~ id | outer</code>, where <code>id</code> are location identifiers, with corresponding row/column names in the distance matrix specified via the <code>dist</code> argument.
+</p>
+<p>See <code><a href="../../metadat/html/dat.maire2019.html">dat.maire2019</a></code> for an example of a meta-analysis with a spatial correlation structure.
+</p>
+<p>An <code>~ inner | outer</code> formula can also be used to add random effects to the model corresponding to a set of predictor variables when <code>struct="GEN"</code>. Here, the <code>inner</code> term is used to specify one or multiple variables (e.g., <code>random = ~ var1 + var2 | outer</code>) and corresponding &lsquo;random slopes&rsquo; are added to the model (and a &lsquo;random intercept&rsquo; unless the intercept is removed from the <code>inner</code> term). The variance-covariance matrix of the random effects added in this manner is assumed to be a general unstructured (but positive definite) matrix. Such a random effects structure may be useful in a meta-analysis examining the dose-response relationship between a moderator variable and the size of the true effects/outcomes (sometimes called a &lsquo;dose-response meta-analysis&rsquo;).
+</p>
+<p>See <code><a href="../../metadat/html/dat.obrien2003.html">dat.obrien2003</a></code> for an example of a meta-analysis examining a dose-response relationship.
+</p>
+<p>The <code>random</code> argument can also contain a second formula of the form <code>~ inner | outer</code> (but no more!). A second formula of this form works exactly described as above, but its variance components are denoted by \(\gamma^2\) and its correlation components by \(\phi\). The <code>struct</code> argument should then be of length 2 to specify the variance-covariance structure for the first and second component, respectively.
+</p>
+<p>When the <code>random</code> argument contains a formula of the form <code>~ 1 | id</code>, one can use the (optional) argument <code>R</code> to specify a corresponding known correlation matrix for the random effect (i.e., <code>R = list(id = Cor)</code>, where <code>Cor</code> is the correlation matrix). In that case, outcomes with the same value of the <code>id</code> variable receive the same value for the random effect, while outcomes with different values of the <code>id</code> variable receive values that are correlated as specified in the corresponding correlation matrix given via the <code>R</code> argument. The column/row names of the correlation matrix given via the <code>R</code> argument must therefore correspond to the unique values of the <code>id</code> variable. When the <code>random</code> argument contains multiple formulas of the form <code>~ 1 | id</code>, one can specify known correlation matrices for none, some, or all of those terms (e.g., with <code>random = list(~ 1 | id1, ~ 1 | id2)</code>, one could specify <code>R = list(id1 = Cor1)</code> or <code>R = list(id1 = Cor1, id2 = Cor2)</code>, where <code>Cor1</code> and <code>Cor2</code> are the correlation matrices corresponding to the grouping variables <code>id1</code> and <code>id2</code>, respectively).
+</p>
+<p>Such a random effect with a known (or at least approximately known) correlation structure is useful in a variety of contexts. For example, such a component can be used to account for the correlations induced by the shared phylogenetic history among organisms (e.g., plants, fungi, animals). In that case, <code>~ 1 | species</code> is used to specify the species and argument <code>R</code> is used to specify the phylogenetic correlation matrix of the species studied in the meta-analysis. The corresponding variance component then indicates how much variance/heterogeneity is attributable to the specified phylogeny. See Nakagawa and Santos (2012) for more details. As another example, in a genetic meta-analysis studying disease association for several single nucleotide polymorphisms (SNPs), linkage disequilibrium (LD) among the SNPs can induce an approximately known degree of correlation among the effects/outcomes. In that case, <code>~ 1 | snp</code> could be used to specify the SNPs and <code>R</code> the corresponding LD correlation matrix for the SNPs included in the meta-analysis.
+</p>
+<p>The <code>Rscale</code> argument controls how matrices specified via the <code>R</code> argument are scaled. With <code>Rscale="none"</code> (or <code>Rscale=0</code> or <code>Rscale=FALSE</code>), no scaling is used. With <code>Rscale="cor"</code> (or <code>Rscale=1</code> or <code>Rscale=TRUE</code>), the <code><a href="../../stats/html/cor.html">cov2cor</a></code> function is used to ensure that the matrices are correlation matrices (assuming they were covariance matrices to begin with). With <code>Rscale="cor0"</code> (or <code>Rscale=2</code>), first <code><a href="../../stats/html/cor.html">cov2cor</a></code> is used and then the elements of each correlation matrix are scaled with \((R - \min(R)) / (1 - \min(R))\) (this ensures that a correlation of zero in a phylogenetic correlation matrix corresponds to the split at the root node of the tree comprising the species that are actually analyzed). Finally, <code>Rscale="cov0"</code> (or <code>Rscale=3</code>) only rescales with \(R - \min(R)\) (which ensures that a phylogenetic covariance matrix is rooted at the lowest split).
+</p>
+<p>See <code><a href="../../metadat/html/dat.moura2021.html">dat.moura2021</a></code> and <code><a href="../../metadat/html/dat.lim2014.html">dat.lim2014</a></code> for examples of meta-analyses with phylogenetic correlation structures.
+</p>
+<p>Together with the variance-covariance matrix of the sampling errors (i.e., \(V\)), the specified random effects structure of the model implies a particular &lsquo;marginal&rsquo; variance-covariance matrix of the observed effect sizes or outcomes. Once estimates of the variance components (i.e., of the \(\sigma^2\), \(\tau^2\), \(\rho\), \(\gamma^2\), and/or \(\phi\) values) have been obtained (either using maximum likelihood or restricted maximum likelihood estimation), the estimated marginal variance-covariance matrix can be constructed (denoted by \(M\)). The model coefficients (i.e., \(\beta\)) are then estimated with \(b = (X'WX')^{-1} X'Wy\), where \(W = M^{-1}\) is the weight matrix. With the <code>W</code> argument, one can again specify user-defined weights (or a weight matrix).
+</p>
+
+
+
+<h4>Fixing Variance/Correlation Components</h4>
+
+<p>Arguments <code>sigma2</code>, <code>tau2</code>, <code>rho</code>, <code>gamma2</code>, and <code>phi</code> can be used to fix particular variance/correlation components at a given value. This is useful for sensitivity analyses (e.g., for plotting the regular/restricted log-likelihood as a function of a particular variance/correlation component), likelihood ratio tests, or for imposing a desired variance-covariance structure on the data.
+</p>
+<p>For example, if <code>random = list(~ 1 | id1, ~ 1 | id2)</code> or <code>random = ~ 1 | id1/id2</code>, then <code>sigma2</code> must be of length 2 (corresponding to \(\sigma^2_1\) and \(\sigma^2_2\)) and a fixed value can be assigned to either or both variance components. Setting a particular component to <code>NA</code> means that the component will be estimated by the function (e.g., <code>sigma2=c(0,NA)</code> would fix \(\sigma^2_1\) to 0 and estimate \(\sigma^2_2\)).
+</p>
+<p>Argument <code>tau2</code> is only relevant when the <code>random</code> argument contains an <code>~ inner | outer</code> formula. In that case, if the <code>tau2</code> argument is used, it must be either of length 1 (for <code>"CS"</code>, <code>"ID"</code>, <code>"AR"</code>, <code>"CAR"</code>, or one of the spatial correlation structures) or of the same length as the number of unique values of the <code>inner</code> variable (for <code>"HCS"</code>, <code>"DIAG"</code>, <code>"UN"</code>, or <code>"HAR"</code>). A numeric value in the <code>tau2</code> argument then fixes the corresponding variance component to that value, while <code>NA</code> means that the component will be estimated. Similarly, if argument <code>rho</code> is used, it must be either of length 1 (for <code>"CS"</code>, <code>"HCS"</code>, <code>"AR"</code>, <code>"HAR"</code>, or one of the spatial correlation structures) or of length \(J(J-1)/2\) (for <code>"UN"</code>), where \(J\) denotes the number of unique values of the <code>inner</code> variable. Again, a numeric value fixes the corresponding correlation, while <code>NA</code> means that the correlation will be estimated. For example, with <code>struct="CS"</code> and <code>rho=0</code>, the variance-covariance matrix of the <code>inner</code> variable will be diagonal with \(\tau^2\) along the diagonal. For <code>struct="UN"</code>, the values specified under <code>rho</code> should be given in column-wise order (e.g., for an <code>inner</code> variable with four levels, the order would be \(\rho_{21}\), \(\rho_{31}\), \(\rho_{41}\), \(\rho_{32}\), \(\rho_{42}\), \(\rho_{43}\)).
+</p>
+<p>Similarly, arguments <code>gamma2</code> and <code>phi</code> are only relevant when the <code>random</code> argument contains a second <code>~ inner | outer</code> formula. The arguments then work exactly as described above.
+</p>
+
+
+
+<h4>Omnibus Test of Moderators</h4>
+
+<p>For models including moderators, an omnibus test of all model coefficients is conducted that excludes the intercept (the first coefficient) if it is included in the model. If no intercept is included in the model, then the omnibus test includes all coefficients in the model including the first. Alternatively, one can manually specify the indices of the coefficients to test via the <code>btt</code> (&lsquo;betas to test&rsquo;) argument (i.e., to test \(\mbox{H}_0{:}\; \beta_{j \in H_0} = 0\), where \(\beta_{j \in H_0}\) is the set of coefficients to be tested). For example, with <code>btt=c(3,4)</code>, only the third and fourth coefficient from the model would be included in the test (if an intercept is included in the model, then it corresponds to the first coefficient in the model). Instead of specifying the coefficient numbers, one can specify a string for <code>btt</code>. In that case, <code><a href="../../base/html/grep.html">grep</a></code> will be used to search for all coefficient names that match the string. The omnibus test is called the \(Q_M\)-test and follows, under the assumptions of the model, a chi-square distribution with \(m\) degrees of freedom (with \(m\) denoting the number of coefficients tested) under the null hypothesis (that the true value of all coefficients tested is equal to 0).
+</p>
+
+
+
+<h4>Categorical Moderators</h4>
+
+<p>Categorical moderator variables can be included in the model via the <code>mods</code> argument in the same way that appropriately (dummy) coded categorical variables can be included in linear models. One can either do the dummy coding manually or use a model formula together with the <code><a href="../../base/html/factor.html">factor</a></code> function to automate the coding (note that string/character variables in a model formula are automatically converted to factors).
+</p>
+
+
+
+<h4>Tests and Confidence Intervals</h4>
+
+<p>By default, tests of individual coefficients in the model (and the corresponding confidence intervals) are based on a standard normal distribution, while the omnibus test is based on a chi-square distribution (see above). As an alternative, one can set <code>test="t"</code>, in which case tests of individual coefficients and confidence intervals are based on a t-distribution with \(k-p\) degrees of freedom, while the omnibus test then uses an F-distribution with \(m\) and \(k-p\) degrees of freedom (with \(k\) denoting the total number of estimates included in the analysis and \(p\) the total number of model coefficients including the intercept if it is present). Note that <code>test="t"</code> is not the same as <code>test="knha"</code> in <code><a href="rma.uni.html">rma.uni</a></code>, as no adjustment to the standard errors of the estimated coefficients is made.
+</p>
+<p>The method for calculating the (denominator) degrees of freedom described above (which corresponds to <code>dfs="residual"</code>) is quite simplistic and may lead to tests with inflated Type I error rates and confidence intervals that are too narrow on average. As an alternative, one can set <code>dfs="contain"</code> (which automatically also sets <code>test="t"</code>), in which case the degrees of freedom for the test of a particular model coefficient, \(b_j\), are determined by checking whether \(x_j\), the corresponding column of the model matrix \(X\), varies at the level corresponding to a particular random effect in the model. If such a random effect can be found, then the degrees of freedom are set to \(l-p\), where \(l\) denotes the number of unique values of this random effect (i.e., for an <code>~ 1 | id</code> term, the number of unique values of the <code>id</code> variable and for an <code>~ inner | outer</code> term, the number of unique values of the <code>outer</code> variable). If no such random effect can be found, then \(k-p\) is used as the degrees of freedom. For the omnibus F-test, the minimum of the degrees of freedom of all coefficients involved in the test is used as the denominator degrees of freedom. This approach for calculating the degrees of freedom should often lead to tests with better control of the Type I error rate and confidence intervals with closer to nominal coverage rates (see also <a href="misc-recs.html">here</a>).
+</p>
+<p>One can also set <code>dfs</code> to a numeric vector with the desired values for the degrees of freedom for testing the model coefficients (e.g., if some other method for determining the degrees of freedom was used).
+</p>
+
+
+
+<h4>Tests and Confidence Intervals for Variance/Correlation Components</h4>
+
+<p>Depending on the random effects structure specified, the model may include one or multiple variance/correlation components. Profile likelihood confidence intervals for such components can be obtained using the <code><a href="confint.rma.html">confint</a></code> function. Corresponding likelihood ratio tests can be obtained using the <code><a href="anova.rma.html">anova</a></code> function (by comparing two models where the size of the component to be tested is constrained to some null value in the reduced model). It is also always a good idea to examine plots of the (restricted) log-likelihood as a function of the variance/correlation components in the model using the <code><a href="profile.rma.html">profile</a></code> function to check for parameter identifiability (see &lsquo;Note&rsquo;).
+</p>
+
+
+
+<h4>Test for (Residual) Heterogeneity</h4>
+
+<p>A test for (residual) heterogeneity is automatically carried out by the function. Without moderators in the model, this test is the generalized/weighted least squares extension of Cochran's \(Q\)-test, which tests whether the variability in the observed effect sizes or outcomes is larger than one would expect based on sampling variability (and the given covariances among the sampling errors) alone. A significant test suggests that the true effects/outcomes are heterogeneous. When moderators are included in the model, this is the \(Q_E\)-test for residual heterogeneity, which tests whether the variability in the observed effect sizes or outcomes that is not accounted for by the moderators included in the model is larger than one would expect based on sampling variability (and the given covariances among the sampling errors) alone.
+</p>
+
+
+
+<h4>Var-Cov Matrix of the Variance/Correlation Component Estimates</h4>
+
+<p>In some cases, one might want to obtain the variance-covariance matrix of the variance/correlation component estimates (i.e., of the estimated \(\sigma^2\), \(\tau^2\), \(\rho\), \(\gamma^2\), \(\phi\) values). The function will try to calculate this matrix when <code>cvvc=TRUE</code> (or equivalently, when <code>cvvc="varcor"</code>). This is done by inverting the Hessian, which is numerically approximated using the <code><a href="../../numDeriv/html/hessian.html">hessian</a></code> function from the <code>numDeriv</code> package. Note that these computations may not be numerically stable, especially when the estimates are close to their parameter bounds and/or the likelihood surface is relatively flat around its maximum. When <code>struct="UN"</code>, one can also set <code>cvvc="varcov"</code> in which case the variance-covariance matrix is given for the variance and covariance components (instead of the correlation components).
+</p>
+
+
+
+<h3>Value</h3>
+
+<p>An object of class <code>c("rma.mv","rma")</code>. The object is a list containing the following components:
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>beta</code></td>
+<td>
+<p>estimated coefficients of the model.</p>
+</td></tr>
+<tr valign="top"><td><code>se</code></td>
+<td>
+<p>standard errors of the coefficients.</p>
+</td></tr>
+<tr valign="top"><td><code>zval</code></td>
+<td>
+<p>test statistics of the coefficients.</p>
+</td></tr>
+<tr valign="top"><td><code>pval</code></td>
+<td>
+<p>corresponding p-values.</p>
+</td></tr>
+<tr valign="top"><td><code>ci.lb</code></td>
+<td>
+<p>lower bound of the confidence intervals for the coefficients.</p>
+</td></tr>
+<tr valign="top"><td><code>ci.ub</code></td>
+<td>
+<p>upper bound of the confidence intervals for the coefficients.</p>
+</td></tr>
+<tr valign="top"><td><code>vb</code></td>
+<td>
+<p>variance-covariance matrix of the estimated coefficients.</p>
+</td></tr>
+<tr valign="top"><td><code>sigma2</code></td>
+<td>
+<p>estimated \(\sigma^2\) value(s).</p>
+</td></tr>
+<tr valign="top"><td><code>tau2</code></td>
+<td>
+<p>estimated \(\tau^2\) value(s).</p>
+</td></tr>
+<tr valign="top"><td><code>rho</code></td>
+<td>
+<p>estimated \(\rho\) value(s).</p>
+</td></tr>
+<tr valign="top"><td><code>gamma2</code></td>
+<td>
+<p>estimated \(\gamma^2\) value(s).</p>
+</td></tr>
+<tr valign="top"><td><code>phi</code></td>
+<td>
+<p>estimated \(\phi\) value(s).</p>
+</td></tr>
+<tr valign="top"><td><code>k</code></td>
+<td>
+<p>number of observed effect sizes or outcomes included in the analysis.</p>
+</td></tr>
+<tr valign="top"><td><code>p</code></td>
+<td>
+<p>number of coefficients in the model (including the intercept).</p>
+</td></tr>
+<tr valign="top"><td><code>m</code></td>
+<td>
+<p>number of coefficients included in the omnibus test of moderators.</p>
+</td></tr>
+<tr valign="top"><td><code>QE</code></td>
+<td>
+<p>test statistic of the test for (residual) heterogeneity.</p>
+</td></tr>
+<tr valign="top"><td><code>QEp</code></td>
+<td>
+<p>corresponding p-value.</p>
+</td></tr>
+<tr valign="top"><td><code>QM</code></td>
+<td>
+<p>test statistic of the omnibus test of moderators.</p>
+</td></tr>
+<tr valign="top"><td><code>QMp</code></td>
+<td>
+<p>corresponding p-value.</p>
+</td></tr>
+<tr valign="top"><td><code>int.only</code></td>
+<td>
+<p>logical that indicates whether the model is an intercept-only model.</p>
+</td></tr>
+<tr valign="top"><td><code>yi, V, X</code></td>
+<td>
+<p>the vector of outcomes, the corresponding variance-covariance matrix of the sampling errors, and the model matrix.</p>
+</td></tr>
+<tr valign="top"><td><code>M</code></td>
+<td>
+<p>the estimated marginal variance-covariance matrix of the observed effect sizes or outcomes.</p>
+</td></tr>
+<tr valign="top"><td><code>fit.stats</code></td>
+<td>
+<p>a list with the log-likelihood, deviance, AIC, BIC, and AICc values.</p>
+</td></tr>
+<tr valign="top"><td><code>vvc</code></td>
+<td>
+<p>variance-covariance matrix of the variance/correlation component estimates (<code>NA</code> when <code>cvvc=FALSE</code>).</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>some additional elements/values.</p>
+</td></tr>
+</table>
+
+
+<h3>Methods</h3>
+
+<p>The results of the fitted model are formatted and printed with the <code><a href="print.rma.html">print</a></code> function. If fit statistics should also be given, use <code><a href="print.rma.html">summary</a></code> (or use the <code><a href="fitstats.html">fitstats</a></code> function to extract them). Full versus reduced model comparisons in terms of fit statistics and likelihood ratio tests can be obtained with <code><a href="anova.rma.html">anova</a></code>. Wald-type tests for sets of model coefficients or linear combinations thereof can be obtained with the same function. Tests and confidence intervals based on (cluster) robust methods can be obtained with <code><a href="robust.html">robust</a></code>.
+</p>
+<p>Predicted/fitted values can be obtained with <code><a href="predict.rma.html">predict</a></code> and <code><a href="fitted.rma.html">fitted</a></code>. For best linear unbiased predictions, see <code><a href="ranef.html">ranef</a></code>.
+</p>
+<p>The <code><a href="residuals.rma.html">residuals</a></code>, <code><a href="residuals.rma.html">rstandard</a></code>, and <code><a href="residuals.rma.html">rstudent</a></code> functions extract raw and standardized residuals. See <code><a href="influence.rma.mv.html">influence</a></code> for additional model diagnostics (e.g., to determine influential studies). For models with moderators, variance inflation factors can be obtained with <code><a href="vif.html">vif</a></code>.
+</p>
+<p>Confidence intervals for any variance/correlation components in the model can be obtained with <code><a href="confint.rma.html">confint</a></code>.
+</p>
+<p>For random/mixed-effects models, the <code><a href="profile.rma.html">profile</a></code> function can be used to obtain a plot of the (restricted) log-likelihood as a function of a specific variance/correlation component of the model. For models with moderators, <code><a href="regplot.html">regplot</a></code> draws scatter plots / bubble plots, showing the (marginal) relationship between the observed outcomes and a selected moderator from the model.
+</p>
+<p>Other extractor functions include <code><a href="coef.rma.html">coef</a></code>, <code><a href="vcov.rma.html">vcov</a></code>, <code><a href="fitstats.html">logLik</a></code>, <code><a href="fitstats.html">deviance</a></code>, <code><a href="fitstats.html">AIC</a></code>, <code><a href="fitstats.html">BIC</a></code>, <code><a href="influence.rma.mv.html">hatvalues</a></code>, and <code><a href="weights.rma.html">weights</a></code>.
+</p>
+
+
+<h3>Note</h3>
+
+<p>Argument <code>V</code> also accepts a list of variance-covariance matrices for the observed effect sizes or outcomes. From the list elements, the full (block diagonal) variance-covariance matrix is then automatically constructed. For this to work correctly, the list elements must be in the same order as the observed outcomes.
+</p>
+<p>Model fitting is done via numerical optimization over the model parameters. By default, <code><a href="../../stats/html/nlminb.html">nlminb</a></code> is used for the optimization. One can also chose a different optimizer from <code><a href="../../stats/html/optim.html">optim</a></code> via the <code>control</code> argument (e.g., <code>control=list(optimizer="BFGS")</code>). Besides <code><a href="../../stats/html/nlminb.html">nlminb</a></code> and one of the methods from <code><a href="../../stats/html/optim.html">optim</a></code>, one can also choose one of the optimizers from the <code>minqa</code> package (i.e., <code><a href="../../minqa/html/uobyqa.html">uobyqa</a></code>, <code><a href="../../minqa/html/newuoa.html">newuoa</a></code>, or <code><a href="../../minqa/html/bobyqa.html">bobyqa</a></code>), one of the (derivative-free) algorithms from the <code><a href="../../nloptr/html/nloptr.html">nloptr</a></code> package, the Newton-type algorithm implemented in <code><a href="../../stats/html/nlm.html">nlm</a></code>, the various algorithms implemented in the <code>dfoptim</code> package (<code><a href="../../dfoptim/html/hjk.html">hjk</a></code> for the Hooke-Jeeves, <code><a href="../../dfoptim/html/nmk.html">nmk</a></code> for the Nelder-Mead, and <code><a href="../../dfoptim/html/mads.html">mads</a></code> for the Mesh Adaptive Direct Searches (MADS) algorithm), the quasi-Newton type optimizers <code><a href="../../ucminf/html/ucminf.html">ucminf</a></code> and <code><a href="../../lbfgsb3c/html/lbfgsb3c.html">lbfgsb3c</a></code> and the subspace-searching simplex algorithm <code><a href="../../subplex/html/subplex.html">subplex</a></code> from the packages of the same name, the Barzilai-Borwein gradient decent method implemented in <code><a href="../../BB/html/BBoptim.html">BBoptim</a></code>, or the parallelized version of the L-BFGS-B algorithm implemented in <code><a href="../../optimParallel/html/optimParallel.html">optimParallel</a></code> from the package of the same name.
+</p>
+<p>The optimizer name must be given as a character string (i.e., in quotes). Additional control parameters can be specified via the <code>control</code> argument (e.g., <code>control=list(iter.max=1000, rel.tol=1e-8)</code>). For <code><a href="../../nloptr/html/nloptr.html">nloptr</a></code>, the default is to use the BOBYQA implementation from that package with a relative convergence criterion of <code>1e-8</code> on the function value (i.e., log-likelihood), but this can be changed via the <code>algorithm</code> and <code>ftop_rel</code> arguments (e.g., <code>control=list(optimizer="nloptr", algorithm="NLOPT_LN_SBPLX", ftol_rel=1e-6)</code>). For <code><a href="../../optimParallel/html/optimParallel.html">optimParallel</a></code>, the control argument <code>ncpus</code> can be used to specify the number of cores to use for the parallelization (e.g., <code>control=list(optimizer="optimParallel", ncpus=2)</code>). With <code>parallel::detectCores()</code>, one can check on the number of available cores on the local machine.
+</p>
+<p>At the moment, the starting values are not chosen in a terribly clever way and could be far off. As a result, the optimizer may be slow to converge or may even get stuck at a local maximum. One can set the starting values manually for the various variance/correlation components in the model via the <code>control</code> argument by specifying the vectors <code>sigma2.init</code>, <code>tau2.init</code>, <code>rho.init</code>, <code>gamma2.init</code>, and/or <code>phi.init</code> as needed. Especially for complex models, it is a good idea to try out different starting values to make sure that the same estimates are obtained.
+</p>
+<p>Information on the progress of the optimization algorithm can be obtained by setting <code>verbose=TRUE</code> (this won't work when using parallelization). Since fitting complex models with many random effects can be computationally expensive, this option is useful to determine how the model fitting is progressing. One can also set <code>verbose</code> to an integer (<code>verbose=2</code> yields even more information and <code>verbose=3</code> also sets <code>option(warn=1)</code> temporarily).
+</p>
+<p>Whether a particular variance/correlation component is actually identifiable needs to be carefully examined when fitting complex models. The function does some limited checking internally to fix variances and/or correlations at zero when it is clear that insufficient information is available to estimate a particular parameter (e.g., if a particular factor has only a single level, the corresponding variance component cannot be estimated). However, it is strongly advised in general to do post model fitting checks to make sure that the likelihood surface around the ML/REML estimates is not flat for some combination of the parameter estimates (which would imply that the estimates are essentially arbitrary). For example, one can plot the (restricted) log-likelihood as a function of each variance/correlation component in the model to make sure that each profile plot shows a clear peak at the corresponding ML/REML estimate. The <code><a href="profile.rma.html">profile</a></code> function can be used for this purpose.
+</p>
+<p>Finally, note that the model fitting is not done in a very efficient manner at the moment, which is partly a result of allowing for crossed random effects and correlations across the entire dataset (e.g., when using the <code>R</code> argument). As a result, the function works directly with the entire \(k \times k\) (marginal) variance-covariance matrix of the observed effect sizes or outcomes (instead of working with smaller blocks in a block diagonal structure). As a result, model fitting can be slow for large \(k\). However, when the variance-covariance structure is actually sparse, a lot of speed can be gained by setting <code>sparse=TRUE</code>, in which case sparse matrix objects are used (via the <a href="https://cran.r-project.org/package=Matrix">Matrix</a> package). Also, when model fitting appears to be slow, setting <code>verbose=TRUE</code> is useful to obtain information on how the model fitting is progressing.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Wolfgang Viechtbauer <a href="mailto:wvb@metafor-project.org">wvb@metafor-project.org</a> <a href="https://www.metafor-project.org">https://www.metafor-project.org</a>
+</p>
+
+
+<h3>References</h3>
+
+<p>Berkey, C. S., Hoaglin, D. C., Antczak-Bouckoms, A., Mosteller, F., &amp; Colditz, G. A. (1998). Meta-analysis of multiple outcomes by regression with random effects. <em>Statistics in Medicine</em>, <b>17</b>(22), 2537&ndash;2550. <code style="white-space: pre;">https://doi.org/10.1002/(sici)1097-0258(19981130)17:22&lt;2537::aid-sim953&gt;3.0.co;2-c</code>
+</p>
+<p>Gleser, L. J., &amp; Olkin, I. (2009). Stochastically dependent effect sizes. In H. Cooper, L. V. Hedges, &amp; J. C. Valentine (Eds.), <em>The handbook of research synthesis and meta-analysis</em> (2nd ed., pp. 357&ndash;376). New York: Russell Sage Foundation.
+</p>
+<p>van Houwelingen, H. C., Arends, L. R., &amp; Stijnen, T. (2002). Advanced methods in meta-analysis: Multivariate approach and meta-regression. <em>Statistics in Medicine</em>, <b>21</b>(4), 589&ndash;624. <code style="white-space: pre;">https://doi.org/10.1002/sim.1040</code>
+</p>
+<p>Ishak, K. J., Platt, R. W., Joseph, L., Hanley, J. A., &amp; Caro, J. J. (2007). Meta-analysis of longitudinal studies. <em>Clinical Trials</em>, <b>4</b>(5), 525&ndash;539. <code style="white-space: pre;">https://doi.org/10.1177/1740774507083567</code>
+</p>
+<p>Kalaian, H. A., &amp; Raudenbush, S. W. (1996). A multivariate mixed linear model for meta-analysis. <em>Psychological Methods</em>, <b>1</b>(3), 227-235. <code style="white-space: pre;">https://doi.org/10.1037/1082-989X.1.3.227</code>
+</p>
+<p>Konstantopoulos, S. (2011). Fixed effects and variance components estimation in three-level meta-analysis. <em>Research Synthesis Methods</em>, <b>2</b>(1), 61&ndash;76. <code style="white-space: pre;">https://doi.org/10.1002/jrsm.35</code>
+</p>
+<p>Lajeunesse, M. J. (2011). On the meta-analysis of response ratios for studies with correlated and multi-group designs. <em>Ecology</em>, <b>92</b>(11), 2049&ndash;2055. <code style="white-space: pre;">https://doi.org/10.1890/11-0423.1</code>
+</p>
+<p>Nakagawa, S., &amp; Santos, E. S. A. (2012). Methodological issues and advances in biological meta-analysis. <em>Evolutionary Ecology</em>, <b>26</b>(5), 1253&ndash;1274. <code style="white-space: pre;">https://doi.org/10.1007/s10682-012-9555-5</code>
+</p>
+<p>Pinheiro, J. C., &amp; Bates, D. (2000). <em>Mixed-effects models in S and S-PLUS</em>. New York: Springer.
+</p>
+<p>Steiger, J. H. (1980). Tests for comparing elements of a correlation matrix. <em>Psychological Bulletin</em>, <b>87</b>(2), 245&ndash;251. <code style="white-space: pre;">https://doi.org/10.1037/0033-2909.87.2.245</code>
+</p>
+<p>Salanti, G., Higgins, J. P. T., Ades, A. E., &amp; Ioannidis, J. P. A. (2008). Evaluation of networks of randomized trials. <em>Statistical Methods in Medical Research</em>, <b>17</b>(3), 279&ndash;301. <code style="white-space: pre;">https://doi.org/10.1177/0962280207080643</code>
+</p>
+<p>Trikalinos, T. A., &amp; Olkin, I. (2012). Meta-analysis of effect sizes reported at multiple time points: A multivariate approach. <em>Clinical Trials</em>, <b>9</b>(5), 610&ndash;620. <code style="white-space: pre;">https://doi.org/10.1177/1740774512453218</code>
+</p>
+<p>Viechtbauer, W. (2010). Conducting meta-analyses in R with the metafor package. <em>Journal of Statistical Software</em>, <b>36</b>(3), 1&ndash;48. <code style="white-space: pre;">https://doi.org/10.18637/jss.v036.i03</code>
+</p>
+<p>Wei, Y., &amp; Higgins, J. P. (2013). Estimating within-study covariances in multivariate meta-analysis with multiple outcomes. <em>Statistics in Medicine</em>, <b>32</b>(7), 1191&ndash;1205. <code style="white-space: pre;">https://doi.org/10.1002/sim.5679</code>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="rma.uni.html">rma.uni</a></code>, <code><a href="rma.mh.html">rma.mh</a></code>, <code><a href="rma.peto.html">rma.peto</a></code>, and <code><a href="rma.glmm.html">rma.glmm</a></code> for other model fitting functions.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+### calculate log odds ratios and corresponding sampling variances
+dat &lt;- escalc(measure="OR", ai=tpos, bi=tneg, ci=cpos, di=cneg, data=dat.bcg)
+
+### fit random-effects model using rma.uni()
+rma(yi, vi, data=dat)
+
+### fit random-effects model using rma.mv()
+### note: sigma^2 in this model is the same as tau^2 from the previous model
+rma.mv(yi, vi, random = ~ 1 | trial, data=dat)
+
+### change data into long format
+dat.long &lt;- to.long(measure="OR", ai=tpos, bi=tneg, ci=cpos, di=cneg, data=dat.bcg)
+
+### set levels of group variable ("exp" = experimental/vaccinated; "con" = control/non-vaccinated)
+levels(dat.long$group) &lt;- c("exp", "con")
+
+### set "con" to reference level
+dat.long$group &lt;- relevel(dat.long$group, ref="con")
+
+### calculate log odds and corresponding sampling variances
+dat.long &lt;- escalc(measure="PLO", xi=out1, mi=out2, data=dat.long)
+
+### fit bivariate random-effects model using rma.mv()
+res &lt;- rma.mv(yi, vi, mods = ~ group, random = ~ group | study, struct="UN", data=dat.long)
+res
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>metafor</em> version 3.4-0 <a href="00Index.html">Index</a>]</div>
+</body></html>

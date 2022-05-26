@@ -1,0 +1,169 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Fail-Safe N Analysis (File Drawer Analysis)</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for fsn {metafor}"><tr><td>fsn {metafor}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Fail-Safe N Analysis (File Drawer Analysis)</h2>
+
+<h3>Description</h3>
+
+<p>Function to compute the fail-safe N (also called a file drawer analysis).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+fsn(yi, vi, sei, data, type="Rosenthal", alpha=.05,
+    target, weighted=FALSE, subset, digits, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>yi</code></td>
+<td>
+<p>vector with the observed effect sizes or outcomes.</p>
+</td></tr>
+<tr valign="top"><td><code>vi</code></td>
+<td>
+<p>vector with the corresponding sampling variances.</p>
+</td></tr>
+<tr valign="top"><td><code>sei</code></td>
+<td>
+<p>vector with the corresponding standard errors (note: only one of the two, <code>vi</code> or <code>sei</code>, needs to be specified).</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>optional data frame containing the variables given to the arguments above.</p>
+</td></tr>
+<tr valign="top"><td><code>type</code></td>
+<td>
+<p>character string to specify the method to use for the calculation of the fail-safe N. Possible options are <code>"Rosenthal"</code> (the default), <code>"Orwin"</code>, or <code>"Rosenberg"</code>. See &lsquo;Details&rsquo;.</p>
+</td></tr>
+<tr valign="top"><td><code>alpha</code></td>
+<td>
+<p>target alpha level to use for the Rosenthal and Rosenberg methods (the default is .05).</p>
+</td></tr>
+<tr valign="top"><td><code>target</code></td>
+<td>
+<p>target average effect size or outcome to use for the Orwin method. If undefined, then the target average effect size or outcome will be equal to the observed average effect size or outcome divided by 2.</p>
+</td></tr>
+<tr valign="top"><td><code>weighted</code></td>
+<td>
+<p>logical to specify whether Orwin's method should be based on unweighted (the default) or weighted averages (the default is <code>FALSE</code>).</p>
+</td></tr>
+<tr valign="top"><td><code>subset</code></td>
+<td>
+<p>optional (logical or numeric) vector to specify the subset of studies that should be used for the calculations.</p>
+</td></tr>
+<tr valign="top"><td><code>digits</code></td>
+<td>
+<p>optional integer to specify the number of decimal places to which the printed results should be rounded.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>other arguments.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The function can be used in combination with any of the usual effect sizes / outcome measures used in meta-analyses (e.g., log risk ratios, log odds ratios, risk differences, mean differences, standardized mean differences, raw correlation coefficients, correlation coefficients transformed with Fisher's r-to-z transformation), or, more generally, any set of estimates (with corresponding sampling variances) one would like to analyze. Simply specify the observed outcomes via the <code>yi</code> argument and the corresponding sampling variances via the <code>vi</code> argument (instead of specifying <code>vi</code>, one can specify the standard errors via the <code>sei</code> argument). The <code><a href="escalc.html">escalc</a></code> function can be used to compute a wide variety of effect sizes / outcome measures (and the corresponding sampling variances) based on summary statistics.
+</p>
+<p>The Rosenthal method (sometimes called a &lsquo;file drawer analysis&rsquo;) calculates the number of studies averaging null results that would have to be added to the given set of observed outcomes to reduce the combined significance level (p-value) to a particular alpha level (e.g., .05). The calculation is based on Stouffer's method to combine p-values and is described in Rosenthal (1979).
+</p>
+<p>The Orwin method calculates the number of studies averaging null results that would have to be added to the given set of observed outcomes to reduce the (unweighted or weighted) average outcome to a target value (as specified via the <code>target</code> argument). The method is described in Orwin (1983). If <code>weighted=FALSE</code> (the default), the method does not require (or makes use) of <code>vi</code> (or <code>sei</code>), so these arguments are then not relevant for this method. If the <code>target</code> argument is not specified, then the target average outcome will be equal to the observed average outcome divided by 2 (which is quite arbitrary). One should really set <code>target</code> to a value that reflects an outcome one would consider practically irrelevant. Note that if <code>target</code> has the opposite sign as the actually observed average outcome, then its sign is automatically flipped.
+</p>
+<p>The Rosenberg method calculates the number of studies averaging null results that would have to be added to the given set of observed outcomes to reduce the significance level (i.e., p-value) of the weighted average outcome (based on an equal-effects model) to a particular alpha level (e.g., .05). The method is described in Rosenberg (2005).
+</p>
+<p>If the combined/observed significance level is above the specified alpha level (for <code>type = "Rosenthal"</code> or <code>type = "Rosenberg"</code>) or if the observed average outcome is below the target average outcome (for <code>type = "Orwin"</code>), then the fail-sage N value will be 0.
+</p>
+
+
+<h3>Value</h3>
+
+<p>An object of class <code>"fsn"</code>. The object is a list containing the following components:
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>type</code></td>
+<td>
+<p>the method used.</p>
+</td></tr>
+<tr valign="top"><td><code>fsnum</code></td>
+<td>
+<p>the calculated fail-safe N.</p>
+</td></tr>
+<tr valign="top"><td><code>alpha</code></td>
+<td>
+<p>the specified alpha level.</p>
+</td></tr>
+<tr valign="top"><td><code>pval</code></td>
+<td>
+<p>the p-value of the observed results. <code>NA</code> for the Orwin method.</p>
+</td></tr>
+<tr valign="top"><td><code>meanes</code></td>
+<td>
+<p>the average outcome of the observed results. <code>NA</code> for the Rosenthal method.</p>
+</td></tr>
+<tr valign="top"><td><code>target</code></td>
+<td>
+<p>the target value. <code>NA</code> for the Rosenthal and Rosenberg methods.</p>
+</td></tr>
+</table>
+<p>The results are formatted and printed with the <code><a href="print.fsn.html">print</a></code> function.
+</p>
+
+
+<h3>Note</h3>
+
+<p>For the Rosenberg method, the p-value is calculated based on a standard normal distribution (instead of a t-distribution, as suggested by Rosenberg, 2005).
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Wolfgang Viechtbauer <a href="mailto:wvb@metafor-project.org">wvb@metafor-project.org</a> <a href="https://www.metafor-project.org">https://www.metafor-project.org</a>
+</p>
+
+
+<h3>References</h3>
+
+<p>Rosenthal, R. (1979). The &quot;file drawer problem&quot; and tolerance for null results. <em>Psychological Bulletin</em>, <b>86</b>(3), 638&ndash;641. <code style="white-space: pre;">https://doi.org/10.1037/0033-2909.86.3.638</code>
+</p>
+<p>Orwin, R. G. (1983). A fail-safe N for effect size in meta-analysis. <em>Journal of Educational Statistics</em>, <b>8</b>(2), 157&ndash;159. <code style="white-space: pre;">https://doi.org/10.3102/10769986008002157</code>
+</p>
+<p>Rosenberg, M. S. (2005). The file-drawer problem revisited: A general weighted method for calculating fail-safe numbers in meta-analysis. <em>Evolution</em>, <b>59</b>(2), 464&ndash;468. <code style="white-space: pre;">https://doi.org/10.1111/j.0014-3820.2005.tb01004.x</code>
+</p>
+<p>Viechtbauer, W. (2010). Conducting meta-analyses in R with the metafor package. <em>Journal of Statistical Software</em>, <b>36</b>(3), 1&ndash;48. <code style="white-space: pre;">https://doi.org/10.18637/jss.v036.i03</code>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="ranktest.html">ranktest</a></code> for the rank correlation test, <code><a href="regtest.html">regtest</a></code> for the regression test, <code><a href="trimfill.html">trimfill</a></code> for the trim and fill method, <code><a href="tes.html">tes</a></code> for the test of excess significance, and <code><a href="selmodel.html">selmodel</a></code> for selection models.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+### calculate log risk ratios and corresponding sampling variances
+dat &lt;- escalc(measure="RR", ai=tpos, bi=tneg, ci=cpos, di=cneg, data=dat.bcg)
+
+### fit equal-effects model
+rma(yi, vi, data=dat, method="EE")
+
+### fail-safe N computations
+fsn(yi, vi, data=dat)
+fsn(yi, data=dat, type="Orwin", target=log(0.95)) # target corresponds to a 5% risk reduction
+fsn(yi, vi, data=dat, type="Orwin", weighted=TRUE, target=log(0.95))
+fsn(yi, vi, data=dat, type="Rosenberg")
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>metafor</em> version 3.4-0 <a href="00Index.html">Index</a>]</div>
+</body></html>

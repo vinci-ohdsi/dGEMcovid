@@ -1,0 +1,147 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: GOSH Plots for 'rma' Objects</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for gosh {metafor}"><tr><td>gosh {metafor}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>GOSH Plots for 'rma' Objects</h2>
+
+<h3>Description</h3>
+
+<p>Function to create GOSH plots for objects of class <code>"rma"</code>. <script id="MathJax-script" async src="../../mathjaxr/doc/mathjax/es5/tex-chtml-full.js"></script>
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+gosh(x, ...)
+
+## S3 method for class 'rma'
+gosh(x, subsets, progbar=TRUE, parallel="no", ncpus=1, cl, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>an object of class <code>"rma"</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>subsets</code></td>
+<td>
+<p>optional integer to specify the number of subsets.</p>
+</td></tr>
+<tr valign="top"><td><code>progbar</code></td>
+<td>
+<p>logical to specify whether a progress bar should be shown (the default is <code>TRUE</code>).</p>
+</td></tr>
+<tr valign="top"><td><code>parallel</code></td>
+<td>
+<p>character string to specify whether parallel processing should be used (the default is <code>"no"</code>). For parallel processing, set to either <code>"snow"</code> or <code>"multicore"</code>. See &lsquo;Details&rsquo;.</p>
+</td></tr>
+<tr valign="top"><td><code>ncpus</code></td>
+<td>
+<p>integer to specify the number of processes to use in the parallel processing.</p>
+</td></tr>
+<tr valign="top"><td><code>cl</code></td>
+<td>
+<p>optional cluster to use if <code>parallel="snow"</code>. If unspecified, a cluster on the local machine is created for the duration of the call.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>other arguments.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The model specified via <code>x</code> must be a model fitted with either the <code><a href="rma.uni.html">rma.uni</a></code>, <code><a href="rma.mh.html">rma.mh</a></code>, or <code><a href="rma.peto.html">rma.peto</a></code> function.
+</p>
+<p>Olkin et al. (2012) proposed the GOSH (graphical display of study heterogeneity) plot, which is based on examining the results of an equal-effects model in all possible subsets of size \(1, \ldots, k\) of the \(k\) studies included in a meta-analysis. In a homogeneous set of studies, the model estimates obtained this way should form a roughly symmetric, contiguous, and unimodal distribution. On the other hand, when the distribution is multimodal, then this suggests the presence of heterogeneity, possibly due to outliers and/or distinct subgroupings of studies. Plotting the estimates against some measure of heterogeneity (e.g., \(I^2\), \(H^2\), or the \(Q\)-statistic) can also help to reveal subclusters, which are indicative of heterogeneity. The same type of plot can be produced by first fitting an equal-effects model with either the <code><a href="rma.uni.html">rma.uni</a></code> (using <code>method="EE"</code>), <code><a href="rma.mh.html">rma.mh</a></code>, or <code><a href="rma.peto.html">rma.peto</a></code> functions and then passing the fitted model object to the <code>gosh</code> function and then plotting the results.
+</p>
+<p>For models fitted with the <code><a href="rma.uni.html">rma.uni</a></code> function (which may be random-effects or mixed-effects meta-regressions models), the idea underlying this type of plot can be generalized (Viechtbauer, 2021) by examining the distribution of all model coefficients, plotting them against each other, and against some measure of (residual) heterogeneity (including the estimate of \(\tau^2\)).
+</p>
+<p>Note that for models without moderators, application of the method requires fitting a total of \(2^k - 1\) models, which could be an excessively large number when \(k\) is large. For example, for \(k=10\), there are only 1023 possible subsets, but for \(k=20\), this number already grows to 1,048,575. For even larger \(k\), it may become computationally infeasible to consider all possible subsets. Instead, we can then examine (a sufficiently large number of) random subsets.
+</p>
+<p>By default, if the number of possible subsets is \(\le 10^6\), the function will consider all possible subsets and otherwise \(10^6\) random subsets. One can use the <code>subsets</code> argument to specify a different number of subsets to consider. If <code>subsets</code> is specified and it is actually larger than the number of possible subsets, then the function automatically only considers the possible subsets and does not use random subsets.
+</p>
+<p>When <code>x</code> is an equal-effects model or a random-effects model fitted using <code>method="DL"</code>, provisions have been made to speed up the model fitting to the various subsets. For random-effects models using some other estimator of \(\tau^2\) (especially an iterative one like <code>method="REML"</code>), the computations will be considerably slower.
+</p>
+<p>On machines with multiple cores, one can try to speed things up by delegating the model fitting to separate worker processes, that is, by setting <code>parallel="snow"</code> or <code>parallel="multicore"</code> and <code>ncpus</code> to some value larger than 1. Parallel processing makes use of the <code><a href="../../parallel/html/parallel.html">parallel</a></code> package, using the <code><a href="../../parallel/html/makePSOCKcluster.html">makePSOCKcluster</a></code> and <code><a href="../../parallel/html/parLapply.html">parLapply</a></code> functions when <code>parallel="snow"</code> or using <code><a href="../../parallel/html/mclapply.html">mclapply</a></code> when <code>parallel="multicore"</code> (the latter only works on Unix/Linux-alikes). With <code>parallel::detectCores()</code>, one can check on the number of available cores on the local machine.
+</p>
+
+
+<h3>Value</h3>
+
+<p>An object of class <code>"gosh.rma"</code>. The object is a list containing the following components:
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>res</code></td>
+<td>
+<p>a data frame with the results for each subset (various heterogeneity statistics and the model coefficient(s)).</p>
+</td></tr>
+<tr valign="top"><td><code>incl</code></td>
+<td>
+<p>a matrix indicating which studies were included in which subset.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>some additional elements/values.</p>
+</td></tr>
+</table>
+<p>The results can be printed with the <code><a href="print.gosh.rma.html">print</a></code> function and plotted with the <code><a href="plot.gosh.rma.html">plot</a></code> function.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Wolfgang Viechtbauer <a href="mailto:wvb@metafor-project.org">wvb@metafor-project.org</a> <a href="https://www.metafor-project.org">https://www.metafor-project.org</a>
+</p>
+
+
+<h3>References</h3>
+
+<p>Olkin, I., Dahabreh, I. J., &amp; Trikalinos, T. A. (2012). GOSH - a graphical display of study heterogeneity. <em>Research Synthesis Methods</em>, <b>3</b>(3), 214&ndash;223. <code style="white-space: pre;">https://doi.org/10.1002/jrsm.1053</code>
+</p>
+<p>Viechtbauer, W. (2010). Conducting meta-analyses in R with the metafor package. <em>Journal of Statistical Software</em>, <b>36</b>(3), 1&ndash;48. <code style="white-space: pre;">https://doi.org/10.18637/jss.v036.i03</code>
+</p>
+<p>Viechtbauer, W. (2021). Model checking in meta-analysis. In C. H. Schmid, T. Stijnen, &amp; I. R. White (Eds.), <em>Handbook of meta-analysis</em> (pp. 219&ndash;254). Boca Raton, FL: CRC Press. <code style="white-space: pre;">https://doi.org/10.1201/9781315119403</code>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="rma.uni.html">rma.uni</a></code>, <code><a href="rma.mh.html">rma.mh</a></code>, and <code><a href="rma.peto.html">rma.peto</a></code> for functions to fit models for which GOSH plots can be drawn.
+</p>
+<p><code><a href="influence.rma.uni.html">influence.rma.uni</a></code> for other model diagnostics.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+### calculate log odds ratios and corresponding sampling variances
+dat &lt;- escalc(measure="OR", ai=ai, n1i=n1i, ci=ci, n2i=n2i, data=dat.egger2001)
+
+### meta-analysis of all trials including ISIS-4 using an equal-effects model
+res &lt;- rma(yi, vi, data=dat, method="EE")
+
+### fit FE model to all possible subsets (65535 models)
+## Not run: 
+sav &lt;- gosh(res, progbar=FALSE)
+sav
+
+### create GOSH plot
+### red points for subsets that include and blue points
+### for subsets that exclude study 16 (the ISIS-4 trial)
+plot(sav, out=16, breaks=100)
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>metafor</em> version 3.4-0 <a href="00Index.html">Index</a>]</div>
+</body></html>

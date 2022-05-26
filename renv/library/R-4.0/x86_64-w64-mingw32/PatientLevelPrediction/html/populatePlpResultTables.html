@@ -1,0 +1,170 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Populate the PatientLevelPrediction results tables</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for populatePlpResultTables {PatientLevelPrediction}"><tr><td>populatePlpResultTables {PatientLevelPrediction}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Populate the PatientLevelPrediction results tables</h2>
+
+<h3>Description</h3>
+
+<p>This function formats and uploads results that have been generated via an ATLAS prediction package into a database
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+populatePlpResultTables(
+  conn,
+  resultSchema,
+  stringAppendToTables = "",
+  targetDialect = "postgresql",
+  tempEmulationSchema = getOption("sqlRenderTempEmulationSchema"),
+  packageName,
+  studyJsonList,
+  studyName = "",
+  studyDescription = "",
+  researcherName = "",
+  researcherEmail = "",
+  researcherOrg = "",
+  databaseName = NULL,
+  databaseAcronym = NULL,
+  databaseVersion = 1,
+  databaseDescription = NULL,
+  databaseType = NULL,
+  valDatabases = list(ccae = list(name = "CCAE", description = "", version = 1, type =
+    "US Claims")),
+  resultLocation = NULL,
+  resultPattern = "",
+  validationLocation = file.path(resultLocation, "Validation"),
+  addInternalValidation = T,
+  addExternalValidation = T,
+  gsubVal = NULL,
+  removePattern = NULL
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>conn</code></td>
+<td>
+<p>A connection to a database created by using the
+function <code>connect</code> in the
+<code>DatabaseConnector</code> package.</p>
+</td></tr>
+<tr valign="top"><td><code>resultSchema</code></td>
+<td>
+<p>(string) The name of the database schema with the result tables.</p>
+</td></tr>
+<tr valign="top"><td><code>stringAppendToTables</code></td>
+<td>
+<p>(string) A string that appends to the PatientLevelPrediction result tables</p>
+</td></tr>
+<tr valign="top"><td><code>targetDialect</code></td>
+<td>
+<p>(string) The database management system being used</p>
+</td></tr>
+<tr valign="top"><td><code>tempEmulationSchema</code></td>
+<td>
+<p>(string) The temp schema used when the database management system is oracle</p>
+</td></tr>
+<tr valign="top"><td><code>packageName</code></td>
+<td>
+<p>(string) The name of the ATLAS R package used to generate the results (this is used to extract cohort jsons)</p>
+</td></tr>
+<tr valign="top"><td><code>studyJsonList</code></td>
+<td>
+<p>(list) A list of lists per cohort with the cohort_name, cohort_id and cohort_json</p>
+</td></tr>
+<tr valign="top"><td><code>studyName</code></td>
+<td>
+<p>(string) A reference study name</p>
+</td></tr>
+<tr valign="top"><td><code>studyDescription</code></td>
+<td>
+<p>(string) A description of the study</p>
+</td></tr>
+<tr valign="top"><td><code>researcherName</code></td>
+<td>
+<p>(string) Name of the researcher who developed the study</p>
+</td></tr>
+<tr valign="top"><td><code>researcherEmail</code></td>
+<td>
+<p>(string) Email of the researcher who developed the study</p>
+</td></tr>
+<tr valign="top"><td><code>researcherOrg</code></td>
+<td>
+<p>(string) Organisation of the researcher who developed the study</p>
+</td></tr>
+<tr valign="top"><td><code>databaseName</code></td>
+<td>
+<p>(string) name of the database used to develop the model/s</p>
+</td></tr>
+<tr valign="top"><td><code>databaseAcronym</code></td>
+<td>
+<p>(string) acronym of the database used to develop the model/s</p>
+</td></tr>
+<tr valign="top"><td><code>databaseVersion</code></td>
+<td>
+<p>(int) Version of the database used to develop the model/s</p>
+</td></tr>
+<tr valign="top"><td><code>databaseDescription</code></td>
+<td>
+<p>(string) Description of the database used to develop the model/s</p>
+</td></tr>
+<tr valign="top"><td><code>databaseType</code></td>
+<td>
+<p>(string) Type of the database used to develop the model/s (e.g., claims)</p>
+</td></tr>
+<tr valign="top"><td><code>valDatabases</code></td>
+<td>
+<p>(list) A named list with details of the external validation databases.  Needs to contain: name, description, version, type.</p>
+</td></tr>
+<tr valign="top"><td><code>resultLocation</code></td>
+<td>
+<p>(string) location of directory where the main package results were saved</p>
+</td></tr>
+<tr valign="top"><td><code>resultPattern</code></td>
+<td>
+<p>(string) A string to match to select models of interest</p>
+</td></tr>
+<tr valign="top"><td><code>validationLocation</code></td>
+<td>
+<p>(string) location of directory where the validation package results were saved</p>
+</td></tr>
+<tr valign="top"><td><code>addInternalValidation</code></td>
+<td>
+<p>(boolean) Whether the internval validation results should be uploaded</p>
+</td></tr>
+<tr valign="top"><td><code>addExternalValidation</code></td>
+<td>
+<p>(boolean) Whether the externval validation results should be uploaded</p>
+</td></tr>
+<tr valign="top"><td><code>gsubVal</code></td>
+<td>
+<p>(string) Remove patterns from the result name</p>
+</td></tr>
+<tr valign="top"><td><code>removePattern</code></td>
+<td>
+<p>(string) Restrict to result names with this pattern</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This function can be used upload PatientLevelPrediction results into a database
+</p>
+
+
+<h3>Value</h3>
+
+<p>Returns NULL but uploads all the results in resultLocation to the PatientLevelPrediction result tables in resultSchema
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>PatientLevelPrediction</em> version 5.0.5 <a href="00Index.html">Index</a>]</div>
+</body></html>

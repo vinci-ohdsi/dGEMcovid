@@ -1,0 +1,102 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Print Method for 'anova.rma' Objects</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for print.anova.rma {metafor}"><tr><td>print.anova.rma {metafor}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Print Method for 'anova.rma' Objects</h2>
+
+<h3>Description</h3>
+
+<p>Print method for objects of class <code>"anova.rma"</code>. <script id="MathJax-script" async src="../../mathjaxr/doc/mathjax/es5/tex-chtml-full.js"></script>
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'anova.rma'
+print(x, digits=x$digits, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>an object of class <code>"anova.rma"</code> obtained with <code><a href="anova.rma.html">anova</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>digits</code></td>
+<td>
+<p>integer to specify the number of decimal places to which the printed results should be rounded (the default is to take the value from the object).</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>other arguments.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The output includes:
+</p>
+
+<ul>
+<li><p> the number of parameters in the full and the reduced model.
+</p>
+</li>
+<li><p> the AIC, BIC, AICc, and log-likelihood of the full and the reduced model.
+</p>
+</li>
+<li><p> the value of the likelihood ratio test statistic.
+</p>
+</li>
+<li><p> the corresponding p-value.
+</p>
+</li>
+<li><p> the test statistic of the test for (residual) heterogeneity for the full and the reduced model.
+</p>
+</li>
+<li><p> the estimate of \(\tau^2\) from the full and the reduced model. Suppressed for equal-effects models.
+</p>
+</li>
+<li><p> amount (in percent) of heterogeneity in the reduced model that is accounted for in the full model (<code>NA</code> for <code>"rma.mv"</code> objects). This can be regarded as a pseudo \(R^2\) statistic (Raudenbush, 2009). Note that the value may not be very accurate unless \(k\) is large (Lopez-Lopez et al., 2014).
+</p>
+</li></ul>
+
+<p>The last two items are not provided when comparing <code>"rma.mv"</code> models.
+</p>
+
+
+<h3>Value</h3>
+
+<p>The function does not return an object.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Wolfgang Viechtbauer <a href="mailto:wvb@metafor-project.org">wvb@metafor-project.org</a> <a href="https://www.metafor-project.org">https://www.metafor-project.org</a>
+</p>
+
+
+<h3>References</h3>
+
+<p>López-López, J. A., Marín-Martínez, F., Sánchez-Meca, J., Van den Noortgate, W., &amp; Viechtbauer, W. (2014). Estimation of the predictive power of the model in mixed-effects meta-regression: A simulation study. <em>British Journal of Mathematical and Statistical Psychology</em>, <b>67</b>(1), 30&ndash;48. <code style="white-space: pre;">https://doi.org/10.1111/bmsp.12002</code>
+</p>
+<p>Raudenbush, S. W. (2009). Analyzing effect sizes: Random effects models. In H. Cooper, L. V. Hedges, &amp; J. C. Valentine (Eds.), <em>The handbook of research synthesis and meta-analysis</em> (2nd ed., pp. 295&ndash;315). New York: Russell Sage Foundation.
+</p>
+<p>Viechtbauer, W. (2010). Conducting meta-analyses in R with the metafor package. <em>Journal of Statistical Software</em>, <b>36</b>(3), 1&ndash;48. <code style="white-space: pre;">https://doi.org/10.18637/jss.v036.i03</code>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="anova.rma.html">anova.rma</a></code> for the function to create <code>anova.rma</code> objects.
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>metafor</em> version 3.4-0 <a href="00Index.html">Index</a>]</div>
+</body></html>

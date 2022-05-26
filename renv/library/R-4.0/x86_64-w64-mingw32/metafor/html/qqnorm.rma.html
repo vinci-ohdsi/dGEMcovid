@@ -1,0 +1,170 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Normal QQ Plots for 'rma' Objects</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for qqnorm.rma {metafor}"><tr><td>qqnorm.rma {metafor}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Normal QQ Plots for 'rma' Objects</h2>
+
+<h3>Description</h3>
+
+<p>Function to create normal QQ plots for objects of class <code>"rma.uni"</code>, <code>"rma.mh"</code>, and <code>"rma.peto"</code>. <script id="MathJax-script" async src="../../mathjaxr/doc/mathjax/es5/tex-chtml-full.js"></script>
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'rma.uni'
+qqnorm(y, type="rstandard", pch=19, envelope=TRUE,
+       level=y$level, bonferroni=FALSE, reps=1000, smooth=TRUE, bass=0,
+       label=FALSE, offset=0.3, pos=13, lty, ...)
+## S3 method for class 'rma.mh'
+qqnorm(y, type="rstandard", pch=19, label=FALSE, offset=0.3, pos=13, ...)
+## S3 method for class 'rma.peto'
+qqnorm(y, type="rstandard", pch=19, label=FALSE, offset=0.3, pos=13, ...)
+## S3 method for class 'rma.glmm'
+qqnorm(y, ...)
+## S3 method for class 'rma.mv'
+qqnorm(y, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>y</code></td>
+<td>
+<p>an object of class <code>"rma.uni"</code>, <code>"rma.mh"</code>, or <code>"rma.peto"</code>. The method is not yet implemented for objects of class <code>"rma.glmm"</code> or <code>"rma.mv"</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>type</code></td>
+<td>
+<p>character string (either <code>"rstandard"</code> (default) or <code>"rstudent"</code>) to specify whether standardized residuals or studentized deleted residuals should be used in creating the plot. See &lsquo;Details&rsquo;.</p>
+</td></tr>
+<tr valign="top"><td><code>pch</code></td>
+<td>
+<p>plotting symbol to use for the observed outcomes. By default, a filled circle is used. See <code><a href="../../graphics/html/points.html">points</a></code> for other options.</p>
+</td></tr>
+<tr valign="top"><td><code>envelope</code></td>
+<td>
+<p>logical to specify whether a pseudo confidence envelope should be simulated and added to the plot (the default is <code>TRUE</code>)). Only for objects of class <code>"rma.uni"</code>. See &lsquo;Details&rsquo;.</p>
+</td></tr>
+<tr valign="top"><td><code>level</code></td>
+<td>
+<p>numeric value between 0 and 100 to specify the level of the pseudo confidence envelope (the default is to take the value from the object).</p>
+</td></tr>
+<tr valign="top"><td><code>bonferroni</code></td>
+<td>
+<p>logical to specify whether the bounds of the envelope should be Bonferroni corrected.</p>
+</td></tr>
+<tr valign="top"><td><code>reps</code></td>
+<td>
+<p>numeric value to specify the number of iterations to use for simulating the pseudo confidence envelope (the default is 1000).</p>
+</td></tr>
+<tr valign="top"><td><code>smooth</code></td>
+<td>
+<p>logical to specify whether the results from the simulation should be smoothed (the default is <code>TRUE</code>).</p>
+</td></tr>
+<tr valign="top"><td><code>bass</code></td>
+<td>
+<p>numeric value that controls the degree of smoothing (the default is 0).</p>
+</td></tr>
+<tr valign="top"><td><code>label</code></td>
+<td>
+<p>argument to control the labeling of the points (the default is <code>FALSE</code>). See &lsquo;Details&rsquo;.</p>
+</td></tr>
+<tr valign="top"><td><code>offset</code></td>
+<td>
+<p>argument to control the distance between the points and the corresponding labels.</p>
+</td></tr>
+<tr valign="top"><td><code>pos</code></td>
+<td>
+<p>argument to control the position of the labels.</p>
+</td></tr>
+<tr valign="top"><td><code>lty</code></td>
+<td>
+<p>optional character string to specify the line type for the diagonal line and the pseudo confidence envelope. If unspecified, the function sets this to <code>c("solid", "dotted")</code> by default.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>other arguments.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The plot shows the theoretical quantiles of a normal distribution on the horizontal axis against the observed quantiles for either the standardized residuals (<code>type="rstandard"</code>, the default) or the externally standardized residuals (<code>type="rstudent"</code>) on the vertical axis (see <code><a href="residuals.rma.html">residuals</a></code> for details on the definition of these residual types).
+</p>
+<p>For reference, a line is added to the plot with slope of 1, going through the (0,0) point.
+</p>
+<p>For objects of class <code>"rma.uni"</code>, it is also possible to add a pseudo confidence envelope to the plot. The envelope is created based on the quantiles of sets of pseudo residuals simulated from the given model (for details, see Cook &amp; Weisberg, 1982). The number of sets simulated can be controlled with the <code>reps</code> argument. When <code>smooth=TRUE</code>, the simulated bounds are smoothed with Friedman's SuperSmoother (see <code><a href="../../stats/html/supsmu.html">supsmu</a></code>). The <code>bass</code> argument can be set to a number between 0 and 10, with higher numbers indicating increasing smoothness. If <code>bonferroni=TRUE</code>, the envelope bounds are Bonferroni corrected, so that the envelope can be regarded as a confidence region for all \(k\) residuals simultaneously. The default however is <code>bonferroni=FALSE</code>, which makes the plot more sensitive to deviations from normality.
+</p>
+<p>With the <code>label</code> argument, one can control whether points in the plot will be labeled (e.g., to identify outliers). If <code>label="all"</code> (or <code>label=TRUE</code>), all points in the plot will be labeled. If <code>label="out"</code>, points falling outside of the confidence envelope will be labeled (only available for objects of class <code>"rma.uni"</code>). Finally, one can also set this argument to a numeric value (between 1 and \(k\)), indicating how many of the most extreme points should be labeled (for example, with <code>label=1</code> only the most extreme point would be labeled, while with <code>label=3</code>, the most extreme, and the second and third most extreme points would be labeled). With the <code>offset</code> argument, one can adjust the distance between the labels and the corresponding points. The <code>pos</code> argument is the position specifier for the labels (<code>1</code>, <code>2</code>, <code>3</code>, and <code>4</code>, respectively indicate positions below, to the left of, above, and to the right of the points; <code>13</code> places the labels below the points for points that fall below the reference line and above otherwise; <code>24</code> places the labels to the left of the points for points that fall above the reference line and to the right otherwise).
+</p>
+
+
+<h3>Value</h3>
+
+<p>A list with components:
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>the x-axis coordinates of the points that were plotted.</p>
+</td></tr>
+<tr valign="top"><td><code>y</code></td>
+<td>
+<p>the y-axis coordinates of the points that were plotted.</p>
+</td></tr>
+</table>
+<p>Note that the list is returned invisibly.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Wolfgang Viechtbauer <a href="mailto:wvb@metafor-project.org">wvb@metafor-project.org</a> <a href="https://www.metafor-project.org">https://www.metafor-project.org</a>
+</p>
+
+
+<h3>References</h3>
+
+<p>Cook, R. D., &amp; Weisberg, S. (1982). <em>Residuals and influence in regression</em>. London: Chapman and Hall.
+</p>
+<p>Viechtbauer, W. (2010). Conducting meta-analyses in R with the metafor package. <em>Journal of Statistical Software</em>, <b>36</b>(3), 1&ndash;48. <code style="white-space: pre;">https://doi.org/10.18637/jss.v036.i03</code>
+</p>
+<p>Viechtbauer, W. (2021). Model checking in meta-analysis. In C. H. Schmid, T. Stijnen, &amp; I. R. White (Eds.), <em>Handbook of meta-analysis</em> (pp. 219&ndash;254). Boca Raton, FL: CRC Press. <code style="white-space: pre;">https://doi.org/10.1201/9781315119403</code>
+</p>
+<p>Wang, M. C., &amp; Bushman, B. J. (1998). Using the normal quantile plot to explore meta-analytic data sets. <em>Psychological Methods</em>, <b>3</b>(1), 46&ndash;54. <code style="white-space: pre;">https://doi.org/10.1037/1082-989X.3.1.46</code>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="rma.uni.html">rma.uni</a></code>, <code><a href="rma.mh.html">rma.mh</a></code>, and <code><a href="rma.peto.html">rma.peto</a></code> for functions to fit models for which normal QQ plots can be drawn.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+### calculate log risk ratios and corresponding sampling variances
+dat &lt;- escalc(measure="RR", ai=tpos, bi=tneg, ci=cpos, di=cneg, data=dat.bcg)
+
+### fit random-effects model
+res &lt;- rma(yi, vi, data=dat)
+
+### draw QQ plot
+qqnorm(res)
+
+### fit mixed-effects model with absolute latitude as moderator
+res &lt;- rma(yi, vi, mods = ~ ablat, data=dat)
+
+### draw QQ plot
+qqnorm(res)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>metafor</em> version 3.4-0 <a href="00Index.html">Index</a>]</div>
+</body></html>

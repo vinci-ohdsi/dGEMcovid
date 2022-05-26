@@ -1,0 +1,193 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: L'Abbe Plots for 'rma' Objects</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for labbe {metafor}"><tr><td>labbe {metafor}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>L'Abbe Plots for 'rma' Objects</h2>
+
+<h3>Description</h3>
+
+<p>Function to create L'Abbé plots for objects of class <code>"rma"</code>. <script id="MathJax-script" async src="../../mathjaxr/doc/mathjax/es5/tex-chtml-full.js"></script>
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+labbe(x, ...)
+
+## S3 method for class 'rma'
+labbe(x, xlim, ylim, xlab, ylab,
+      add=x$add, to=x$to, transf, targs,
+      pch=21, psize, plim=c(0.5,3.5),
+      col, bg, grid=FALSE, lty, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>an object of class <code>"rma"</code>. See &lsquo;Details&rsquo;.</p>
+</td></tr>
+<tr valign="top"><td><code>xlim</code></td>
+<td>
+<p>x-axis limits. If unspecified, the function tries to set the x-axis limits to some sensible values.</p>
+</td></tr>
+<tr valign="top"><td><code>ylim</code></td>
+<td>
+<p>y-axis limits. If unspecified, the function tries to set the y-axis limits to some sensible values.</p>
+</td></tr>
+<tr valign="top"><td><code>xlab</code></td>
+<td>
+<p>title for the x-axis. If unspecified, the function tries to set an appropriate axis title.</p>
+</td></tr>
+<tr valign="top"><td><code>ylab</code></td>
+<td>
+<p>title for the y-axis. If unspecified, the function tries to set an appropriate axis title.</p>
+</td></tr>
+<tr valign="top"><td><code>add</code></td>
+<td>
+<p>See &lsquo;Details&rsquo; and the documentation of the <code><a href="escalc.html">escalc</a></code> function for more details.</p>
+</td></tr>
+<tr valign="top"><td><code>to</code></td>
+<td>
+<p>See &lsquo;Details&rsquo; and the documentation of the <code><a href="escalc.html">escalc</a></code> function for more details.</p>
+</td></tr>
+<tr valign="top"><td><code>transf</code></td>
+<td>
+<p>optional argument to specify a function that should be used to transform the outcomes (e.g., <code>transf=exp</code>; see also <a href="transf.html">transf</a>). If unspecified, no transformation is used.</p>
+</td></tr>
+<tr valign="top"><td><code>targs</code></td>
+<td>
+<p>optional arguments needed by the function specified under <code>transf</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>pch</code></td>
+<td>
+<p>plotting symbol to use for the outcomes. By default, a filled circle is used. Can also be a vector of values. See <code><a href="../../graphics/html/points.html">points</a></code> for other options.</p>
+</td></tr>
+<tr valign="top"><td><code>psize</code></td>
+<td>
+<p>optional numeric vector to specify the point sizes for the outcomes. If unspecified, the point sizes are a function of the precision of the outcomes. Can also be a vector of values.</p>
+</td></tr>
+<tr valign="top"><td><code>plim</code></td>
+<td>
+<p>numeric vector of length 2 to scale the point sizes (ignored when <code>psize</code> is specified). See &lsquo;Details&rsquo;.</p>
+</td></tr>
+<tr valign="top"><td><code>col</code></td>
+<td>
+<p>optional character string to specify the color to use for the points (<code>"black"</code> is used by default if not specified). Can also be a vector.</p>
+</td></tr>
+<tr valign="top"><td><code>bg</code></td>
+<td>
+<p>optional character string to specify the background color for open plot symbols (<code>"gray"</code> is used by default if not specified). Can also be a vector. Set to <code>NA</code> to make the plotting symbols transparent.</p>
+</td></tr>
+<tr valign="top"><td><code>grid</code></td>
+<td>
+<p>logical to specify whether a grid should be added to the plot. Can also be a color name.</p>
+</td></tr>
+<tr valign="top"><td><code>lty</code></td>
+<td>
+<p>optional character vector to specify the line type for the diagonal reference line of no effect and the line that indicates the estimated effect based on the fitted model. If unspecified, the function sets this to <code>c("solid","dashed")</code> by default (use <code>"blank"</code> to suppress a line).</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>other arguments.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The model specified via <code>x</code> must be a model without moderators (i.e., either an equal- or a random-effects model) fitted with either the <code><a href="rma.uni.html">rma.uni</a></code>, <code><a href="rma.mh.html">rma.mh</a></code>, <code><a href="rma.peto.html">rma.peto</a></code>, or <code><a href="rma.glmm.html">rma.glmm</a></code> functions. Moreover, the model must have been fitted with <code>measure</code> set equal to <code>"RD"</code> (for risk differences), <code>"RR"</code> (for risk ratios), <code>"OR"</code> (for odds ratios), <code>"AS"</code> (for arcsine square root transformed risk differences), <code>"IRR"</code> (for incidence rate ratios), <code>"IRD"</code> (for incidence rate differences), or <code>"IRSD"</code> (for square root transformed incidence rate differences).
+</p>
+<p>The function calculates the arm-level outcomes for the two groups (e.g., treatment and control) and plots them against each other. In particular, the function plots the raw proportions of the two groups against each other when analyzing risk differences, the log of the proportions when analyzing (log) risk ratios, the log odds when analyzing (log) odds ratios, the arcsine square root transformed proportions when analyzing arcsine square root transformed risk differences, the raw incidence rates when analyzing incidence rate differences, the log of the incidence rates when analyzing (log) incidence rate ratios, and the square root transformed incidence rates when analyzing square root transformed incidence rate differences. The <code>transf</code> argument can be used to transform these values (e.g., <code>transf=exp</code> to transform the log of the proportions back to raw proportions; see also <a href="transf.html">transf</a>).
+</p>
+<p>As described under the documentation for the <code><a href="escalc.html">escalc</a></code> function, zero cells can lead to problems when calculating particular outcomes. Adding a small constant to the cells of the \(2 \times 2\) tables is a common solution to this problem. By default, the functions adopts the same method for handling zero cells as was used when fitting the model.
+</p>
+<p>By default (i.e., when <code>psize</code> is not specified), the point sizes are a function of the precision (i.e., inverse standard errors) of the outcomes. This way, more precise estimates are visually more prominent in the plot. By making the point sizes a function of the inverse standard errors of the estimates, their areas are proportional to the inverse sampling variances, which corresponds to the weights they would receive in an equal-effects model. However, the point sizes are rescaled so that the smallest point size is <code>plim[1]</code> and the largest point size is <code>plim[2]</code>. As a result, their relative sizes (i.e., areas) no longer exactly correspond to their relative weights in such a model. If exactly relative point sizes are desired, one can set <code>plim[2]</code> to <code>NA</code>, in which case the points are rescaled so that the smallest point size corresponds to <code>plim[1]</code> and all other points are scaled accordingly. As a result, the largest point may be very large. Alternatively, one can set <code>plim[1]</code> to <code>NA</code>, in which case the points are rescaled so that the largest point size corresponds to <code>plim[2]</code> and all other points are scaled accordingly.
+</p>
+<p>The solid line corresponds to identical outcomes in the two groups (i.e., the absence of a difference between the two groups). The dashed line indicates the estimated effect based on the fitted model.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A data frame with components:
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>the x-axis coordinates of the points that were plotted.</p>
+</td></tr>
+<tr valign="top"><td><code>y</code></td>
+<td>
+<p>the y-axis coordinates of the points that were plotted.</p>
+</td></tr>
+<tr valign="top"><td><code>cex</code></td>
+<td>
+<p>the point sizes.</p>
+</td></tr>
+<tr valign="top"><td><code>pch</code></td>
+<td>
+<p>the plotting symbols.</p>
+</td></tr>
+<tr valign="top"><td><code>col</code></td>
+<td>
+<p>the point colors.</p>
+</td></tr>
+<tr valign="top"><td><code>bg</code></td>
+<td>
+<p>the background colors.</p>
+</td></tr>
+<tr valign="top"><td><code>ids</code></td>
+<td>
+<p>the study id numbers.</p>
+</td></tr>
+<tr valign="top"><td><code>slab</code></td>
+<td>
+<p>the study labels.</p>
+</td></tr>
+</table>
+<p>Note that the data frame is returned invisibly.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Wolfgang Viechtbauer <a href="mailto:wvb@metafor-project.org">wvb@metafor-project.org</a> <a href="https://www.metafor-project.org">https://www.metafor-project.org</a>
+</p>
+
+
+<h3>References</h3>
+
+<p>L'Abbé, K. A., Detsky, A. S., &amp; O'Rourke, K. (1987). Meta-analysis in clinical research. <em>Annals of Internal Medicine</em>, <b>107</b>(2), 224&ndash;233. <code style="white-space: pre;">https://doi.org/10.7326/0003-4819-107-2-224</code>
+</p>
+<p>Viechtbauer, W. (2010). Conducting meta-analyses in R with the metafor package. <em>Journal of Statistical Software</em>, <b>36</b>(3), 1&ndash;48. <code style="white-space: pre;">https://doi.org/10.18637/jss.v036.i03</code>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="rma.uni.html">rma.uni</a></code>, <code><a href="rma.mh.html">rma.mh</a></code>, <code><a href="rma.peto.html">rma.peto</a></code>, and <code><a href="rma.glmm.html">rma.glmm</a></code> for functions to fit models for which L'Abbé plots can be drawn.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+### meta-analysis of the log risk ratios using a random-effects model
+res &lt;- rma(measure="RR", ai=tpos, bi=tneg, ci=cpos, di=cneg, data=dat.bcg)
+
+### default plot
+labbe(res)
+
+### funnel plot with risk values on the x- and y-axis and add grid
+labbe(res, transf=exp, grid=TRUE)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>metafor</em> version 3.4-0 <a href="00Index.html">Index</a>]</div>
+</body></html>

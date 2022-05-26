@@ -1,0 +1,99 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Extract Various Types of Variance-Covariance Matrices from...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for vcov.rma {metafor}"><tr><td>vcov.rma {metafor}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Extract Various Types of Variance-Covariance Matrices from 'rma' Objects</h2>
+
+<h3>Description</h3>
+
+<p>The function extracts various types of variance-covariance matrices from objects of class <code>"rma"</code>. By default, the variance-covariance matrix of the parameter estimates (fixed effects) is returned. <script id="MathJax-script" async src="../../mathjaxr/doc/mathjax/es5/tex-chtml-full.js"></script>
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'rma'
+vcov(object, type="fixed", ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>an object of class <code>"rma"</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>type</code></td>
+<td>
+<p>character string to specify the type of variance-covariance matrix to return: <code>type="fixed"</code> returns the variance-covariance matrix of the fixed effects (the default), <code>type="obs"</code> returns the marginal variance-covariance matrix of the observed effect sizes or outcomes, <code>type="fitted"</code> returns the variance-covariance matrix of the fitted values, <code>type="resid"</code> returns the variance-covariance matrix of the residuals.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>other arguments.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Note that <code>type="obs"</code> currently only works for object of class <code>"rma.uni"</code> and <code>"rma.mv"</code>.
+</p>
+<p>For objects of class <code>"rma.uni"</code>, the marginal variance-covariance matrix of the observed effect sizes or outcomes is just a diagonal matrix with \(\hat{\tau}^2 + v_i\) along the diagonal, where \(\hat{\tau}^2\) is the estimated amount of (residual) heterogeneity (set to 0 in equal-effects models) and \(v_i\) is the sampling variance of the \(i\textrm{th}\) study.
+</p>
+<p>For objects of class <code>"rma.mv"</code>, the structure can be more complex and depends on the random effects included in the model.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A matrix corresponding to the requested variance-covariance matrix.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Wolfgang Viechtbauer <a href="mailto:wvb@metafor-project.org">wvb@metafor-project.org</a> <a href="https://www.metafor-project.org">https://www.metafor-project.org</a>
+</p>
+
+
+<h3>References</h3>
+
+<p>Viechtbauer, W. (2010). Conducting meta-analyses in R with the metafor package. <em>Journal of Statistical Software</em>, <b>36</b>(3), 1&ndash;48. <code style="white-space: pre;">https://doi.org/10.18637/jss.v036.i03</code>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="rma.uni.html">rma.uni</a></code>, <code><a href="rma.mh.html">rma.mh</a></code>, <code><a href="rma.peto.html">rma.peto</a></code>, <code><a href="rma.glmm.html">rma.glmm</a></code>, and <code><a href="rma.mv.html">rma.mv</a></code> for functions to fit models for which the various types of variance-covariance matrices can be extracted.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+### calculate log risk ratios and corresponding sampling variances
+dat &lt;- escalc(measure="RR", ai=tpos, bi=tneg, ci=cpos, di=cneg, data=dat.bcg)
+
+### fit mixed-effects model with absolute latitude and publication year as moderators
+res &lt;- rma(yi, vi, mods = ~ ablat + year, data=dat)
+
+### var-cov matrix of the fixed effects (i.e., the model coefficients)
+vcov(res)
+
+### marginal var-cov matrix of the observed log risk ratios
+round(vcov(res, type="obs"), 3)
+
+### var-cov matrix of the fitted values
+round(vcov(res, type="fitted"), 3)
+
+### var-cov matrix of the residuals
+round(vcov(res, type="resid"), 3)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>metafor</em> version 3.4-0 <a href="00Index.html">Index</a>]</div>
+</body></html>

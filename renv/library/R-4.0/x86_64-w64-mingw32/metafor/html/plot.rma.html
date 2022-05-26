@@ -1,0 +1,103 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Plot Method for 'rma' Objects</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for plot.rma {metafor}"><tr><td>plot.rma {metafor}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Plot Method for 'rma' Objects</h2>
+
+<h3>Description</h3>
+
+<p>Plot method for objects of class <code>"rma.uni"</code>, <code>"rma.mh"</code>, <code>"rma.peto"</code>, and <code>"rma.glmm"</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'rma.uni'
+plot(x, qqplot=FALSE, ...)
+
+## S3 method for class 'rma.mh'
+plot(x, qqplot=FALSE, ...)
+
+## S3 method for class 'rma.peto'
+plot(x, qqplot=FALSE, ...)
+
+## S3 method for class 'rma.glmm'
+plot(x, qqplot=FALSE, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>an object of class <code>"rma.uni"</code>, <code>"rma.mh"</code>, or <code>"rma.peto"</code>. The method is not yet implemented for objects of class <code>"rma.glmm"</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>qqplot</code></td>
+<td>
+<p>logical to specify whether a normal QQ plot should be drawn (the default is <code>FALSE</code>).</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>other arguments.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Four plots are produced. If the model does not contain any moderators, then a forest plot, funnel plot, radial plot, and a plot of the standardized residuals is provided. If <code>qqplot=TRUE</code>, the last plot is replaced by a normal QQ plot of the standardized residuals.
+</p>
+<p>If the model contains moderators, then a forest plot, funnel plot, plot of the standardized residuals against the fitted values, and a plot of the standardized residuals is provided. If <code>qqplot=TRUE</code>, the last plot is replaced by a normal QQ plot of the standardized residuals.
+</p>
+
+
+<h3>Note</h3>
+
+<p>If the number of studies is large, the forest plot may become difficult to read due to the small font size. Stretching the plotting device vertically should provide more space.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Wolfgang Viechtbauer <a href="mailto:wvb@metafor-project.org">wvb@metafor-project.org</a> <a href="https://www.metafor-project.org">https://www.metafor-project.org</a>
+</p>
+
+
+<h3>References</h3>
+
+<p>Viechtbauer, W. (2010). Conducting meta-analyses in R with the metafor package. <em>Journal of Statistical Software</em>, <b>36</b>(3), 1&ndash;48. <code style="white-space: pre;">https://doi.org/10.18637/jss.v036.i03</code>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="forest.html">forest</a></code> for forest plots, <code><a href="funnel.html">funnel</a></code> for funnel plots, <code><a href="radial.html">radial</a></code> for radial plots, and <code><a href="qqnorm.rma.html">qqnorm.rma.uni</a></code> for normal QQ plots.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+### calculate log risk ratios and corresponding sampling variances
+dat &lt;- escalc(measure="RR", ai=tpos, bi=tneg, ci=cpos, di=cneg, data=dat.bcg)
+
+### fit random-effects model
+res &lt;- rma(yi, vi, data=dat)
+
+### plot results
+plot(res, qqplot=TRUE)
+
+### fit mixed-effects model with absolute latitude and publication year as moderators
+res &lt;- rma(yi, vi, mods = ~ ablat + year, data=dat)
+
+### plot results
+plot(res, qqplot=TRUE)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>metafor</em> version 3.4-0 <a href="00Index.html">Index</a>]</div>
+</body></html>

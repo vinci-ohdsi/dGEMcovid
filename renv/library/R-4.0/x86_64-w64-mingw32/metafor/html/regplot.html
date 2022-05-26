@@ -1,0 +1,352 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Scatter Plots / Bubble Plots</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for regplot {metafor}"><tr><td>regplot {metafor}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Scatter Plots / Bubble Plots</h2>
+
+<h3>Description</h3>
+
+<p>Function to create scatter plots / bubble plots based on meta-regression models. <script id="MathJax-script" async src="../../mathjaxr/doc/mathjax/es5/tex-chtml-full.js"></script>
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+regplot(x, ...)
+
+## S3 method for class 'rma'
+regplot(x, mod, pred=TRUE, ci=TRUE, pi=FALSE, shade=TRUE,
+        xlim, ylim, predlim, olim, xlab, ylab, at, digits=2L,
+        transf, atransf, targs, level=x$level,
+        pch=21, psize, plim=c(0.5,3), col="black", bg="darkgray",
+        grid=FALSE, refline, label=FALSE, offset=c(1,1), labsize=1,
+        lcol, lwd, lty, legend=FALSE, xvals, ...)
+
+## S3 method for class 'regplot'
+points(x, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>an object of class <code>"rma.uni"</code>, <code>"rma.mv"</code>, or <code>"rma.glmm"</code> including one or multiple moderators (or an object of class <code>"regplot"</code> for <code>points</code>).</p>
+</td></tr>
+<tr valign="top"><td><code>mod</code></td>
+<td>
+<p>either a scalar to specify the position of the moderator variable in the model or a character string to specify the name of the moderator variable.</p>
+</td></tr>
+<tr valign="top"><td><code>pred</code></td>
+<td>
+<p>logical to indicate whether the (marginal) regression line based on the moderator should be added to the plot (the default is <code>TRUE</code>). Can also be an object from <code><a href="predict.rma.html">predict</a></code>. See &lsquo;Details&rsquo;.</p>
+</td></tr>
+<tr valign="top"><td><code>ci</code></td>
+<td>
+<p>logical to indicate whether the corresponding confidence interval bounds should be added to the plot (the default is <code>TRUE</code>).</p>
+</td></tr>
+<tr valign="top"><td><code>pi</code></td>
+<td>
+<p>logical to indicate whether the corresponding prediction interval bounds should be added to the plot (the default is <code>FALSE</code>).</p>
+</td></tr>
+<tr valign="top"><td><code>shade</code></td>
+<td>
+<p>logical to indicate whether the confidence/prediction interval regions should be shaded (the default is <code>TRUE</code>). Can also be a two-element character vector to specify the colors for shading the confidence and prediction interval regions (if shading only the former, a single color can also be specified).</p>
+</td></tr>
+<tr valign="top"><td><code>xlim</code></td>
+<td>
+<p>x-axis limits. If unspecified, the function tries to set the x-axis limits to some sensible values.</p>
+</td></tr>
+<tr valign="top"><td><code>ylim</code></td>
+<td>
+<p>y-axis limits. If unspecified, the function tries to set the y-axis limits to some sensible values.</p>
+</td></tr>
+<tr valign="top"><td><code>predlim</code></td>
+<td>
+<p>optional argument to specify the limits of the (marginal) regression line. If unspecified, the limits are based on the range of the moderator variable.</p>
+</td></tr>
+<tr valign="top"><td><code>olim</code></td>
+<td>
+<p>optional argument to specify observation/outcome limits. If unspecified, no limits are used.</p>
+</td></tr>
+<tr valign="top"><td><code>xlab</code></td>
+<td>
+<p>title for the x-axis. If unspecified, the function tries to set an appropriate axis title.</p>
+</td></tr>
+<tr valign="top"><td><code>ylab</code></td>
+<td>
+<p>title for the y-axis. If unspecified, the function tries to set an appropriate axis title.</p>
+</td></tr>
+<tr valign="top"><td><code>at</code></td>
+<td>
+<p>position of the y-axis tick marks and corresponding labels. If unspecified, the function tries to set the tick mark positions/labels to some sensible values.</p>
+</td></tr>
+<tr valign="top"><td><code>digits</code></td>
+<td>
+<p>integer to specify the number of decimal places to which the tick mark labels of the y-axis should be rounded. When specifying an integer (e.g., <code>2L</code>), trailing zeros after the decimal mark are dropped for the y-axis labels. When specifying a numeric value (e.g., <code>2</code>), trailing zeros are retained.</p>
+</td></tr>
+<tr valign="top"><td><code>transf</code></td>
+<td>
+<p>optional argument to specify a function that should be used to transform the observed outcomes, predicted values, and confidence/prediction interval bounds (e.g., <code>transf=exp</code>; see also <a href="transf.html">transf</a>). If unspecified, no transformation is used.</p>
+</td></tr>
+<tr valign="top"><td><code>atransf</code></td>
+<td>
+<p>optional argument to specify a function that should be used to transform the y-axis labels (e.g., <code>atransf=exp</code>; see also <a href="transf.html">transf</a>). If unspecified, no transformation is used.</p>
+</td></tr>
+<tr valign="top"><td><code>targs</code></td>
+<td>
+<p>optional arguments needed by the function specified via <code>transf</code> or <code>atransf</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>level</code></td>
+<td>
+<p>numeric value between 0 and 100 to specify the confidence/prediction interval level (the default is to take the value from the object).</p>
+</td></tr>
+<tr valign="top"><td><code>pch</code></td>
+<td>
+<p>plotting symbol to use for the observed outcomes. By default, a filled circle is used. Can also be a vector of values. See <code><a href="../../graphics/html/points.html">points</a></code> for other options.</p>
+</td></tr>
+<tr valign="top"><td><code>psize</code></td>
+<td>
+<p>optional numeric value to specify the point sizes for the observed outcomes. If unspecified, the point sizes are a function of the model weights. Can also be a vector of values. Can also be a character string (either <code>"seinv"</code> or <code>"vinv"</code>) to make the point sizes proportional to the inverse standard errors or inverse sampling variances.</p>
+</td></tr>
+<tr valign="top"><td><code>plim</code></td>
+<td>
+<p>numeric vector of length 2 to scale the point sizes (ignored when a numeric value or vector is specified for <code>psize</code>). See &lsquo;Details&rsquo;.</p>
+</td></tr>
+<tr valign="top"><td><code>col</code></td>
+<td>
+<p>character string to specify the color to use for plotting the observed outcomes (the default is <code>"black"</code>). Can also be a vector.</p>
+</td></tr>
+<tr valign="top"><td><code>bg</code></td>
+<td>
+<p>character string to specify the background color for open plot symbols (the default is <code>"darkgray"</code>). Can also be a vector.</p>
+</td></tr>
+<tr valign="top"><td><code>grid</code></td>
+<td>
+<p>logical to specify whether a grid should be added to the plot. Can also be a color name for the grid.</p>
+</td></tr>
+<tr valign="top"><td><code>refline</code></td>
+<td>
+<p>optional numeric value to specify the location of a horizontal reference line that should be added to the plot.</p>
+</td></tr>
+<tr valign="top"><td><code>label</code></td>
+<td>
+<p>argument to control the labeling of the points (the default is <code>FALSE</code>). See &lsquo;Details&rsquo;.</p>
+</td></tr>
+<tr valign="top"><td><code>offset</code></td>
+<td>
+<p>argument to control the distance between the points and the corresponding labels. See &lsquo;Details&rsquo;.</p>
+</td></tr>
+<tr valign="top"><td><code>labsize</code></td>
+<td>
+<p>numeric value to control the size of the labels.</p>
+</td></tr>
+<tr valign="top"><td><code>lcol</code></td>
+<td>
+<p>optional vector of (up to) four elements to specify the color of the regression line, of the confidence interval bounds, of the prediction interval bounds, and of the horizontal reference line.</p>
+</td></tr>
+<tr valign="top"><td><code>lty</code></td>
+<td>
+<p>optional vector of (up to) four elements to specify the line type of the regression line, of the confidence interval bounds, of the prediction interval bounds, and of the horizontal reference line.</p>
+</td></tr>
+<tr valign="top"><td><code>lwd</code></td>
+<td>
+<p>optional vector of (up to) four elements to specify the line width of the regression line, of the confidence interval bounds, of the prediction interval bounds, and of the horizontal reference line.</p>
+</td></tr>
+<tr valign="top"><td><code>legend</code></td>
+<td>
+<p>logical to indicate whether a legend should be added to the plot (the default is <code>FALSE</code>). Can also be a keyword to indicate the position of the legend (see <code><a href="../../graphics/html/legend.html">legend</a></code>).</p>
+</td></tr>
+<tr valign="top"><td><code>xvals</code></td>
+<td>
+<p>optional numeric vector to specify the values of the moderator for which predicted values should be computed. Needs to be specified when passing an object from <code><a href="predict.rma.html">predict</a></code> to the <code>pred</code> argument. See &lsquo;Details&rsquo;.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>other arguments.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The function draws a scatter plot of the values of a moderator variable in a meta-regression model (on the x-axis) against the observed effect sizes or outcomes (on the y-axis). The regression line from the model (with corresponding confidence interval bounds) is added to the plot by default. These types of plots are also often referred to as &lsquo;bubble plots&rsquo; as the points are typically drawn in different sizes to reflect their precision or weight in the model.
+</p>
+<p>If the model includes multiple moderators, one must specify via argument <code>mod</code> either the position (as a number) or the name (as a string) of the moderator variable to place on the x-axis. The regression line then reflects the &lsquo;marginal&rsquo; relationship between the chosen moderator and the effect sizes or outcomes (i.e., all other moderators except the one being plotted are held constant at their means).
+</p>
+<p>By default (i.e., when <code>psize</code> is not specified), the size of the points is a function of the square root of the model weights. This way, their area is proportional to the weights. However, the point sizes are rescaled so that the smallest point size is <code>plim[1]</code> and the largest point size is <code>plim[2]</code>. As a result, their relative sizes (i.e., areas) no longer exactly correspond to their relative weights. If exactly relative point sizes are desired, one can set <code>plim[2]</code> to <code>NA</code>, in which case the points are rescaled so that the smallest point size corresponds to <code>plim[1]</code> and all other points are scaled accordingly. As a result, the largest point may be very large. Alternatively, one can set <code>plim[1]</code> to <code>NA</code>, in which case the points are rescaled so that the largest point size corresponds to <code>plim[2]</code> and all other points are scaled accordingly. As a result, the smallest point may be very small. To avoid the latter, one can also set <code>plim[3]</code>, which enforces a minimal point size.
+</p>
+<p>One can also set <code>psize</code> to a scalar (e.g., <code>psize=1</code>) to avoid that the points are drawn in different sizes. One can also specify the point sizes manually by passing a vector of the appropriate length to <code>psize</code>. Finally, one can also set <code>psize</code> to either <code>"seinv"</code> or <code>"vinv"</code> to make the point sizes proportional to the inverse standard errors or inverse sampling variances.
+</p>
+<p>With the <code>label</code> argument, one can control whether points in the plot will be labeled. If <code>label="all"</code> (or <code>label=TRUE</code>), all points in the plot will be labeled. If <code>label="ciout"</code> or <code>label="piout"</code>, points falling outside of the confidence/prediction interval will be labeled. Alternatively, one can set this argument to a logical or numeric vector to specify which points should be labeled. The labels are placed above the points when they fall above the regression line and otherwise below. With the <code>offset</code> argument, one can adjust the distance between the labels and the corresponding points. This can either be a single numeric value, which is used as a multiplicative factor for the point sizes (so that the distance between labels and points is larger for larger points) or a numeric vector with two values, where the first is used as an additive factor independent of the point sizes and the second again as a multiplicative factor for the point sizes. The values are given as percentages of the y-axis range. It may take some trial and error to find two values for the <code>offset</code> argument so that the labels are placed right next to the boundary of the points. With <code>labsize</code>, one can control the size of the labels.
+</p>
+<p>One can also pass an object from <code><a href="predict.rma.html">predict</a></code> to the <code>pred</code> argument. This can be useful when the meta-regression model reflects a more complex relationship between the moderator variable and the effect sizes or outcomes (e.g., when using polynomials or splines) or when the model involves interactions. In this case, one also needs to specify the <code>xvals</code> argument. See &lsquo;Examples&rsquo;.
+</p>
+
+
+<h3>Value</h3>
+
+<p>An object of class <code>"regplot"</code> with components:
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>slab</code></td>
+<td>
+<p>the study labels</p>
+</td></tr>
+<tr valign="top"><td><code>ids</code></td>
+<td>
+<p>the study ids</p>
+</td></tr>
+<tr valign="top"><td><code>xi</code></td>
+<td>
+<p>the x-axis coordinates of the points that were plotted.</p>
+</td></tr>
+<tr valign="top"><td><code>yi</code></td>
+<td>
+<p>the y-axis coordinates of the points that were plotted.</p>
+</td></tr>
+<tr valign="top"><td><code>pch</code></td>
+<td>
+<p>the plotting symbols of the points that were plotted.</p>
+</td></tr>
+<tr valign="top"><td><code>psize</code></td>
+<td>
+<p>the point sizes of the points that were plotted.</p>
+</td></tr>
+<tr valign="top"><td><code>col</code></td>
+<td>
+<p>the colors of the points that were plotted.</p>
+</td></tr>
+<tr valign="top"><td><code>bg</code></td>
+<td>
+<p>the background colors of the points that were plotted.</p>
+</td></tr>
+<tr valign="top"><td><code>label</code></td>
+<td>
+<p>logical vector indicating whether a point was labeled.</p>
+</td></tr>
+</table>
+<p>Note that the object is returned invisibly. Using <code>points.regplot</code>, one can redraw the points (and labels) in case one wants to superimpose the points on top of any elements that were added manually to the plot (see &lsquo;Examples&rsquo;).
+</p>
+
+
+<h3>Note</h3>
+
+<p>For certain types of models, it may not be possible to draw the prediction interval bounds (if this is the case, a warning will be issued).
+</p>
+<p>When specifying vectors for arguments <code>pch</code>, <code>psize</code>, <code>col</code>, <code>bg</code>, and/or <code>label</code>, the variables specified are assumed to be of the same length as the data passed to the model fitting function. Any subsetting and removal of studies with missing values is automatically applied to the variables specified via these arguments.
+</p>
+<p>If the outcome measure used for creating the plot is bounded (e.g., correlations are bounded between -1 and +1, proportions are bounded between 0 and 1), one can use the <code>olim</code> argument to enforce those limits (the observed outcomes and confidence/prediction intervals cannot exceed those bounds then).
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Wolfgang Viechtbauer <a href="mailto:wvb@metafor-project.org">wvb@metafor-project.org</a> <a href="https://www.metafor-project.org">https://www.metafor-project.org</a>
+</p>
+
+
+<h3>References</h3>
+
+<p>Thompson, S. G., &amp; Higgins, J. P. T. (2002). How should meta-regression analyses be undertaken and interpreted? <em>Statistics in Medicine</em>, <b>21</b>(11), 1559&ndash;1573. <code style="white-space: pre;">https://doi.org/10.1002/sim.1187</code>
+</p>
+<p>Viechtbauer, W. (2010). Conducting meta-analyses in R with the metafor package. <em>Journal of Statistical Software</em>, <b>36</b>(3), 1&ndash;48. <code style="white-space: pre;">https://doi.org/10.18637/jss.v036.i03</code>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="rma.uni.html">rma.uni</a></code>, <code><a href="rma.glmm.html">rma.glmm</a></code>, and <code><a href="rma.mv.html">rma.mv</a></code> for functions to fit models for which scatter plots / bubble plots can be drawn.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+### copy BCG vaccine data into 'dat'
+dat &lt;- dat.bcg
+
+### calculate log risk ratios and corresponding sampling variances
+dat &lt;- escalc(measure="RR", ai=tpos, bi=tneg, ci=cpos, di=cneg, data=dat)
+
+############################################################################
+
+### fit mixed-effects model with absolute latitude as a moderator
+res &lt;- rma(yi, vi, mods = ~ ablat, data=dat)
+res
+
+### draw plot
+regplot(res, mod="ablat", xlab="Absolute Latitude")
+
+### adjust x-axis limits and back-transform to risk ratios
+regplot(res, mod="ablat", xlab="Absolute Latitude", xlim=c(0,60), transf=exp)
+
+### also extend the prediction limits for the regression line
+regplot(res, mod="ablat", xlab="Absolute Latitude", xlim=c(0,60), predlim=c(0,60), transf=exp)
+
+### add the prediction interval to the plot, add a reference line at 1, and add a legend
+regplot(res, mod="ablat", pi=TRUE, xlab="Absolute Latitude",
+        xlim=c(0,60), predlim=c(0,60), transf=exp, refline=1, legend=TRUE)
+
+### label points outside of the prediction interval
+regplot(res, mod="ablat", pi=TRUE, xlab="Absolute Latitude",
+        xlim=c(0,60), predlim=c(0,60), transf=exp, refline=1, legend=TRUE,
+        label="piout", labsize=0.8)
+
+############################################################################
+
+### fit mixed-effects model with absolute latitude and publication year as moderators
+res &lt;- rma(yi, vi, mods = ~ ablat + year, data=dat)
+res
+
+### plot the marginal relationships
+regplot(res, mod="ablat", xlab="Absolute Latitude")
+regplot(res, mod="year",  xlab="Publication Year")
+
+############################################################################
+
+### fit a quadratic polynomial meta-regression model
+res &lt;- rma(yi, vi, mods = ~ ablat + I(ablat^2), data=dat)
+res
+
+### compute predicted values using predict()
+xs &lt;- seq(0,60,length=601)
+tmp &lt;- predict(res, newmods=cbind(xs, xs^2))
+
+### can now pass these results to the 'pred' argument (and have to specify xvals accordingly)
+regplot(res, mod="ablat", pred=tmp, xlab="Absolute Latitude", xlim=c(0,60), xvals=xs)
+
+### back-transform to risk ratios and add reference line
+regplot(res, mod="ablat", pred=tmp, xlab="Absolute Latitude", xlim=c(0,60), xvals=xs,
+        transf=exp, refline=1)
+
+############################################################################
+
+### fit a model with an interaction between a quantitative and a categorical predictor
+### (note: just for illustration purposes; this model is too complex for this dataset)
+res &lt;- rma(yi, vi, mods = ~ ablat * alloc, data=dat)
+res
+
+### draw bubble plot but do not add regression line or CI
+tmp &lt;- regplot(res, mod="ablat", xlab="Absolute Latitude", xlim=c(0,60), pred=FALSE, ci=FALSE)
+
+### add regression lines for the three alloc levels
+xs &lt;- seq(0, 60, length=100)
+preds &lt;- predict(res, newmods=cbind(xs, 0, 0, 0, 0))
+lines(xs, preds$pred, lwd=3)
+preds &lt;- predict(res, newmods=cbind(xs, 1, 0, xs, 0))
+lines(xs, preds$pred, lwd=3)
+preds &lt;- predict(res, newmods=cbind(xs, 0, 1, 0, xs))
+lines(xs, preds$pred, lwd=3)
+
+### add points back to the plot (so they are on top of the lines)
+points(tmp)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>metafor</em> version 3.4-0 <a href="00Index.html">Index</a>]</div>
+</body></html>

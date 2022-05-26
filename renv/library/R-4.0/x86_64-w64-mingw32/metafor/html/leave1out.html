@@ -1,0 +1,179 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Leave-One-Out Diagnostics for 'rma' Objects</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for leave1out {metafor}"><tr><td>leave1out {metafor}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Leave-One-Out Diagnostics for 'rma' Objects</h2>
+
+<h3>Description</h3>
+
+<p>The functions repeatedly fit the specified model, leaving out one observation/study at a time. <script id="MathJax-script" async src="../../mathjaxr/doc/mathjax/es5/tex-chtml-full.js"></script>
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+leave1out(x, ...)
+
+## S3 method for class 'rma.uni'
+leave1out(x, digits, transf, targs, progbar=FALSE, ...)
+## S3 method for class 'rma.mh'
+leave1out(x, digits, transf, targs, progbar=FALSE, ...)
+## S3 method for class 'rma.peto'
+leave1out(x, digits, transf, targs, progbar=FALSE, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>an object of class <code>"rma.uni"</code>, <code>"rma.mh"</code>, or <code>"rma.peto"</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>digits</code></td>
+<td>
+<p>optional integer to specify the number of decimal places to which the printed results should be rounded. If unspecified, the default is to take the value from the object.</p>
+</td></tr>
+<tr valign="top"><td><code>transf</code></td>
+<td>
+<p>optional argument to specify a function that should be used to transform the model coefficients and interval bounds (e.g., <code>transf=exp</code>; see also <a href="transf.html">transf</a>). If unspecified, no transformation is used.</p>
+</td></tr>
+<tr valign="top"><td><code>targs</code></td>
+<td>
+<p>optional arguments needed by the function specified under <code>transf</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>progbar</code></td>
+<td>
+<p>logical to specify whether a progress bar should be shown (the default is <code>FALSE</code>).</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>other arguments.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>For <code>"rma.uni"</code> objects, the model specified via <code>x</code> must be a model without moderators (i.e., either an equal- or a random-effects model).
+</p>
+
+
+<h3>Value</h3>
+
+<p>An object of class <code>"list.rma"</code>. The object is a list containing the following components:
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>estimate</code></td>
+<td>
+<p>estimated (average) outcomes.</p>
+</td></tr>
+<tr valign="top"><td><code>se</code></td>
+<td>
+<p>corresponding standard errors.</p>
+</td></tr>
+<tr valign="top"><td><code>zval</code></td>
+<td>
+<p>corresponding test statistics.</p>
+</td></tr>
+<tr valign="top"><td><code>pval</code></td>
+<td>
+<p>corresponding p-values.</p>
+</td></tr>
+<tr valign="top"><td><code>ci.lb</code></td>
+<td>
+<p>lower bounds of the confidence intervals.</p>
+</td></tr>
+<tr valign="top"><td><code>ci.ub</code></td>
+<td>
+<p>upper bounds of the confidence intervals.</p>
+</td></tr>
+<tr valign="top"><td><code>Q</code></td>
+<td>
+<p>test statistics for the test of heterogeneity.</p>
+</td></tr>
+<tr valign="top"><td><code>Qp</code></td>
+<td>
+<p>corresponding p-values.</p>
+</td></tr>
+<tr valign="top"><td><code>tau2</code></td>
+<td>
+<p>estimated amount of heterogeneity (only for random-effects models).</p>
+</td></tr>
+<tr valign="top"><td><code>I2</code></td>
+<td>
+<p>values of \(I^2\).</p>
+</td></tr>
+<tr valign="top"><td><code>H2</code></td>
+<td>
+<p>values of \(H^2\).</p>
+</td></tr>
+</table>
+<p>When the model was fitted with <code>test="t"</code> or <code>test="knha"</code>, then <code>zval</code> is called <code>tval</code> in the object that is returned by the function.
+</p>
+<p>The object is formatted and printed with the <code><a href="print.list.rma.html">print</a></code> function.
+</p>
+
+
+<h3>Note</h3>
+
+<p>When using the <code>transf</code> option, the transformation is applied to the estimated coefficients and the corresponding interval bounds. The standard errors are then set equal to <code>NA</code> and are omitted from the printed output.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Wolfgang Viechtbauer <a href="mailto:wvb@metafor-project.org">wvb@metafor-project.org</a> <a href="https://www.metafor-project.org">https://www.metafor-project.org</a>
+</p>
+
+
+<h3>References</h3>
+
+<p>Viechtbauer, W. (2010). Conducting meta-analyses in R with the metafor package. <em>Journal of Statistical Software</em>, <b>36</b>(3), 1&ndash;48. <code style="white-space: pre;">https://doi.org/10.18637/jss.v036.i03</code>
+</p>
+<p>Viechtbauer, W. (2021). Model checking in meta-analysis. In C. H. Schmid, T. Stijnen, &amp; I. R. White (Eds.), <em>Handbook of meta-analysis</em> (pp. 219&ndash;254). Boca Raton, FL: CRC Press. <code style="white-space: pre;">https://doi.org/10.1201/9781315119403</code>
+</p>
+<p>Viechtbauer, W., &amp; Cheung, M. W.-L. (2010). Outlier and influence diagnostics for meta-analysis. <em>Research Synthesis Methods</em>, <b>1</b>(2), 112&ndash;125. <code style="white-space: pre;">https://doi.org/10.1002/jrsm.11</code>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="rma.uni.html">rma.uni</a></code>, <code><a href="rma.mh.html">rma.mh</a></code>, and <code><a href="rma.peto.html">rma.peto</a></code> for functions to fit models for which leave-one-out diagnostics can be computed.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+### calculate log risk ratios and corresponding sampling variances
+dat &lt;- escalc(measure="RR", ai=tpos, bi=tneg, ci=cpos, di=cneg, data=dat.bcg)
+
+### random-effects model
+res &lt;- rma(yi, vi, data=dat)
+
+### leave-one-out analysis
+leave1out(res)
+leave1out(res, transf=exp)
+
+### meta-analysis of the (log) risk ratios using the Mantel-Haenszel method
+res &lt;- rma.mh(measure="RR", ai=tpos, bi=tneg, ci=cpos, di=cneg, data=dat.bcg)
+
+### leave-one-out analysis
+leave1out(res)
+leave1out(res, transf=exp)
+
+### meta-analysis of the (log) odds ratios using Peto's method
+res &lt;- rma.peto(ai=tpos, bi=tneg, ci=cpos, di=cneg, data=dat.bcg)
+
+### leave-one-out analysis
+leave1out(res)
+leave1out(res, transf=exp)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>metafor</em> version 3.4-0 <a href="00Index.html">Index</a>]</div>
+</body></html>

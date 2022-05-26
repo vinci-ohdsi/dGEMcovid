@@ -1,0 +1,101 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Compute Weights for 'rma' Objects</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for weights.rma {metafor}"><tr><td>weights.rma {metafor}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Compute Weights for 'rma' Objects</h2>
+
+<h3>Description</h3>
+
+<p>The function computes the weights given to the observed effect sizes or outcomes during the model fitting for objects of class <code>"rma.uni"</code>, <code>"rma.mh"</code>, <code>"rma.peto"</code>, and <code>"rma.mv"</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'rma.uni'
+weights(object, type="diagonal", ...)
+## S3 method for class 'rma.mh'
+weights(object, type="diagonal", ...)
+## S3 method for class 'rma.peto'
+weights(object, type="diagonal", ...)
+## S3 method for class 'rma.glmm'
+weights(object, ...)
+## S3 method for class 'rma.mv'
+weights(object, type="diagonal", ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>an object of class <code>"rma.uni"</code>, <code>"rma.mh"</code>, <code>"rma.peto"</code>, or <code>"rma.mv"</code>. The method is not yet implemented for objects of class <code>"rma.glmm"</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>type</code></td>
+<td>
+<p>character string to specify whether to return only the diagonal of the weight matrix (<code>"diagonal"</code>) or the entire weight matrix (<code>"matrix"</code>). For <code>"rma.mv"</code>, this can also be <code>"rowsum"</code> for &lsquo;row-sum weights&rsquo; (for intercept-only models).</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>other arguments.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Either a vector with the diagonal elements of the weight matrix or the entire weight matrix. When only the diagonal elements are returned, they are given in % (and they add up to 100%).
+</p>
+<p>When the entire weight matrix is requested, this is always a diagonal matrix for objects of class <code>"rma.uni"</code>, <code>"rma.mh"</code>, <code>"rma.peto"</code>.
+</p>
+<p>For <code>"rma.mv"</code>, the structure of the weight matrix depends on the model fitted (i.e., the random effects included and the variance-covariance matrix of the sampling errors) but is often more complex and not just diagonal.
+</p>
+<p>For intercept-only <code>"rma.mv"</code> models, one can also take the sum over the rows in the weight matrix, which are actually the weights assigned to the observed effect sizes or outcomes when estimating the model intercept. These weights can be obtained with <code>type="rowsum"</code> (as with <code>type="diagonal"</code>, they are also given in %). See <a href="https://www.metafor-project.org/doku.php/tips:weights_in_rma.mv_models">here</a> for a discussion of this.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Wolfgang Viechtbauer <a href="mailto:wvb@metafor-project.org">wvb@metafor-project.org</a> <a href="https://www.metafor-project.org">https://www.metafor-project.org</a>
+</p>
+
+
+<h3>References</h3>
+
+<p>Viechtbauer, W. (2010). Conducting meta-analyses in R with the metafor package. <em>Journal of Statistical Software</em>, <b>36</b>(3), 1&ndash;48. <code style="white-space: pre;">https://doi.org/10.18637/jss.v036.i03</code>
+</p>
+<p>Viechtbauer, W. (2021). Model checking in meta-analysis. In C. H. Schmid, T. Stijnen, &amp; I. R. White (Eds.), <em>Handbook of meta-analysis</em> (pp. 219&ndash;254). Boca Raton, FL: CRC Press. <code style="white-space: pre;">https://doi.org/10.1201/9781315119403</code>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="rma.uni.html">rma.uni</a></code>, <code><a href="rma.mh.html">rma.mh</a></code>, <code><a href="rma.peto.html">rma.peto</a></code>, and <code><a href="rma.mv.html">rma.mv</a></code> for functions to fit models for which model fitting weights can be extracted.
+</p>
+<p><code><a href="influence.rma.uni.html">influence.rma.uni</a></code> and <code><a href="influence.rma.mv.html">influence.rma.mv</a></code> for other model diagnostics.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+### calculate log risk ratios and corresponding sampling variances
+dat &lt;- escalc(measure="RR", ai=tpos, bi=tneg, ci=cpos, di=cneg, data=dat.bcg)
+
+### fit mixed-effects model with absolute latitude and publication year as moderators
+res &lt;- rma(yi, vi, mods = ~ ablat + year, data=dat)
+
+### extract the model fitting weights (in %)
+weights(res)
+
+### extract the weight matrix
+round(weights(res, type="matrix"), 4)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>metafor</em> version 3.4-0 <a href="00Index.html">Index</a>]</div>
+</body></html>

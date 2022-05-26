@@ -1,0 +1,40 @@
+Package: CohortGenerator
+Type: Package
+Title: An R Package for Cohort Generation Against the OMOP CDM
+Version: 0.3.0
+Date: 2022-02-01
+Authors@R: c(
+ person("Anthony", "Sena", email = "sena@ohdsi.org", role = c("aut", "cre")),
+ person("Gowtham", "Rao", email = "gowthamrao@gmail.com", role = c("aut")),
+ person("Martijn", "Schuemie", email = "schuemie@ohdsi.org", role = c("aut")),
+ person("Observational Health Data Science and Informatics", role = c("cph"))
+ )
+Maintainer: Anthony Sena <sena@ohdsi.org>
+Description: An R package for that encapsulates the functions for generating cohorts against the OMOP CDM.
+Depends: DatabaseConnector (>= 5.0.0), R (>= 3.6.0)
+Imports: checkmate, digest, dplyr, lubridate, ParallelLogger (>= 2.0.2), readr
+    (>= 1.4.0), rlang, RJSONIO, SqlRender (>= 1.7.0), stringi
+Suggests: CirceR (>= 1.1.1), Eunomia, knitr, rmarkdown, ROhdsiWebApi, testthat
+License: Apache License
+VignetteBuilder: knitr
+URL: https://ohdsi.github.io/CohortGenerator/,
+    https://github.com/OHDSI/CohortGenerator
+BugReports: https://github.com/OHDSI/CohortGenerator/issues
+RoxygenNote: 7.1.2
+Encoding: UTF-8
+Language: en-US
+Author: Anthony Sena [aut, cre],
+ Gowtham Rao [aut],
+ Martijn Schuemie [aut],
+ Observational Health Data Science and Informatics [cph]
+Built: R 4.0.1; ; 2022-05-24 19:35:09 UTC; windows
+RemoteType: github
+RemoteHost: api.github.com
+RemoteRepo: CohortGenerator
+RemoteUsername: ohdsi
+RemoteRef: v0.3.0
+GithubHost: api.github.com
+GithubRepo: CohortGenerator
+GithubUsername: ohdsi
+GithubRef: v0.3.0
+Remotes: ohdsi/CirceR, ohdsi/Eunomia, ohdsi/ROhdsiWebApi

@@ -1,0 +1,236 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Convert Data from Vector to Long Format</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for to.long {metafor}"><tr><td>to.long {metafor}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Convert Data from Vector to Long Format</h2>
+
+<h3>Description</h3>
+
+<p>The function converts summary data in vector format to the corresponding long format. <script id="MathJax-script" async src="../../mathjaxr/doc/mathjax/es5/tex-chtml-full.js"></script>
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+to.long(measure, ai, bi, ci, di, n1i, n2i, x1i, x2i, t1i, t2i,
+        m1i, m2i, sd1i, sd2i, xi, mi, ri, ti, sdi, ni, data, slab, subset,
+        add=1/2, to="none", drop00=FALSE, vlong=FALSE, append=TRUE, var.names)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>measure</code></td>
+<td>
+<p>a character string to specify the effect size or outcome measure corresponding to the summary data supplied. See &lsquo;Details&rsquo; and the documentation of the <code><a href="escalc.html">escalc</a></code> function for possible options.</p>
+</td></tr>
+<tr valign="top"><td><code>ai</code></td>
+<td>
+<p>vector to specify the \(2 \times 2\) table frequencies (upper left cell).</p>
+</td></tr>
+<tr valign="top"><td><code>bi</code></td>
+<td>
+<p>vector to specify the \(2 \times 2\) table frequencies (upper right cell).</p>
+</td></tr>
+<tr valign="top"><td><code>ci</code></td>
+<td>
+<p>vector to specify the \(2 \times 2\) table frequencies (lower left cell).</p>
+</td></tr>
+<tr valign="top"><td><code>di</code></td>
+<td>
+<p>vector to specify the \(2 \times 2\) table frequencies (lower right cell).</p>
+</td></tr>
+<tr valign="top"><td><code>n1i</code></td>
+<td>
+<p>vector to specify the group sizes or row totals (first group/row).</p>
+</td></tr>
+<tr valign="top"><td><code>n2i</code></td>
+<td>
+<p>vector to specify the group sizes or row totals (second group/row).</p>
+</td></tr>
+<tr valign="top"><td><code>x1i</code></td>
+<td>
+<p>vector to specify the number of events (first group).</p>
+</td></tr>
+<tr valign="top"><td><code>x2i</code></td>
+<td>
+<p>vector to specify the number of events (second group).</p>
+</td></tr>
+<tr valign="top"><td><code>t1i</code></td>
+<td>
+<p>vector to specify the total person-times (first group).</p>
+</td></tr>
+<tr valign="top"><td><code>t2i</code></td>
+<td>
+<p>vector to specify the total person-times (second group).</p>
+</td></tr>
+<tr valign="top"><td><code>m1i</code></td>
+<td>
+<p>vector to specify the means (first group or time point).</p>
+</td></tr>
+<tr valign="top"><td><code>m2i</code></td>
+<td>
+<p>vector to specify the means (second group or time point).</p>
+</td></tr>
+<tr valign="top"><td><code>sd1i</code></td>
+<td>
+<p>vector to specify the standard deviations (first group or time point).</p>
+</td></tr>
+<tr valign="top"><td><code>sd2i</code></td>
+<td>
+<p>vector to specify the standard deviations (second group or time point).</p>
+</td></tr>
+<tr valign="top"><td><code>xi</code></td>
+<td>
+<p>vector to specify the frequencies of the event of interest.</p>
+</td></tr>
+<tr valign="top"><td><code>mi</code></td>
+<td>
+<p>vector to specify the frequencies of the complement of the event of interest or the group means.</p>
+</td></tr>
+<tr valign="top"><td><code>ri</code></td>
+<td>
+<p>vector to specify the raw correlation coefficients.</p>
+</td></tr>
+<tr valign="top"><td><code>ti</code></td>
+<td>
+<p>vector to specify the total person-times.</p>
+</td></tr>
+<tr valign="top"><td><code>sdi</code></td>
+<td>
+<p>vector to specify the standard deviations.</p>
+</td></tr>
+<tr valign="top"><td><code>ni</code></td>
+<td>
+<p>vector to specify the sample/group sizes.</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>optional data frame containing the variables given to the arguments above.</p>
+</td></tr>
+<tr valign="top"><td><code>slab</code></td>
+<td>
+<p>optional vector with labels for the studies.</p>
+</td></tr>
+<tr valign="top"><td><code>subset</code></td>
+<td>
+<p>optional (logical or numeric) vector to specify the subset of studies that should included in the data frame returned by the function.</p>
+</td></tr>
+<tr valign="top"><td><code>add</code></td>
+<td>
+<p>see the documentation of the <code><a href="escalc.html">escalc</a></code> function.</p>
+</td></tr>
+<tr valign="top"><td><code>to</code></td>
+<td>
+<p>see the documentation of the <code><a href="escalc.html">escalc</a></code> function.</p>
+</td></tr>
+<tr valign="top"><td><code>drop00</code></td>
+<td>
+<p>see the documentation of the <code><a href="escalc.html">escalc</a></code> function.</p>
+</td></tr>
+<tr valign="top"><td><code>vlong</code></td>
+<td>
+<p>optional logical whether a very long format should be used (only relevant for \(2 \times 2\) or \(1 \times 2\) table data).</p>
+</td></tr>
+<tr valign="top"><td><code>append</code></td>
+<td>
+<p>logical to specify whether the data frame specified via the <code>data</code> argument (if one has been specified) should be returned together with the long format data (the default is <code>TRUE</code>).</p>
+</td></tr>
+<tr valign="top"><td><code>var.names</code></td>
+<td>
+<p>optional vector with variable names (length depends on the data type). If unspecified, the function sets appropriate variable names by default.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The <code><a href="escalc.html">escalc</a></code> function describes a wide variety of effect size or outcome measures that can be computed for a meta-analysis. The summary data used to compute those measures are typically contained in vectors, each element corresponding to a study. The <code>to.long</code> function takes this information and constructs a long format dataset from these data.
+</p>
+<p>For example, in various fields (such as the health and medical sciences), the response variable measured is often dichotomous (binary), so that the data from a study comparing two different groups can be expressed in terms of a \(2 \times 2\) table, such as:
+</p>
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: left;">
+           </td><td style="text-align: center;"> outcome 1 </td><td style="text-align: center;"> outcome 2 </td><td style="text-align: center;"> total      </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+   group 1 </td><td style="text-align: center;"> <code>ai</code> </td><td style="text-align: center;"> <code>bi</code> </td><td style="text-align: center;"> <code>n1i</code> </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+   group 2 </td><td style="text-align: center;"> <code>ci</code> </td><td style="text-align: center;"> <code>di</code> </td><td style="text-align: center;"> <code>n2i</code>
+   </td>
+</tr>
+
+</table>
+<p> where <code>ai</code>, <code>bi</code>, <code>ci</code>, and <code>di</code> denote the cell frequencies (i.e., the number of people falling into a particular category) and <code>n1i</code> and <code>n2i</code> the row totals (i.e., the group sizes).
+</p>
+<p>The cell frequencies in \(k\) such \(2 \times 2\) tables can be specified via the <code>ai</code>, <code>bi</code>, <code>ci</code>, and <code>di</code> arguments (or alternatively, via the <code>ai</code>, <code>ci</code>, <code>n1i</code>, and <code>n2i</code> arguments). The function then creates the corresponding long format dataset. The <code>measure</code> argument should then be set equal to one of the outcome measures that can be computed based on this type of data, such as <code>"RR"</code>, <code>"OR"</code>, <code>"RD"</code> (it is not relevant which specific measure is chosen, as long as it corresponds to the specified summary data). See the documentation of the <code><a href="escalc.html">escalc</a></code> function for more details on the types of data formats available.
+</p>
+<p>The long format for data of this type consists of two rows per study, a factor indicating the study (default name <code>study</code>), a dummy variable indicating the group (default name <code>group</code>, coded as 1 and 2), and two variables indicating the number of individuals experiencing outcome 1 or outcome 2 (default names <code>out1</code> and <code>out2</code>). Alternatively, if <code>vlong=TRUE</code>, then the long format consists of four rows per study, a factor indicating the study (default name <code>study</code>), a dummy variable indicating the group (default name <code>group</code>, coded as 1 and 2), a dummy variable indicating the outcome (default name <code>outcome</code>, coded as 1 and 2), and a variable indicating the frequency of the respective outcome (default name <code>freq</code>).
+</p>
+<p>The default variable names can be changed via the <code>var.names</code> argument (must be of the appropriate length, depending on the data type).
+</p>
+<p>The examples below illustrate the use of this function.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A data frame with either \(k\), \(2 \times k\), or \(4 \times k\) rows and an appropriate number of columns (depending on the data type) with the data in long format. If <code>append=TRUE</code> and a data frame was specified via the <code>data</code> argument, then the data in long format are appended to the original data frame (with rows repeated an appropriate number of times).
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Wolfgang Viechtbauer <a href="mailto:wvb@metafor-project.org">wvb@metafor-project.org</a> <a href="https://www.metafor-project.org">https://www.metafor-project.org</a>
+</p>
+
+
+<h3>References</h3>
+
+<p>Viechtbauer, W. (2010). Conducting meta-analyses in R with the metafor package. <em>Journal of Statistical Software</em>, <b>36</b>(3), 1&ndash;48. <code style="white-space: pre;">https://doi.org/10.18637/jss.v036.i03</code>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="escalc.html">escalc</a></code> for a function to compute observed effect sizes or outcomes (and corresponding sampling variances) based on similar inputs.
+</p>
+<p><code><a href="to.table.html">to.table</a></code> for a function to turn similar inputs into tabular form.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+### convert data to long format
+dat &lt;- to.long(measure="OR", ai=tpos, bi=tneg, ci=cpos, di=cneg, data=dat.bcg)
+dat
+
+### extra long format
+dat &lt;- to.long(measure="OR", ai=tpos, bi=tneg, ci=cpos, di=cneg, data=dat.bcg, vlong=TRUE)
+dat
+
+### convert data to long format
+dat &lt;- to.long(measure="IRR", x1i=x1i, x2i=x2i, t1i=t1i, t2i=t2i,
+               data=dat.hart1999, var.names=c("id", "group", "events", "ptime"))
+dat
+
+### convert data to long format
+dat &lt;- to.long(measure="MD", m1i=m1i, sd1i=sd1i, n1i=n1i,
+               m2i=m2i, sd2i=sd2i, n2i=n2i, data=dat.normand1999,
+               var.names=c("id", "group", "mean", "sd", "n"))
+dat
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>metafor</em> version 3.4-0 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,126 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Construct Contrast Matrix for Two-Group Comparisons</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for contrmat {metafor}"><tr><td>contrmat {metafor}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Construct Contrast Matrix for Two-Group Comparisons</h2>
+
+<h3>Description</h3>
+
+<p>The function constructs a matrix that indicates which two groups have been contrasted against each other in each row of a dataset.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+contrmat(data, grp1, grp2, last, shorten=FALSE, minlen=2, check=TRUE, append=TRUE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>a data frame in wide format.</p>
+</td></tr>
+<tr valign="top"><td><code>grp1</code></td>
+<td>
+<p>either the name (given as a character string) or the position (given as a single number) of the first group variable in the data frame.</p>
+</td></tr>
+<tr valign="top"><td><code>grp2</code></td>
+<td>
+<p>either the name (given as a character string) or the position (given as a single number) of the second group variable in the data frame.</p>
+</td></tr>
+<tr valign="top"><td><code>last</code></td>
+<td>
+<p>optional character string to specify which group will be placed in the last column of the matrix (must be one of the groups in the group variables). If not given, the most frequently occurring second group is placed last.</p>
+</td></tr>
+<tr valign="top"><td><code>shorten</code></td>
+<td>
+<p>logical to specify whether the variable names corresponding to the group names should be shortened (the default is <code>FALSE</code>).</p>
+</td></tr>
+<tr valign="top"><td><code>minlen</code></td>
+<td>
+<p>integer to specify the minimum length of the shortened variable names (the default is 2).</p>
+</td></tr>
+<tr valign="top"><td><code>check</code></td>
+<td>
+<p>logical to specify whether the variables names should be checked to ensure that they are syntactically valid variable names and if not, they are adjusted (by <code><a href="../../base/html/make.names.html">make.names</a></code>) so that they are (the default is <code>TRUE</code>).</p>
+</td></tr>
+<tr valign="top"><td><code>append</code></td>
+<td>
+<p>logical to specify whether the contrast matrix should be appended to the data frame specified via the <code>data</code> argument (the default is <code>TRUE</code>). If <code>append=FALSE</code>, only the contrast matrix is returned.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The function can be used to construct a matrix that indicates which two groups have been contrasted against each other in each row of a data frame (with <code>1</code> for the first group, <code>-1</code> for the second group, and <code>0</code> otherwise).
+</p>
+<p>The <code>grp1</code> and <code>grp2</code> arguments are used to specify the group variables in the dataset (either as character strings or as numbers indicating the column positions of these variables in the dataset). Optional argument <code>last</code> is used to specify which group will be placed in the last column of the matrix.
+</p>
+<p>If <code>shorten=TRUE</code>, the variable names corresponding to the group names are shortened (to at least <code>minlen</code>; the actual length might be longer to ensure uniqueness of the variable names).
+</p>
+<p>The examples below illustrate the use of this function.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A matrix with as many variables as there are groups.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Wolfgang Viechtbauer <a href="mailto:wvb@metafor-project.org">wvb@metafor-project.org</a> <a href="https://www.metafor-project.org">https://www.metafor-project.org</a>
+</p>
+
+
+<h3>References</h3>
+
+<p>Viechtbauer, W. (2010). Conducting meta-analyses in R with the metafor package. <em>Journal of Statistical Software</em>, <b>36</b>(3), 1&ndash;48. <code style="white-space: pre;">https://doi.org/10.18637/jss.v036.i03</code>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="to.wide.html">to.wide</a></code> for a function to create &lsquo;wide&rsquo; format datasets.
+</p>
+<p><code><a href="../../metadat/html/dat.senn2013.html">dat.senn2013</a></code>, <code><a href="../../metadat/html/dat.hasselblad1998.html">dat.hasselblad1998</a></code>, <code><a href="../../metadat/html/dat.lopez2019.html">dat.lopez2019</a></code> for illustrative examples.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+### restructure to wide format
+dat &lt;- dat.senn2013
+dat &lt;- dat[c(1,4,3,2,5,6)]
+dat &lt;- to.wide(dat, study="study", grp="treatment", ref="placebo", grpvars=4:6)
+dat
+
+### add contrast matrix
+dat &lt;- contrmat(dat, grp1="treatment.1", grp2="treatment.2")
+dat
+
+### data in long format
+dat &lt;- dat.hasselblad1998
+dat
+
+### restructure to wide format
+dat &lt;- to.wide(dat, study="study", grp="trt", ref="no_contact", grpvars=6:7)
+dat
+
+### add contrast matrix
+dat &lt;- contrmat(dat, grp1="trt.1", grp2="trt.2", shorten=TRUE, minlen=3)
+dat
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>metafor</em> version 3.4-0 <a href="00Index.html">Index</a>]</div>
+</body></html>

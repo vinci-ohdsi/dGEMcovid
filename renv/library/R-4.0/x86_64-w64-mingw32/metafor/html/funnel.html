@@ -1,0 +1,364 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Funnel Plots</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for funnel {metafor}"><tr><td>funnel {metafor}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Funnel Plots</h2>
+
+<h3>Description</h3>
+
+<p>Function to create funnel plots. <script id="MathJax-script" async src="../../mathjaxr/doc/mathjax/es5/tex-chtml-full.js"></script>
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+funnel(x, ...)
+
+## S3 method for class 'rma'
+funnel(x, yaxis="sei",
+       xlim, ylim, xlab, ylab,
+       steps=5, at, atransf, targs, digits, level=x$level,
+       addtau2=FALSE, type="rstandard",
+       back="lightgray", shade="white", hlines="white",
+       refline, lty=3, pch, pch.fill, col, bg,
+       label=FALSE, offset=0.4, legend=FALSE, ...)
+
+## Default S3 method:
+funnel(x, vi, sei, ni, subset, yaxis="sei",
+       xlim, ylim, xlab, ylab,
+       steps=5, at, atransf, targs, digits, level=95,
+       back="lightgray", shade="white", hlines="white",
+       refline=0, lty=3, pch, col, bg,
+       label=FALSE, offset=0.4, legend=FALSE, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>an object of class <code>"rma"</code> or a vector with the observed effect sizes or outcomes.</p>
+</td></tr>
+<tr valign="top"><td><code>vi</code></td>
+<td>
+<p>vector with the corresponding sampling variances (needed if <code>x</code> is a vector with the observed effect sizes or outcomes).</p>
+</td></tr>
+<tr valign="top"><td><code>sei</code></td>
+<td>
+<p>vector with the corresponding standard errors (note: only one of the two, <code>vi</code> or <code>sei</code>, needs to be specified).</p>
+</td></tr>
+<tr valign="top"><td><code>ni</code></td>
+<td>
+<p>vector with the corresponding sample sizes. Only relevant when passing a vector via <code>x</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>subset</code></td>
+<td>
+<p>optional (logical or numeric) vector to specify the subset of studies that should be included in the plot. Only relevant when passing a vector via <code>x</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>yaxis</code></td>
+<td>
+<p>either <code>"sei"</code>, <code>"vi"</code>, <code>"seinv"</code>, <code>"vinv"</code>, <code>"ni"</code>, <code>"ninv"</code>, <code>"sqrtni"</code>, <code>"sqrtninv"</code>, <code>"lni"</code>, or <code>"wi"</code> to indicate what values should be placed on the y-axis. See &lsquo;Details&rsquo;.</p>
+</td></tr>
+<tr valign="top"><td><code>xlim</code></td>
+<td>
+<p>x-axis limits. If unspecified, the function tries to set the x-axis limits to some sensible values.</p>
+</td></tr>
+<tr valign="top"><td><code>ylim</code></td>
+<td>
+<p>y-axis limits. If unspecified, the function tries to set the y-axis limits to some sensible values.</p>
+</td></tr>
+<tr valign="top"><td><code>xlab</code></td>
+<td>
+<p>title for the x-axis. If unspecified, the function tries to set an appropriate axis title.</p>
+</td></tr>
+<tr valign="top"><td><code>ylab</code></td>
+<td>
+<p>title for the y-axis. If unspecified, the function tries to set an appropriate axis title.</p>
+</td></tr>
+<tr valign="top"><td><code>steps</code></td>
+<td>
+<p>the number of tick marks for the y-axis (the default is 5).</p>
+</td></tr>
+<tr valign="top"><td><code>at</code></td>
+<td>
+<p>position of the x-axis tick marks and corresponding labels. If unspecified, the function tries to set the tick mark positions/labels to some sensible values.</p>
+</td></tr>
+<tr valign="top"><td><code>atransf</code></td>
+<td>
+<p>optional argument to specify a function that should be used to transform the x-axis labels (e.g., <code>atransf=exp</code>; see also <a href="transf.html">transf</a>). If unspecified, no transformation is used.</p>
+</td></tr>
+<tr valign="top"><td><code>targs</code></td>
+<td>
+<p>optional arguments needed by the function specified via <code>atransf</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>digits</code></td>
+<td>
+<p>optional integer to specify the number of decimal places to which the tick mark labels of the x- and y-axis should be rounded. Can also be a vector of two integers, the first to specify the number of decimal places for the x-axis, the second for the y-axis labels (e.g., <code>digits=c(2,3)</code>). If unspecified, the function tries to set the argument to some sensible values.</p>
+</td></tr>
+<tr valign="top"><td><code>level</code></td>
+<td>
+<p>numeric value between 0 and 100 to specify the level of the pseudo confidence interval region (for <code>"rma"</code> objects, the default is to take the value from the object). May also be a vector of values to obtain multiple regions. See &lsquo;Examples&rsquo;.</p>
+</td></tr>
+<tr valign="top"><td><code>addtau2</code></td>
+<td>
+<p>logical to indicate whether the amount of heterogeneity should be accounted for when drawing the pseudo confidence interval region (the default is <code>FALSE</code>). Ignored when <code>x</code> is a meta-regression model and residuals are plotted. See &lsquo;Details&rsquo;.</p>
+</td></tr>
+<tr valign="top"><td><code>type</code></td>
+<td>
+<p>either <code>"rstandard"</code> (default) or <code>"rstudent"</code> to specify whether the usual or deleted residuals should be used in creating the funnel plot when <code>x</code> is a meta-regression model. See &lsquo;Details&rsquo;.</p>
+</td></tr>
+<tr valign="top"><td><code>back</code></td>
+<td>
+<p>color to use for the background of the plotting region (default is <code>"lightgray"</code>).</p>
+</td></tr>
+<tr valign="top"><td><code>shade</code></td>
+<td>
+<p>color to use for shading the pseudo confidence interval region (default is <code>"white"</code>). When <code>level</code> is a vector of values, different shading colors can be specified for each region.</p>
+</td></tr>
+<tr valign="top"><td><code>hlines</code></td>
+<td>
+<p>color of the horizontal reference lines (default is <code>"white"</code>).</p>
+</td></tr>
+<tr valign="top"><td><code>refline</code></td>
+<td>
+<p>numeric value to specify the location of the vertical &lsquo;reference&rsquo; line and where the pseudo confidence interval should be centered. If unspecified, the reference line is drawn at the equal- or random-effects model estimate and at zero for meta-regression models (in which case the residuals are plotted) or when directly plotting observed outcomes.</p>
+</td></tr>
+<tr valign="top"><td><code>lty</code></td>
+<td>
+<p>line type for the pseudo confidence interval region and the reference line. The default is to draw dotted lines (see <code><a href="../../graphics/html/par.html">par</a></code> for other options). Can also be a vector to specify the two line types separately.</p>
+</td></tr>
+<tr valign="top"><td><code>pch</code></td>
+<td>
+<p>plotting symbol to use for the observed outcomes. By default, a filled circle is used. Can also be a vector of values. See <code><a href="../../graphics/html/points.html">points</a></code> for other options.</p>
+</td></tr>
+<tr valign="top"><td><code>pch.fill</code></td>
+<td>
+<p>plotting symbol to use for the outcomes filled in by the trim and fill method. By default, a circle is used. Only relevant when plotting an object created by the <code><a href="trimfill.html">trimfill</a></code> function.</p>
+</td></tr>
+<tr valign="top"><td><code>col</code></td>
+<td>
+<p>optional character string to specify the color to use for the points (<code>"black"</code> is used by default if not specified). Can also be a vector.</p>
+</td></tr>
+<tr valign="top"><td><code>bg</code></td>
+<td>
+<p>optional character string to specify the background color for open plot symbols (<code>"white"</code> is used by default if not specified). Can also be a vector.</p>
+</td></tr>
+<tr valign="top"><td><code>label</code></td>
+<td>
+<p>argument to control the labeling of the points (the default is <code>FALSE</code>). See &lsquo;Details&rsquo;.</p>
+</td></tr>
+<tr valign="top"><td><code>offset</code></td>
+<td>
+<p>argument to control the distance between the points and the corresponding labels.</p>
+</td></tr>
+<tr valign="top"><td><code>legend</code></td>
+<td>
+<p>logical to indicate whether a legend should be added to the plot (the default is <code>FALSE</code>). Can also be a keyword to indicate the position of the legend (see <code><a href="../../graphics/html/legend.html">legend</a></code>).</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>other arguments.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>For equal- and random-effects models (i.e., models not involving moderators), the plot shows the observed effect sizes or outcomes on the x-axis against the corresponding standard errors (i.e., the square root of the sampling variances) on the y-axis. A vertical line indicates the estimate based on the model. A pseudo confidence interval region is drawn around this value with bounds equal to \(\pm 1.96 \mbox{SE}\), where \(\mbox{SE}\) is the standard error value from the y-axis (assuming <code>level=95</code>). If <code>addtau2=TRUE</code> (only for models of class <code>"rma.uni"</code>), then the bounds of the pseudo confidence interval region are equal to \(\pm 1.96 \sqrt{\mbox{SE}^2 + \hat{\tau}^2}\), where \(\hat{\tau}^2\) is the amount of heterogeneity as estimated by the model.
+</p>
+<p>For (mixed-effects) meta-regression models (i.e., models involving moderators), the plot shows the residuals on the x-axis against their corresponding standard errors. Either the usual or deleted residuals can be used for that purpose (set via the <code>type</code> argument). See <code><a href="residuals.rma.html">residuals</a></code> for more details on the different types of residuals.
+</p>
+<p>With the <code>atransf</code> argument, the labels on the x-axis can be transformed with some suitable function. For example, when plotting log odds ratios, one could use <code>transf=exp</code> to obtain a funnel plot with the values on the x-axis corresponding to the odds ratios. See also <a href="transf.html">transf</a> for some other useful transformation functions in the context of a meta-analysis.
+</p>
+<p>Instead of placing the standard errors on the y-axis, several other options are available by setting the <code>yaxis</code> argument to:
+</p>
+
+<ul>
+<li> <p><code>yaxis="vi"</code> for the sampling variances,
+</p>
+</li>
+<li> <p><code>yaxis="seinv"</code> for the inverse of the standard errors,
+</p>
+</li>
+<li> <p><code>yaxis="vinv"</code> for the inverse of the sampling variances,
+</p>
+</li>
+<li> <p><code>yaxis="ni"</code> for the sample sizes,
+</p>
+</li>
+<li> <p><code>yaxis="ninv"</code> for the inverse of the sample sizes,
+</p>
+</li>
+<li> <p><code>yaxis="sqrtni"</code> for the square root of the sample sizes,
+</p>
+</li>
+<li> <p><code>yaxis="sqrtninv"</code> for the inverse square root of the sample sizes,
+</p>
+</li>
+<li> <p><code>yaxis="lni"</code> for the log of the sample sizes,
+</p>
+</li>
+<li> <p><code>yaxis="wi"</code> for the weights.
+</p>
+</li></ul>
+<p> However, only when <code>yaxis="sei"</code> (the default) will the pseudo confidence region have the expected (upside-down) funnel shape with straight lines. Also, when placing (a function of) the sample sizes on the y-axis or the weights, then the pseudo confidence region cannot be drawn. See Sterne and Egger (2001) for more details on the choice of the y-axis.
+</p>
+<p>If the object passed to the function comes from the <code><a href="trimfill.html">trimfill</a></code> function, the outcomes that are filled in by the trim and fill method are also added to the funnel plot. The symbol to use for plotting the filled in values can be specified via the <code>pch.fill</code> argument.
+</p>
+<p>One can also directly pass a vector with the observed effect sizes or outcomes (via <code>x</code>) and the corresponding sampling variances (via <code>vi</code>), standard errors (via <code>sei</code>), and/or sample sizes (via <code>ni</code>) to the function. By default, the vertical reference line is then drawn at zero.
+</p>
+<p>The arguments <code>back</code>, <code>shade</code>, and <code>hlines</code> can be set to <code>NULL</code> to suppress the shading and the horizontal reference line.
+</p>
+<p>With the <code>label</code> argument, one can control whether points in the plot will be labeled. If <code>label="all"</code> (or <code>label=TRUE</code>), all points in the plot will be labeled. If <code>label="out"</code>, points falling outside of the pseudo confidence region will be labeled. Finally, one can also set this argument to a numeric value (between 1 and \(k\)) to specify how many of the most extreme points should be labeled (e.g., with <code>label=1</code> only the most extreme point would be labeled, while with <code>label=3</code>, the most extreme, and the second and third most extreme points would be labeled). With the <code>offset</code> argument, one can adjust the distance between the labels and the corresponding points.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A data frame with components:
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>the x-axis coordinates of the points that were plotted.</p>
+</td></tr>
+<tr valign="top"><td><code>y</code></td>
+<td>
+<p>the y-axis coordinates of the points that were plotted.</p>
+</td></tr>
+<tr valign="top"><td><code>slab</code></td>
+<td>
+<p>the study labels.</p>
+</td></tr>
+</table>
+<p>Note that the data frame is returned invisibly.
+</p>
+
+
+<h3>Note</h3>
+
+<p>Placing (a function of) the sample sizes on the y-axis (i.e., using <code>yaxis="ni"</code>, <code>yaxis="ninv"</code>, <code>yaxis="sqrtni"</code>, <code>yaxis="sqrtninv"</code>, or <code>yaxis="lni"</code>) is only possible when information about the sample sizes is actually stored within the object passed to the <code>funnel</code> function. That should automatically be the case when the observed effect sizes or outcomes were computed with the <code><a href="escalc.html">escalc</a></code> function or when the observed effect sizes or outcomes were computed within the model fitting function. On the other hand, this will not be the case when <code><a href="rma.uni.html">rma.uni</a></code> was used together with the <code>yi</code> and <code>vi</code> arguments and the <code>yi</code> and <code>vi</code> values were <em>not</em> computed with <code><a href="escalc.html">escalc</a></code>. In that case, it is still possible to pass information about the sample sizes to the <code><a href="rma.uni.html">rma.uni</a></code> function (e.g., use <code>rma.uni(yi, vi, ni=ni, data=dat)</code>, where data frame <code>dat</code> includes a variable called <code>ni</code> with the sample sizes).
+</p>
+<p>When using unweighted estimation, using <code>yaxis="wi"</code> will place all points on a horizontal line. When directly passing a vector with the observed effect sizes or outcomes to the function, <code>yaxis="wi"</code> is equivalent to <code>yaxis="vinv"</code>, except that the weights are expressed in percent.
+</p>
+<p>When specifying vectors for arguments <code>pch</code>, <code>col</code>, and/or <code>bg</code> and <code>x</code> is an object of class <code>"rma"</code>, the variables specified are assumed to be of the same length as the data passed to the model fitting function (and if the <code>data</code> argument was used in the original model fit, then the variables will be searched for within this data frame first). Any subsetting and removal of studies with missing values is automatically applied to the variables specified via these arguments.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Wolfgang Viechtbauer <a href="mailto:wvb@metafor-project.org">wvb@metafor-project.org</a> <a href="https://www.metafor-project.org">https://www.metafor-project.org</a>
+</p>
+
+
+<h3>References</h3>
+
+<p>Light, R. J., &amp; Pillemer, D. B. (1984). <em>Summing up: The science of reviewing research</em>. Cambridge, MA: Harvard University Press.
+</p>
+<p>Peters, J. L., Sutton, A. J., Jones, D. R., Abrams, K. R., &amp; Rushton, L. (2008). Contour-enhanced meta-analysis funnel plots help distinguish publication bias from other causes of asymmetry. <em>Journal of Clinical Epidemiology</em>, <b>61</b>(10), 991&ndash;996. <code style="white-space: pre;">https://doi.org/10.1016/j.jclinepi.2007.11.010</code>
+</p>
+<p>Sterne, J. A. C., &amp; Egger, M. (2001). Funnel plots for detecting bias in meta-analysis: Guidelines on choice of axis. <em>Journal of Clinical Epidemiology</em>, <b>54</b>(10), 1046&ndash;1055. <code style="white-space: pre;">https://doi.org/10.1016/s0895-4356(01)00377-8</code>
+</p>
+<p>Viechtbauer, W. (2010). Conducting meta-analyses in R with the metafor package. <em>Journal of Statistical Software</em>, <b>36</b>(3), 1&ndash;48. <code style="white-space: pre;">https://doi.org/10.18637/jss.v036.i03</code>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="rma.uni.html">rma.uni</a></code>, <code><a href="rma.mh.html">rma.mh</a></code>, <code><a href="rma.peto.html">rma.peto</a></code>, <code><a href="rma.glmm.html">rma.glmm</a></code>, and <code><a href="rma.mv.html">rma.mv</a></code> for functions to fit models for which funnel plots can be drawn.
+</p>
+<p><code><a href="trimfill.html">trimfill</a></code> for the trim and fill method and <code><a href="regtest.html">regtest</a></code> for the regression test.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+### copy BCG vaccine data into 'dat'
+dat &lt;- dat.bcg
+
+### calculate log risk ratios and corresponding sampling variances
+dat &lt;- escalc(measure="RR", ai=tpos, bi=tneg, ci=cpos, di=cneg, data=dat)
+
+### fit random-effects model
+res &lt;- rma(yi, vi, data=dat, slab=paste(author, year, sep=", "))
+
+### draw a standard funnel plot
+funnel(res)
+
+### show risk ratio values on x-axis (log scale)
+funnel(res, atransf=exp)
+
+### label points outside of the pseudo confidence interval region
+funnel(res, atransf=exp, label="out")
+
+### passing log risk ratios and sampling variances directly to the function
+### note: same plot, except that reference line is centered at zero
+funnel(dat$yi, dat$vi)
+
+### the with() function can be used to avoid having to retype dat$... over and over
+with(dat, funnel(yi, vi))
+
+### can accomplish the same thing by setting refline=0
+funnel(res, refline=0)
+
+### adjust the position of the x-axis labels, number of digits, and y-axis limits
+funnel(res, atransf=exp, at=log(c(.125, .25, .5, 1, 2)), digits=3L, ylim=c(0,.8))
+
+### contour-enhanced funnel plot centered at 0 (see Peters et al., 2008)
+funnel(res, level=c(90, 95, 99), shade=c("white", "gray55", "gray75"), refline=0, legend=TRUE)
+
+### same, but show risk ratio values on the x-axis and some further adjustments
+funnel(res, level=c(90, 95, 99), shade=c("white", "gray55", "gray75"), digits=3L, ylim=c(0,.8),
+       refline=0, legend=TRUE, atransf=exp, at=log(c(.125, .25, .5, 1, 2, 4, 8)))
+
+### illustrate the use of vectors for 'pch' and 'col'
+res &lt;- rma(yi, vi, data=dat, subset=2:10)
+funnel(res, pch=ifelse(yi &gt; -1, 19, 21), col=ifelse(sqrt(vi) &gt; .3, "red", "blue"))
+
+### can add a second funnel via (undocumented) argument refline2
+funnel(res, atransf=exp, at=log(c(.125, .25, .5, 1, 2, 4)), digits=3L, ylim=c(0,.8), refline2=0)
+
+### mixed-effects model with absolute latitude in the model
+res &lt;- rma(yi, vi, mods = ~ ablat, data=dat)
+
+### funnel plot of the residuals
+funnel(res)
+
+### simulate a large meta-analytic dataset (correlations with rho = 0.2)
+### with no heterogeneity or publication bias; then try out different
+### versions of the funnel plot
+
+gencor &lt;- function(rhoi, ni) {
+   x1 &lt;- rnorm(ni, mean=0, sd=1)
+   x2 &lt;- rnorm(ni, mean=0, sd=1)
+   x3 &lt;- rhoi*x1 + sqrt(1-rhoi^2)*x2
+   cor(x1, x3)
+}
+
+set.seed(1234)
+k  &lt;- 200                               ### number of studies to simulate
+ni &lt;- round(rchisq(k, df=2) * 20 + 20)  ### simulate sample sizes (skewed distribution)
+ri &lt;- mapply(gencor, rep(0.2,k), ni)    ### simulate correlations
+
+res &lt;- rma(measure="ZCOR", ri=ri, ni=ni, method="EE") ### use r-to-z transformed correlations
+
+funnel(res, yaxis="sei")
+funnel(res, yaxis="vi")
+funnel(res, yaxis="seinv")
+funnel(res, yaxis="vinv")
+funnel(res, yaxis="ni")
+funnel(res, yaxis="ninv")
+funnel(res, yaxis="sqrtni")
+funnel(res, yaxis="sqrtninv")
+funnel(res, yaxis="lni")
+funnel(res, yaxis="wi")
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>metafor</em> version 3.4-0 <a href="00Index.html">Index</a>]</div>
+</body></html>

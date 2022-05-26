@@ -1,0 +1,156 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Plot Method for 'gosh.rma' Objects</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for plot.gosh.rma {metafor}"><tr><td>plot.gosh.rma {metafor}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Plot Method for 'gosh.rma' Objects</h2>
+
+<h3>Description</h3>
+
+<p>Plot method for objects of class <code>"gosh.rma"</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'gosh.rma'
+plot(x, het="I2", pch=16, cex=0.5, out, col, alpha, border,
+     xlim, ylim, xhist=TRUE, yhist=TRUE, hh=0.3, breaks,
+     adjust, lwd, labels, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>an object of class <code>"gosh.rma"</code> obtained with <code><a href="gosh.html">gosh</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>het</code></td>
+<td>
+<p>character string to specify the heterogeneity measure to plot. Either <code>"I2"</code>, <code>"H2"</code>, <code>"QE"</code>, or <code>"tau2"</code> (the last only for random/mixed-effects models).</p>
+</td></tr>
+<tr valign="top"><td><code>pch</code></td>
+<td>
+<p>plotting symbol to use. By default, a borderless filled circle is used. See <code><a href="../../graphics/html/points.html">points</a></code> for other options.</p>
+</td></tr>
+<tr valign="top"><td><code>cex</code></td>
+<td>
+<p>symbol expansion factor.</p>
+</td></tr>
+<tr valign="top"><td><code>out</code></td>
+<td>
+<p>optional integer to specify the number of a study that may be a potential outlier. If specified, subsets containing the specified study are drawn in a different color than those not containing the study.</p>
+</td></tr>
+<tr valign="top"><td><code>col</code></td>
+<td>
+<p>optional character string to specify the color to use for the points (if not provided, points are drawn in black). When <code>out</code> is used, two colors should be specified (if not provided, red is used for subsets containing the specified study and blue otherwise).</p>
+</td></tr>
+<tr valign="top"><td><code>alpha</code></td>
+<td>
+<p>optional alpha transparency value for the points (0 means fully transparent and 1 means opaque). If unspecified, the function tries to set this to a sensible value.</p>
+</td></tr>
+<tr valign="top"><td><code>border</code></td>
+<td>
+<p>optional character string to specify the color to use for the borders of the histogram (if not provided, borders are drawn in white). Set to <code>FALSE</code> to omit the borders.</p>
+</td></tr>
+<tr valign="top"><td><code>xlim</code></td>
+<td>
+<p>x-axis limits. If unspecified, the function tries to set the x-axis limits to some sensible values.</p>
+</td></tr>
+<tr valign="top"><td><code>ylim</code></td>
+<td>
+<p>y-axis limits. If unspecified, the function tries to set the y-axis limits to some sensible values.</p>
+</td></tr>
+<tr valign="top"><td><code>xhist</code></td>
+<td>
+<p>logical to specify whether a histogram should be drawn for the x-axis (the default is <code>TRUE</code>).</p>
+</td></tr>
+<tr valign="top"><td><code>yhist</code></td>
+<td>
+<p>logical to specify whether a histogram should be drawn for the y-axis (the default is <code>TRUE</code>).</p>
+</td></tr>
+<tr valign="top"><td><code>hh</code></td>
+<td>
+<p>optional numeric value (or vector of two values) to adjust the height of the histogram(s). Must be between 0 and 1, but should not be too close to 0 or 1, as otherwise the plot cannot be drawn.</p>
+</td></tr>
+<tr valign="top"><td><code>breaks</code></td>
+<td>
+<p>optional argument passed on to <code><a href="../../graphics/html/hist.html">hist</a></code> for choosing the (number of) breakpoints of the histogram(s).</p>
+</td></tr>
+<tr valign="top"><td><code>adjust</code></td>
+<td>
+<p>optional argument passed on to <code><a href="../../stats/html/density.html">density</a></code> for adjusting the bandwidth of the kernel density estimate(s) (values larger than 1 result in more smoothing).</p>
+</td></tr>
+<tr valign="top"><td><code>lwd</code></td>
+<td>
+<p>optional numeric value to specify the line width of the estimated densities. Set to <code>0</code> to omit the line(s).</p>
+</td></tr>
+<tr valign="top"><td><code>labels</code></td>
+<td>
+<p>optional argument to specify the x-axis and y-axis labels (or passed on to <code><a href="../../graphics/html/pairs.html">pairs</a></code> to specify the names of the variables in the scatter plot matrix).</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>other arguments.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>For models without moderators, the function draws a scatter plot of the model estimates on the x-axis against the chosen measure of heterogeneity on the y-axis. Histograms of the respective distributions (with kernel density estimates superimposed) are shown in the margins (when <code>xhist=TRUE</code> and <code>yhist=TRUE</code>).
+</p>
+<p>For models with moderators, the function draws a scatter plot matrix (with the <code><a href="../../graphics/html/pairs.html">pairs</a></code> function) of the chosen measure of heterogeneity and each of the model coefficients. Histograms of the variables plotted are shown along the diagonal, with kernel density estimates of the distributions superimposed. Arguments <code>xlim</code>, <code>ylim</code>, <code>xhist</code>, and <code>yhist</code> are then ignored (argument <code>hh</code> can then be used to compress/stretch the height of the distributions shown along the diagonal).
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Wolfgang Viechtbauer <a href="mailto:wvb@metafor-project.org">wvb@metafor-project.org</a> <a href="https://www.metafor-project.org">https://www.metafor-project.org</a>
+</p>
+
+
+<h3>References</h3>
+
+<p>Olkin, I., Dahabreh, I. J., &amp; Trikalinos, T. A. (2012). GOSH - a graphical display of study heterogeneity. <em>Research Synthesis Methods</em>, <b>3</b>(3), 214&ndash;223. <code style="white-space: pre;">https://doi.org/10.1002/jrsm.1053</code>
+</p>
+<p>Viechtbauer, W. (2010). Conducting meta-analyses in R with the metafor package. <em>Journal of Statistical Software</em>, <b>36</b>(3), 1&ndash;48. <code style="white-space: pre;">https://doi.org/10.18637/jss.v036.i03</code>
+</p>
+<p>Viechtbauer, W. (2021). Model checking in meta-analysis. In C. H. Schmid, T. Stijnen, &amp; I. R. White (Eds.), <em>Handbook of meta-analysis</em> (pp. 219&ndash;254). Boca Raton, FL: CRC Press. <code style="white-space: pre;">https://doi.org/10.1201/9781315119403</code>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="gosh.html">gosh.rma</a></code> for the function to create the input to a GOSH plot.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+### calculate log odds ratios and corresponding sampling variances
+dat &lt;- escalc(measure="OR", ai=ai, n1i=n1i, ci=ci, n2i=n2i, data=dat.egger2001)
+
+### meta-analysis of all trials including ISIS-4 using an equal-effects model
+res &lt;- rma(yi, vi, data=dat, method="EE")
+
+### fit FE model to all possible subsets (65535 models)
+## Not run: 
+sav &lt;- gosh(res, progbar=FALSE)
+
+### create GOSH plot
+### red points for subsets that include and blue points
+### for subsets that exclude study 16 (the ISIS-4 trial)
+plot(sav, out=16, breaks=100)
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>metafor</em> version 3.4-0 <a href="00Index.html">Index</a>]</div>
+</body></html>

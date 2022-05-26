@@ -1,0 +1,128 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Rank Correlation Test for Funnel Plot Asymmetry</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for ranktest {metafor}"><tr><td>ranktest {metafor}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Rank Correlation Test for Funnel Plot Asymmetry</h2>
+
+<h3>Description</h3>
+
+<p>The function can be used to carry out the rank correlation test for funnel plot asymmetry.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+ranktest(x, vi, sei, subset, data, digits, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>a vector with the observed effect sizes or outcomes or an object of class <code>"rma"</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>vi</code></td>
+<td>
+<p>vector with the corresponding sampling variances (ignored if <code>x</code> is an object of class <code>"rma"</code>).</p>
+</td></tr>
+<tr valign="top"><td><code>sei</code></td>
+<td>
+<p>vector with the corresponding standard errors (note: only one of the two, <code>vi</code> or <code>sei</code>, needs to be specified).</p>
+</td></tr>
+<tr valign="top"><td><code>subset</code></td>
+<td>
+<p>optional (logical or numeric) vector to specify the subset of studies that should be included in the test (ignored if <code>x</code> is an object of class <code>"rma"</code>).</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>optional data frame containing the variables given to the arguments above.</p>
+</td></tr>
+<tr valign="top"><td><code>digits</code></td>
+<td>
+<p>optional integer to specify the number of decimal places to which the printed results should be rounded.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>other arguments.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The function carries out the rank correlation test as described by Begg and Mazumdar (1994). The test can be used to examine whether the observed effect sizes or outcomes and the corresponding sampling variances are correlated. A high correlation would indicate that the funnel plot is asymmetric, which may be a result of publication bias.
+</p>
+<p>One can either pass a vector with the observed effect sizes or outcomes (via <code>x</code>) and the corresponding sampling variances via <code>vi</code> (or the standard errors via <code>sei</code>) to the function or an object of class <code>"rma"</code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>An object of class <code>"ranktest"</code>. The object is a list containing the following components:
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>tau</code></td>
+<td>
+<p>the estimated value of Kendall's tau rank correlation coefficient.</p>
+</td></tr>
+<tr valign="top"><td><code>pval</code></td>
+<td>
+<p>the corresponding p-value for the test that the true tau value is equal to zero.</p>
+</td></tr>
+</table>
+<p>The results are formatted and printed with the <code><a href="print.ranktest.rma.html">print</a></code> function.
+</p>
+
+
+<h3>Note</h3>
+
+<p>The method does not depend on the model fitted. Therefore, regardless of the model passed to the function, the results of the rank test will always be the same. See <code><a href="regtest.html">regtest</a></code> for tests of funnel plot asymmetry that are based on regression models and model dependent.
+</p>
+<p>The function makes use of the <code><a href="../../stats/html/cor.test.html">cor.test</a></code> function with <code>method="kendall"</code>. If possible, an exact p-value is provided; otherwise, a large-sample approximation is used.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Wolfgang Viechtbauer <a href="mailto:wvb@metafor-project.org">wvb@metafor-project.org</a> <a href="https://www.metafor-project.org">https://www.metafor-project.org</a>
+</p>
+
+
+<h3>References</h3>
+
+<p>Begg, C. B., &amp; Mazumdar, M. (1994). Operating characteristics of a rank correlation test for publication bias. <em>Biometrics</em>, <b>50</b>(4), 1088&ndash;1101. <code style="white-space: pre;">https://doi.org/10.2307/2533446</code>
+</p>
+<p>Viechtbauer, W. (2010). Conducting meta-analyses in R with the metafor package. <em>Journal of Statistical Software</em>, <b>36</b>(3), 1&ndash;48. <code style="white-space: pre;">https://doi.org/10.18637/jss.v036.i03</code>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="regtest.html">regtest</a></code> for the regression test, <code><a href="trimfill.html">trimfill</a></code> for the trim and fill method, <code><a href="tes.html">tes</a></code> for the test of excess significance, and <code><a href="selmodel.html">selmodel</a></code> for selection models.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+### calculate log risk ratios and corresponding sampling variances
+dat &lt;- escalc(measure="RR", ai=tpos, bi=tneg, ci=cpos, di=cneg, data=dat.bcg)
+
+### fit random-effects model
+res &lt;- rma(yi, vi, data=dat)
+
+### carry out the rank correlation test
+ranktest(res)
+
+### can also pass the observed outcomes and corresponding sampling variances to the function
+ranktest(yi, vi, data=dat)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>metafor</em> version 3.4-0 <a href="00Index.html">Index</a>]</div>
+</body></html>

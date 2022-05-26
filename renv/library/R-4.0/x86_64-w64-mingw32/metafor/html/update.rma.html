@@ -1,0 +1,107 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Model Updating for 'rma' Objects</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for update.rma {metafor}"><tr><td>update.rma {metafor}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Model Updating for 'rma' Objects</h2>
+
+<h3>Description</h3>
+
+<p>The function can be used to update and (by default) re-fit <code>"rma"</code> models. It does this by extracting the call stored in the object, updating the call and (by default) evaluating that call.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'rma'
+update(object, formula., ..., evaluate=TRUE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>an object of class <code>"rma"</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>formula.</code></td>
+<td>
+<p>changes to the formula. See &lsquo;Details&rsquo;.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>additional arguments to the call, or arguments with changed values.</p>
+</td></tr>
+<tr valign="top"><td><code>evaluate</code></td>
+<td>
+<p>logical to specify whether to evaluate the new call or just return the call.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>For objects of class <code>"rma.uni"</code>, <code>"rma.glmm"</code>, and <code>"rma.mv"</code>, the <code>formula.</code> argument can be used to update the set of moderators included in the model (see &lsquo;Examples&rsquo;).
+</p>
+
+
+<h3>Value</h3>
+
+<p>If <code>evaluate=TRUE</code> the fitted object, otherwise the updated call.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>The present function is based on <code><a href="../../stats/html/update.html">update.default</a></code>, with changes made by Wolfgang Viechtbauer (<a href="mailto:wvb@metafor-project.org">wvb@metafor-project.org</a>) so that the formula updating works with the (somewhat non-standard) interface of the <code><a href="rma.uni.html">rma.uni</a></code>, <code><a href="rma.glmm.html">rma.glmm</a></code>, and <code><a href="rma.mv.html">rma.mv</a></code> functions.
+</p>
+
+
+<h3>References</h3>
+
+<p>Viechtbauer, W. (2010). Conducting meta-analyses in R with the metafor package. <em>Journal of Statistical Software</em>, <b>36</b>(3), 1&ndash;48. <code style="white-space: pre;">https://doi.org/10.18637/jss.v036.i03</code>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="rma.uni.html">rma.uni</a></code>, <code><a href="rma.mh.html">rma.mh</a></code>, <code><a href="rma.peto.html">rma.peto</a></code>, <code><a href="rma.glmm.html">rma.glmm</a></code>, and <code><a href="rma.mv.html">rma.mv</a></code> for functions to fit models which can be updated / re-fit.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+### calculate log risk ratios and corresponding sampling variances
+dat &lt;- escalc(measure="RR", ai=tpos, bi=tneg, ci=cpos, di=cneg, data=dat.bcg)
+
+### fit random-effects model (method="REML" is default)
+res &lt;- rma(yi, vi, data=dat, digits=3)
+res
+
+### fit mixed-effects model with two moderators (absolute latitude and publication year)
+res &lt;- update(res, ~ ablat + year)
+res
+
+### remove 'year' moderator
+res &lt;- update(res, ~ . - year)
+res
+
+### fit model with ML estimation
+update(res, method="ML")
+
+### example with rma.glmm()
+res &lt;- rma.glmm(measure="OR", ai=tpos, bi=tneg, ci=cpos, di=cneg, data=dat.bcg, digits=3)
+res &lt;- update(res, mods = ~ ablat)
+res
+
+### fit conditional model with approximate likelihood
+update(res, model="CM.AL")
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>metafor</em> version 3.4-0 <a href="00Index.html">Index</a>]</div>
+</body></html>

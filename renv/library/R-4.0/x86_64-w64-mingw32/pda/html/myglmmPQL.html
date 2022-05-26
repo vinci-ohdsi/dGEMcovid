@@ -1,0 +1,82 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: A flexible version of MASS::glmmPQL</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for myglmmPQL {pda}"><tr><td>myglmmPQL {pda}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>A flexible version of MASS::glmmPQL</h2>
+
+<h3>Description</h3>
+
+<p>A flexible version of MASS::glmmPQL
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+myglmmPQL(formula.glm, formula, offset=NULL, family, data, fixef.init = NULL, 
+                 weights=NULL, REML=T, niter=10, verbose=T)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>formula.glm</code></td>
+<td>
+<p>formula used to fit <code>glm</code> for initial fixed effects</p>
+</td></tr>
+<tr valign="top"><td><code>formula</code></td>
+<td>
+<p>formula used to fit iterative <code>lmer</code> in PQL algorithm</p>
+</td></tr>
+<tr valign="top"><td><code>offset</code></td>
+<td>
+<p><code>glm</code> offset term</p>
+</td></tr>
+<tr valign="top"><td><code>family</code></td>
+<td>
+<p><code>glm</code> family</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p><code>glm</code> data</p>
+</td></tr>
+<tr valign="top"><td><code>fixef.init</code></td>
+<td>
+<p>initial fixed effects estimates, set to zeros if NULL</p>
+</td></tr>
+<tr valign="top"><td><code>weights</code></td>
+<td>
+<p><code>glm</code> weights</p>
+</td></tr>
+<tr valign="top"><td><code>REML</code></td>
+<td>
+<p><code>lmer</code> logical scalar - Should the estimates be chosen to optimize the REML criterion (as opposed to the log-likelihood)?</p>
+</td></tr>
+<tr valign="top"><td><code>niter</code></td>
+<td>
+<p><code>glmmPQL</code> maximum number of iterations.</p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p><code>glmmPQL</code> logical: print out record of iterations?</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Use lme4::lmer instead of nlme::varFixed in PQL iteration to allow REML
+</p>
+
+
+<h3>Value</h3>
+
+<p>An object wiht the same format as <code>lmer</code>.
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>pda</em> version 1.2-5 <a href="00Index.html">Index</a>]</div>
+</body></html>

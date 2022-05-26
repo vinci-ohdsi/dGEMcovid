@@ -1,0 +1,53 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Custom checkmate assertion for ensuring the settings columns...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for checkSettingsColumns {CohortGenerator}"><tr><td>checkSettingsColumns {CohortGenerator}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Custom checkmate assertion for ensuring the settings columns are properly
+specified</h2>
+
+<h3>Description</h3>
+
+<p>This function is used to provide a more informative message when ensuring
+that the columns in the cohort definition set or the CSV file that 
+defines the cohort definition set is properly specified. This function
+is then bootstrapped upon package initialization (code in CohortGenerator.R)
+to allow for it to work with the other checkmate assertions as described in:
+https://mllg.github.io/checkmate/articles/checkmate.html. The assertion function
+is called assert_settings_columns.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+checkSettingsColumns(columnNames, settingsFileName = NULL)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>columnNames</code></td>
+<td>
+<p>The name of the columns found in either the cohortDefintionSet
+data frame or from reading the contents of the settingsFile</p>
+</td></tr>
+<tr valign="top"><td><code>settingsFileName</code></td>
+<td>
+<p>The file name of the CSV that defines the cohortDefinitionSet. 
+When NULL, this function assumes the column names are defined
+in a data.frame representation of the cohortDefinitionSet</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Returns TRUE if all required columns are found otherwise it returns an error
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>CohortGenerator</em> version 0.3.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

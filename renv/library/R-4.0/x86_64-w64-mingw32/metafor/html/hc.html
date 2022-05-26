@@ -1,0 +1,144 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Meta-Analysis based on the Method by Henmi and Copas (2010)</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for hc {metafor}"><tr><td>hc {metafor}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Meta-Analysis based on the Method by Henmi and Copas (2010)</h2>
+
+<h3>Description</h3>
+
+<p>The function can be used to obtain an estimate of the average true outcome and corresponding confidence interval under a random-effects model using the method described by Henmi and Copas (2010).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+hc(object, ...)
+
+## S3 method for class 'rma.uni'
+hc(object, digits, transf, targs, control, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>an object of class <code>"rma.uni"</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>digits</code></td>
+<td>
+<p>optional integer to specify the number of decimal places to which the printed results should be rounded. If unspecified, the default is to take the value from the object.</p>
+</td></tr>
+<tr valign="top"><td><code>transf</code></td>
+<td>
+<p>optional argument to specify a function that should be used to transform the estimate and the corresponding interval bounds (e.g., <code>transf=exp</code>; see also <a href="transf.html">transf</a>). If unspecified, no transformation is used.</p>
+</td></tr>
+<tr valign="top"><td><code>targs</code></td>
+<td>
+<p>optional arguments needed by the function specified under <code>transf</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>control</code></td>
+<td>
+<p>list of control values for the iterative algorithm. If unspecified, default values are defined inside the function. See &lsquo;Note&rsquo;.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>other arguments.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The model specified via <code>object</code> must be a model without moderators (i.e., either an equal- or a random-effects model).
+</p>
+<p>When using the usual method for fitting a random-effects model (i.e., weighted estimation with inverse-variance weights), the weights assigned to smaller and larger studies become more uniform as the amount of heterogeneity increases. As a consequence, the estimated average outcome could become increasingly biased under certain forms of publication bias (where smaller studies on one side of the funnel plot are missing). The method by Henmi and Copas (2010) tries to counteract this problem by providing an estimate of the average true outcome that is based on inverse-variance weights as used under an equal-effects model (which do not take the amount of heterogeneity into consideration). The amount of heterogeneity is still estimated (with the DerSimonian-Laird estimator) and incorporated into the standard error of the estimated average outcome and the corresponding confidence interval.
+</p>
+<p>Currently, there is only a method for handling objects of class <code>"rma.uni"</code> with the <code>hc</code> function. It therefore provides a method for conducting a sensitivity analysis after the model has been fitted with the <code><a href="rma.uni.html">rma.uni</a></code> function.
+</p>
+
+
+<h3>Value</h3>
+
+<p>An object of class <code>"hc.rma.uni"</code>. The object is a list containing the following components:
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>beta</code></td>
+<td>
+<p>estimated average true outcome.</p>
+</td></tr>
+<tr valign="top"><td><code>se</code></td>
+<td>
+<p>corresponding standard error.</p>
+</td></tr>
+<tr valign="top"><td><code>ci.lb</code></td>
+<td>
+<p>lower bound of the confidence intervals for the average true outcome.</p>
+</td></tr>
+<tr valign="top"><td><code>ci.ub</code></td>
+<td>
+<p>upper bound of the confidence intervals for the average true outcome.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>some additional elements/values.</p>
+</td></tr>
+</table>
+<p>The results are formatted and printed with the <code><a href="print.hc.rma.uni.html">print</a></code> function.
+</p>
+
+
+<h3>Note</h3>
+
+<p>The method makes use of the <code><a href="../../stats/html/uniroot.html">uniroot</a></code> function. By default, the desired accuracy is set equal to <code>.Machine$double.eps^0.25</code> and the maximum number of iterations to <code>1000</code>. The desired accuracy (<code>tol</code>) and the maximum number of iterations (<code>maxiter</code>) can be adjusted with the <code>control</code> argument (i.e., <code>control=list(tol=value, maxiter=value)</code>).
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Original code by Henmi and Copas (2010). Corrected for typos by Michael Dewey (<a href="mailto:lists@dewey.myzen.co.uk">lists@dewey.myzen.co.uk</a>). Incorporated into the package with some small adjustments for consistency with the other functions in the package by Wolfgang Viechtbauer (<a href="mailto:wvb@metafor-project.org">wvb@metafor-project.org</a>).
+</p>
+
+
+<h3>References</h3>
+
+<p>Henmi, M., &amp; Copas, J. B. (2010). Confidence intervals for random effects meta-analysis and robustness to publication bias. <em>Statistics in Medicine</em>, <b>29</b>(29), 2969&ndash;2983. <code style="white-space: pre;">https://doi.org/10.1002/sim.4029</code>
+</p>
+<p>Viechtbauer, W. (2010). Conducting meta-analyses in R with the metafor package. <em>Journal of Statistical Software</em>, <b>36</b>(3), 1&ndash;48. <code style="white-space: pre;">https://doi.org/10.18637/jss.v036.i03</code>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="rma.uni.html">rma.uni</a></code> for the function to fit <code>rma.uni</code> models.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+### calculate log odds ratios and corresponding sampling variances
+dat &lt;- escalc(measure="OR", ai=ai, n1i=n1i, ci=ci, n2i=n2i, data=dat.lee2004)
+dat
+
+### meta-analysis based on log odds ratios
+res &lt;- rma(yi, vi, data=dat)
+res
+
+### funnel plot as in Henmi and Copas (2010)
+funnel(res, yaxis="seinv", refline=0, xlim=c(-3,3), ylim=c(.5,3.5), steps=7, digits=1, back="white")
+
+### use method by Henmi and Copas (2010) as a sensitivity analysis
+hc(res)
+
+### back-transform results to odds ratio scale
+hc(res, transf=exp)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>metafor</em> version 3.4-0 <a href="00Index.html">Index</a>]</div>
+</body></html>

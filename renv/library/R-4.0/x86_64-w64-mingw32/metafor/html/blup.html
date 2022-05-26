@@ -1,0 +1,156 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Best Linear Unbiased Predictions for 'rma.uni' Objects</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for blup {metafor}"><tr><td>blup {metafor}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Best Linear Unbiased Predictions for 'rma.uni' Objects</h2>
+
+<h3>Description</h3>
+
+<p>The function computes best linear unbiased predictions (BLUPs) of the study-specific true effect sizes or outcomes by combining the fitted values based on the fixed effects and the estimated contributions of the random effects for objects of class <code>"rma.uni"</code>. Corresponding standard errors and prediction interval bounds are also provided. <script id="MathJax-script" async src="../../mathjaxr/doc/mathjax/es5/tex-chtml-full.js"></script>
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+blup(x, ...)
+
+## S3 method for class 'rma.uni'
+blup(x, level, digits, transf, targs, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>an object of class <code>"rma.uni"</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>level</code></td>
+<td>
+<p>numeric value between 0 and 100 to specify the prediction interval level. If unspecified, the default is to take the value from the object.</p>
+</td></tr>
+<tr valign="top"><td><code>digits</code></td>
+<td>
+<p>optional integer to specify the number of decimal places to which the printed results should be rounded. If unspecified, the default is to take the value from the object.</p>
+</td></tr>
+<tr valign="top"><td><code>transf</code></td>
+<td>
+<p>optional argument to specify a function that should be used to transform the predicted values and interval bounds (e.g., <code>transf=exp</code>; see also <a href="transf.html">transf</a>). If unspecified, no transformation is used.</p>
+</td></tr>
+<tr valign="top"><td><code>targs</code></td>
+<td>
+<p>optional arguments needed by the function specified under <code>transf</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>other arguments.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>An object of class <code>"list.rma"</code>. The object is a list containing the following components:
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>pred</code></td>
+<td>
+<p>predicted values.</p>
+</td></tr>
+<tr valign="top"><td><code>se</code></td>
+<td>
+<p>corresponding standard errors.</p>
+</td></tr>
+<tr valign="top"><td><code>pi.lb</code></td>
+<td>
+<p>lower bound of the prediction intervals.</p>
+</td></tr>
+<tr valign="top"><td><code>pi.ub</code></td>
+<td>
+<p>upper bound of the prediction intervals.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>some additional elements/values.</p>
+</td></tr>
+</table>
+<p>The object is formatted and printed with the <code><a href="print.list.rma.html">print</a></code> function.
+</p>
+
+
+<h3>Note</h3>
+
+<p>For best linear unbiased predictions of only the random effects, see <code><a href="ranef.html">ranef</a></code>.
+</p>
+<p>For predicted/fitted values that are based only on the fixed effects of the model, see <code><a href="fitted.rma.html">fitted</a></code> and <code><a href="predict.rma.html">predict</a></code>.
+</p>
+<p>For conditional residuals (the deviations of the observed effect sizes or outcomes from the BLUPs), see <code>rstandard.rma.uni</code> with <code>type="conditional"</code>.
+</p>
+<p>Equal-effects models do not contain random study effects. The BLUPs for these models will therefore be equal to the fitted values, that is, those obtained with <code><a href="fitted.rma.html">fitted</a></code> and <code><a href="predict.rma.html">predict</a></code>.
+</p>
+<p>When using the <code>transf</code> argument, the transformation is applied to the predicted values and the corresponding interval bounds. The standard errors are then set equal to <code>NA</code> and are omitted from the printed output.
+</p>
+<p>By default, a standard normal distribution is used to construct the prediction intervals. When the model was fitted with <code>test="t"</code> or <code>test="knha"</code>, then a t-distribution with \(k-p\) degrees of freedom is used.
+</p>
+<p>To be precise, it should be noted that the function actually computes empirical BLUPs (eBLUPs), since the predicted values are a function of the estimated value of \(\tau^2\).
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Wolfgang Viechtbauer <a href="mailto:wvb@metafor-project.org">wvb@metafor-project.org</a> <a href="https://www.metafor-project.org">https://www.metafor-project.org</a>
+</p>
+
+
+<h3>References</h3>
+
+<p>Kackar, R. N., &amp; Harville, D. A. (1981). Unbiasedness of two-stage estimation and prediction procedures for mixed linear models. Communications in Statistics, Theory and Methods, <b>10</b>(13), 1249&ndash;1261. <code style="white-space: pre;">https://doi.org/10.1080/03610928108828108</code>
+</p>
+<p>Raudenbush, S. W., &amp; Bryk, A. S. (1985). Empirical Bayes meta-analysis. <em>Journal of Educational Statistics</em>, <b>10</b>(2), 75&ndash;98. <code style="white-space: pre;">https://doi.org/10.3102/10769986010002075</code>
+</p>
+<p>Robinson, G. K. (1991). That BLUP is a good thing: The estimation of random effects. <em>Statistical Science</em>, <b>6</b>(1), 15&ndash;32. <code style="white-space: pre;">https://doi.org/10.1214/ss/1177011926</code>
+</p>
+<p>Viechtbauer, W. (2010). Conducting meta-analyses in R with the metafor package. <em>Journal of Statistical Software</em>, <b>36</b>(3), 1&ndash;48. <code style="white-space: pre;">https://doi.org/10.18637/jss.v036.i03</code>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="rma.uni.html">rma.uni</a></code> for the function to fit models for which BLUPs can be extracted.
+</p>
+<p><code><a href="predict.rma.html">predict.rma</a></code> and <code><a href="fitted.rma.html">fitted.rma</a></code> for functions to compute the predicted/fitted values based only on the fixed effects and <code><a href="ranef.html">ranef.rma.uni</a></code> for a function to compute the BLUPs based only on the random effects.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+### calculate log risk ratios and corresponding sampling variances
+dat &lt;- escalc(measure="RR", ai=tpos, bi=tneg, ci=cpos, di=cneg, data=dat.bcg)
+
+### meta-analysis of the log risk ratios using a random-effects model
+res &lt;- rma(yi, vi, data=dat)
+
+### BLUPs of the true risk ratios for each study
+blup(res, transf=exp)
+
+### illustrate shrinkage of BLUPs towards the (estimated) population average
+res &lt;- rma(yi, vi, data=dat)
+blups &lt;- blup(res)$pred
+plot(NA, NA, xlim=c(.8,2.4), ylim=c(-2,0.5), pch=19,
+     xaxt="n", bty="n", xlab="", ylab="Log Risk Ratio")
+segments(rep(1,13), dat$yi, rep(2,13), blups, col="darkgray")
+points(rep(1,13), dat$yi, pch=19)
+points(rep(2,13), blups, pch=19)
+axis(side=1, at=c(1,2), labels=c("Observed\nValues", "BLUPs"), lwd=0)
+segments(0, res$beta, 2.15, res$beta, lty="dotted")
+text(2.3, res$beta, substitute(hat(mu)==muhat, list(muhat=round(res$beta[[1]], 2))), cex=1)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>metafor</em> version 3.4-0 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,1009 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Calculate Effect Sizes and Outcome Measures</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for escalc {metafor}"><tr><td>escalc {metafor}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Calculate Effect Sizes and Outcome Measures</h2>
+
+<h3>Description</h3>
+
+<p>The function can be used to calculate various effect sizes or outcome measures (and the corresponding sampling variances) that are commonly used in meta-analyses. <script id="MathJax-script" async src="../../mathjaxr/doc/mathjax/es5/tex-chtml-full.js"></script>
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+escalc(measure, ai, bi, ci, di, n1i, n2i, x1i, x2i, t1i, t2i,
+       m1i, m2i, sd1i, sd2i, xi, mi, ri, ti, sdi, r2i, ni, yi, vi, sei,
+       data, slab, subset, include,
+       add=1/2, to="only0", drop00=FALSE, vtype="LS",
+       var.names=c("yi","vi"), add.measure=FALSE,
+       append=TRUE, replace=TRUE, digits, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>measure</code></td>
+<td>
+<p>a character string to specify which effect size or outcome measure should be calculated. See &lsquo;Details&rsquo; for possible options and how the data needed to compute the selected effect size or outcome measure should then be specified.</p>
+</td></tr>
+<tr valign="top"><td><code>ai</code></td>
+<td>
+<p>vector to specify the \(2 \times 2\) table frequencies (upper left cell).</p>
+</td></tr>
+<tr valign="top"><td><code>bi</code></td>
+<td>
+<p>vector to specify the \(2 \times 2\) table frequencies (upper right cell).</p>
+</td></tr>
+<tr valign="top"><td><code>ci</code></td>
+<td>
+<p>vector to specify the \(2 \times 2\) table frequencies (lower left cell).</p>
+</td></tr>
+<tr valign="top"><td><code>di</code></td>
+<td>
+<p>vector to specify the \(2 \times 2\) table frequencies (lower right cell).</p>
+</td></tr>
+<tr valign="top"><td><code>n1i</code></td>
+<td>
+<p>vector to specify the group sizes or row totals (first group/row).</p>
+</td></tr>
+<tr valign="top"><td><code>n2i</code></td>
+<td>
+<p>vector to specify the group sizes or row totals (second group/row).</p>
+</td></tr>
+<tr valign="top"><td><code>x1i</code></td>
+<td>
+<p>vector to specify the number of events (first group).</p>
+</td></tr>
+<tr valign="top"><td><code>x2i</code></td>
+<td>
+<p>vector to specify the number of events (second group).</p>
+</td></tr>
+<tr valign="top"><td><code>t1i</code></td>
+<td>
+<p>vector to specify the total person-times (first group).</p>
+</td></tr>
+<tr valign="top"><td><code>t2i</code></td>
+<td>
+<p>vector to specify the total person-times (second group).</p>
+</td></tr>
+<tr valign="top"><td><code>m1i</code></td>
+<td>
+<p>vector to specify the means (first group or time point).</p>
+</td></tr>
+<tr valign="top"><td><code>m2i</code></td>
+<td>
+<p>vector to specify the means (second group or time point).</p>
+</td></tr>
+<tr valign="top"><td><code>sd1i</code></td>
+<td>
+<p>vector to specify the standard deviations (first group or time point).</p>
+</td></tr>
+<tr valign="top"><td><code>sd2i</code></td>
+<td>
+<p>vector to specify the standard deviations (second group or time point).</p>
+</td></tr>
+<tr valign="top"><td><code>xi</code></td>
+<td>
+<p>vector to specify the frequencies of the event of interest.</p>
+</td></tr>
+<tr valign="top"><td><code>mi</code></td>
+<td>
+<p>vector to specify the frequencies of the complement of the event of interest or the group means.</p>
+</td></tr>
+<tr valign="top"><td><code>ri</code></td>
+<td>
+<p>vector to specify the raw correlation coefficients.</p>
+</td></tr>
+<tr valign="top"><td><code>ti</code></td>
+<td>
+<p>vector to specify the total person-times.</p>
+</td></tr>
+<tr valign="top"><td><code>sdi</code></td>
+<td>
+<p>vector to specify the standard deviations.</p>
+</td></tr>
+<tr valign="top"><td><code>r2i</code></td>
+<td>
+<p>vector to specify the \(R^2\) values.</p>
+</td></tr>
+<tr valign="top"><td><code>ni</code></td>
+<td>
+<p>vector to specify the sample/group sizes.</p>
+</td></tr>
+<tr valign="top"><td><code>yi</code></td>
+<td>
+<p>vector to specify the observed effect sizes or outcomes.</p>
+</td></tr>
+<tr valign="top"><td><code>vi</code></td>
+<td>
+<p>vector to specify the corresponding sampling variances.</p>
+</td></tr>
+<tr valign="top"><td><code>sei</code></td>
+<td>
+<p>vector to specify the corresponding standard errors.</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>optional data frame containing the variables given to the arguments above.</p>
+</td></tr>
+<tr valign="top"><td><code>slab</code></td>
+<td>
+<p>optional vector with labels for the studies.</p>
+</td></tr>
+<tr valign="top"><td><code>subset</code></td>
+<td>
+<p>optional (logical or numeric) vector to specify the subset of studies that will be included in the data frame returned by the function.</p>
+</td></tr>
+<tr valign="top"><td><code>include</code></td>
+<td>
+<p>optional (logical or numeric) vector to specify the subset of studies for which the measure should be calculated. See the &lsquo;Value&rsquo; section for more details.</p>
+</td></tr>
+<tr valign="top"><td><code>add</code></td>
+<td>
+<p>a non-negative number to specify the amount to add to zero cells, counts, or frequencies. See &lsquo;Details&rsquo;.</p>
+</td></tr>
+<tr valign="top"><td><code>to</code></td>
+<td>
+<p>a character string to specify when the values under <code>add</code> should be added (either <code>"all"</code>, <code>"only0"</code>, <code>"if0all"</code>, or <code>"none"</code>). See &lsquo;Details&rsquo;.</p>
+</td></tr>
+<tr valign="top"><td><code>drop00</code></td>
+<td>
+<p>logical to specify whether studies with no cases/events (or only cases) in both groups should be dropped when calculating the observed effect sizes or outcomes. See &lsquo;Details&rsquo;.</p>
+</td></tr>
+<tr valign="top"><td><code>vtype</code></td>
+<td>
+<p>a character string to specify the type of sampling variances to calculate. See &lsquo;Details&rsquo;.</p>
+</td></tr>
+<tr valign="top"><td><code>var.names</code></td>
+<td>
+<p>character string with two elements to specify the name of the variable for the observed effect sizes or outcomes and the name of the variable for the corresponding sampling variances (the defaults are <code>"yi"</code> and <code>"vi"</code>).</p>
+</td></tr>
+<tr valign="top"><td><code>add.measure</code></td>
+<td>
+<p>logical to specify whether a variable should be added to the data frame (with default name <code>"measure"</code>) that indicates the type of outcome measure computed. When using this option, <code>var.names</code> can have a third element to change this variable name.</p>
+</td></tr>
+<tr valign="top"><td><code>append</code></td>
+<td>
+<p>logical to specify whether the data frame provided via the <code>data</code> argument should be returned together with the observed effect sizes or outcomes and corresponding sampling variances (the default is <code>TRUE</code>).</p>
+</td></tr>
+<tr valign="top"><td><code>replace</code></td>
+<td>
+<p>logical to specify whether existing values for <code>yi</code> and <code>vi</code> in the data frame should be replaced. Only relevant when <code>append=TRUE</code> and the data frame already contains the <code>yi</code> and <code>vi</code> variables. If <code>replace=TRUE</code> (the default), all of the existing values will be overwritten. If <code>replace=FALSE</code>, only <code>NA</code> values will be replaced. See the &lsquo;Value&rsquo; section for more details.</p>
+</td></tr>
+<tr valign="top"><td><code>digits</code></td>
+<td>
+<p>optional integer to specify the number of decimal places to which the printed results should be rounded. If unspecified, the default is 4. Note that the values are stored without rounding in the returned object. See also <a href="misc-options.html">here</a> for further details on how to control the number of digits in the output.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>other arguments.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Before a meta-analysis can be conducted, the relevant results from each study must be quantified in such a way that the resulting values can be further aggregated and compared. Depending on (a) the goals of the meta-analysis, (b) the design and types of studies included, and (c) the information provided therein, one of the various effect size or outcome measures described below may be appropriate for the meta-analysis and can be computed with the <code>escalc</code> function.
+</p>
+<p>The <code>measure</code> argument is a character string to specify the outcome measure that should be calculated (see below for the various options), arguments <code>ai</code> through <code>ni</code> are then used to specify the information needed to calculate the various measures (depending on the chosen outcome measure, different arguments need to be specified), and <code>data</code> can be used to specify a data frame containing the variables given to the previous arguments. The <code>add</code>, <code>to</code>, and <code>drop00</code> arguments may be needed when dealing with frequency or count data that may need special handling when some of the frequencies or counts are equal to zero (see below for details). Finally, the <code>vtype</code> argument is used to specify how the sampling variances should be estimated (again, see below for details).
+</p>
+<p>To provide a structure to the various effect size or outcome measures that can be calculated with the <code>escalc</code> function, we can distinguish between measures that are used to:
+</p>
+
+<ul>
+<li><p> contrast two independent (either experimentally created or naturally occurring) groups,
+</p>
+</li>
+<li><p> describe the direction and strength of the association between two variables,
+</p>
+</li>
+<li><p> summarize some characteristic or attribute of individual groups, or
+</p>
+</li>
+<li><p> quantify change within a single group or the difference between two matched pairs samples.
+</p>
+</li></ul>
+
+<p>Furthermore, where appropriate, we can further distinguish between measures that are applicable when the characteristic, response, or dependent variable assessed in the individual studies is:
+</p>
+
+<ul>
+<li><p> a dichotomous (binary) variable (e.g., remission versus no remission),
+</p>
+</li>
+<li><p> a count of events per time unit (e.g., number of migraines per year),
+</p>
+</li>
+<li><p> a quantitative variable (e.g., amount of depression as assessed by a rating scale).
+</p>
+</li></ul>
+
+
+
+<h4>Outcome Measures for Two-Group Comparisons</h4>
+
+<p>In many meta-analyses, the goal is to synthesize the results from studies that compare or contrast two groups. The groups may be experimentally defined (e.g., a treatment and a control group created via random assignment) or may occur naturally (e.g., men and women, employees working under high- versus low-stress conditions, people exposed to some environmental risk factor versus those not exposed).
+</p>
+
+
+<h5>Measures for Dichotomous Variables</h5>
+
+<p>In various fields (such as the health and medical sciences), the response variable measured is often dichotomous (binary), so that the data from a study comparing two different groups can be expressed in terms of a \(2 \times 2\) table, such as:
+</p>
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: left;">
+                 </td><td style="text-align: center;"> outcome 1 </td><td style="text-align: center;"> outcome 2 </td><td style="text-align: center;"> total      </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+         group 1 </td><td style="text-align: center;"> <code>ai</code> </td><td style="text-align: center;"> <code>bi</code> </td><td style="text-align: center;"> <code>n1i</code> </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+         group 2 </td><td style="text-align: center;"> <code>ci</code> </td><td style="text-align: center;"> <code>di</code> </td><td style="text-align: center;"> <code>n2i</code>
+         </td>
+</tr>
+
+</table>
+<p> where <code>ai</code>, <code>bi</code>, <code>ci</code>, and <code>di</code> denote the cell frequencies (i.e., the number of people falling into a particular category) and <code>n1i</code> and <code>n2i</code> are the row totals (i.e., the group sizes).
+</p>
+<p>For example, in a set of randomized clinical trials, group 1 and group 2 may refer to the treatment and placebo/control group, respectively, with outcome 1 denoting some event of interest (e.g., death, complications, failure to improve under the treatment) and outcome 2 its complement. Similarly, in a set of cohort studies, group 1 and group 2 may denote those who engage in and those who do not engage in a potentially harmful behavior (e.g., smoking), with outcome 1 denoting the development of a particular disease (e.g., lung cancer) during the follow-up period. Finally, in a set of case-control studies, group 1 and group 2 may refer to those with the disease (i.e., cases) and those free of the disease (i.e., controls), with outcome 1 denoting, for example, exposure to some environmental risk factor in the past and outcome 2 non-exposure. Note that in all of these examples, the stratified sampling scheme fixes the row totals (i.e., the group sizes) by design.
+</p>
+<p>A meta-analysis of studies reporting results in terms of \(2 \times 2\) tables can be based on one of several different outcome measures, including the risk ratio (also called the relative risk), the odds ratio, the risk difference, and the arcsine square root transformed risk difference (e.g., Fleiss &amp; Berlin, 2009, Rücker et al., 2009). For any of these outcome measures, one needs to specify the cell frequencies via the <code>ai</code>, <code>bi</code>, <code>ci</code>, and <code>di</code> arguments (or alternatively, one can use the <code>ai</code>, <code>ci</code>, <code>n1i</code>, and <code>n2i</code> arguments).
+</p>
+<p>The options for the <code>measure</code> argument are then:
+</p>
+
+<ul>
+<li> <p><code>"RR"</code> for the <em>log risk ratio</em>,
+</p>
+</li>
+<li> <p><code>"OR"</code> for the <em>log odds ratio</em>,
+</p>
+</li>
+<li> <p><code>"RD"</code> for the <em>risk difference</em>,
+</p>
+</li>
+<li> <p><code>"AS"</code> for the <em>arcsine square root transformed risk difference</em> (Rücker et al., 2009),
+</p>
+</li>
+<li> <p><code>"PETO"</code> for the <em>log odds ratio</em> estimated with Peto's method (Yusuf et al., 1985).
+</p>
+</li></ul>
+
+<p>Note that the log is taken of the risk ratio and the odds ratio, which makes these outcome measures symmetric around 0 and yields corresponding sampling distributions that are closer to normality. Also, when multiplied by 2, the arcsine square root transformed risk difference is actually identical to Cohen's h (Cohen, 1988).
+</p>
+<p>If the \(2 \times 2\) table is not available (or cannot be reconstructed) for a study, but measures such as the odds ratio and corresponding confidence interval bounds are reported, one can easily transform these values into the corresponding log odds ratio and sampling variance directly. See <a href="https://www.metafor-project.org/doku.php/tips:assembling_data_or">here</a> for an illustration/discussion of this.
+</p>
+<p>Cell entries with a zero count can be problematic, especially for the risk ratio and the odds ratio. Adding a small constant to the cells of the \(2 \times 2\) tables is a common solution to this problem. When <code>to="only0"</code> (the default), the value of <code>add</code> (the default is <code>1/2</code>; but see &lsquo;Note&rsquo;) is added to each cell of those \(2 \times 2\) tables with at least one cell equal to 0. When <code>to="all"</code>, the value of <code>add</code> is added to each cell of all \(2 \times 2\) tables. When <code>to="if0all"</code>, the value of <code>add</code> is added to each cell of all \(2 \times 2\) tables, but only when there is at least one \(2 \times 2\) table with a zero cell. Setting <code>to="none"</code> or <code>add=0</code> has the same effect: No adjustment to the observed table frequencies is made. Depending on the outcome measure and the data, this may lead to division by zero (when this occurs, the resulting value is recoded to <code>NA</code>). Also, studies where <code>ai=ci=0</code> or <code>bi=di=0</code> may be considered to be uninformative about the size of the effect and dropping such studies has sometimes been recommended (Higgins et al., 2019). This can be done by setting <code>drop00=TRUE</code>. The values for such studies will then be set to <code>NA</code>.
+</p>
+<p>Datasets corresponding to data of this type are provided in <code><a href="../../metadat/html/dat.bcg.html">dat.bcg</a></code>, <code><a href="../../metadat/html/dat.collins1985a.html">dat.collins1985a</a></code>, <code><a href="../../metadat/html/dat.collins1985b.html">dat.collins1985b</a></code>, <code><a href="../../metadat/html/dat.egger2001.html">dat.egger2001</a></code>, <code><a href="../../metadat/html/dat.hine1989.html">dat.hine1989</a></code>, <code><a href="../../metadat/html/dat.laopaiboon2015.html">dat.laopaiboon2015</a></code>, <code><a href="../../metadat/html/dat.lee2004.html">dat.lee2004</a></code>, <code><a href="../../metadat/html/dat.li2007.html">dat.li2007</a></code>, <code><a href="../../metadat/html/dat.linde2005.html">dat.linde2005</a></code>, <code><a href="../../metadat/html/dat.nielweise2007.html">dat.nielweise2007</a></code>, and <code><a href="../../metadat/html/dat.yusuf1985.html">dat.yusuf1985</a></code>.
+</p>
+<p>Assuming that the dichotomous outcome is actually a dichotomized version of the responses on an underlying quantitative scale, it is also possible to estimate the standardized mean difference based on \(2 \times 2\) table data, using either the probit transformed risk difference or a transformation of the odds ratio (e.g., Cox &amp; Snell, 1989; Chinn, 2000; Hasselblad &amp; Hedges, 1995; Sánchez-Meca et al., 2003). The options for the <code>measure</code> argument are then:
+</p>
+
+<ul>
+<li> <p><code>"PBIT"</code> for the <em>probit transformed risk difference</em> as an estimate of the standardized mean difference,
+</p>
+</li>
+<li> <p><code>"OR2DN"</code> for the <em>transformed odds ratio</em> as an estimate of the standardized mean difference (assuming normal distributions),
+</p>
+</li>
+<li> <p><code>"OR2DL"</code> for the <em>transformed odds ratio</em> as an estimate of the standardized mean difference (assuming logistic distributions).
+</p>
+</li></ul>
+
+<p>The probit transformation assumes that the responses on the underlying quantitative scale are normally distributed. There are two versions of the odds ratio transformation, the first also assuming normal distributions within the two groups, while the second assumes that the responses within groups follow logistic distributions.
+</p>
+<p>A dataset corresponding to data of this type is provided in <code><a href="../../metadat/html/dat.gibson2002.html">dat.gibson2002</a></code>.
+</p>
+
+
+
+<h5>Measures for Event Counts</h5>
+
+<p>In medical and epidemiological studies comparing two different groups (e.g., treated versus untreated patients, exposed versus unexposed individuals), results are sometimes reported in terms of event counts (i.e., the number of events, such as strokes or myocardial infarctions) over a certain period of time. Data of this type are also referred to as &lsquo;person-time data&rsquo;. Assume that the studies report data in the form:
+</p>
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: left;">
+                 </td><td style="text-align: center;"> number of events </td><td style="text-align: center;"> total person-time </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+         group 1 </td><td style="text-align: center;"> <code>x1i</code>       </td><td style="text-align: center;"> <code>t1i</code> </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+         group 2 </td><td style="text-align: center;"> <code>x2i</code>       </td><td style="text-align: center;"> <code>t2i</code>
+         </td>
+</tr>
+
+</table>
+<p> where <code>x1i</code> and <code>x2i</code> denote the number of events in the first and the second group, respectively, and <code>t1i</code> and <code>t2i</code> the corresponding total person-times at risk. Often, the person-time is measured in years, so that <code>t1i</code> and <code>t2i</code> denote the total number of follow-up years in the two groups.
+</p>
+<p>This form of data is fundamentally different from what was described in the previous section, since the total follow-up time may differ even for groups of the same size and the individuals studied may experience the event of interest multiple times. Hence, different outcome measures than the ones described in the previous section need to be considered when data are reported in this format. These include the incidence rate ratio, the incidence rate difference, and the square root transformed incidence rate difference (Bagos &amp; Nikolopoulos, 2009; Rothman et al., 2008). For any of these outcome measures, one needs to specify the total number of events via the <code>x1i</code> and <code>x2i</code> arguments and the corresponding total person-time values via the <code>t1i</code> and <code>t2i</code> arguments.
+</p>
+<p>The options for the <code>measure</code> argument are then:
+</p>
+
+<ul>
+<li> <p><code>"IRR"</code> for the <em>log incidence rate ratio</em>,
+</p>
+</li>
+<li> <p><code>"IRD"</code> for the <em>incidence rate difference</em>,
+</p>
+</li>
+<li> <p><code>"IRSD"</code> for the <em>square root transformed incidence rate difference</em>.
+</p>
+</li></ul>
+
+<p>Note that the log is taken of the incidence rate ratio, which makes this outcome measure symmetric around 0 and yields a corresponding sampling distribution that is closer to normality.
+</p>
+<p>Studies with zero events in one or both groups can be problematic, especially for the incidence rate ratio. Adding a small constant to the number of events is a common solution to this problem. When <code>to="only0"</code> (the default), the value of <code>add</code> (the default is <code>1/2</code>; but see &lsquo;Note&rsquo;) is added to <code>x1i</code> and <code>x2i</code> only in the studies that have zero events in one or both groups. When <code>to="all"</code>, the value of <code>add</code> is added to <code>x1i</code> and <code>x2i</code> in all studies. When <code>to="if0all"</code>, the value of <code>add</code> is added to <code>x1i</code> and <code>x2i</code> in all studies, but only when there is at least one study with zero events in one or both groups. Setting <code>to="none"</code> or <code>add=0</code> has the same effect: No adjustment to the observed number of events is made. Depending on the outcome measure and the data, this may lead to division by zero (when this occurs, the resulting value is recoded to <code>NA</code>). Like for \(2 \times 2\) table data, studies where <code>x1i=x2i=0</code> may be considered to be uninformative about the size of the effect and dropping such studies has sometimes been recommended. This can be done by setting <code>drop00=TRUE</code>. The values for such studies will then be set to <code>NA</code>.
+</p>
+<p>Datasets corresponding to data of this type are provided in <code><a href="../../metadat/html/dat.hart1999.html">dat.hart1999</a></code> and <code><a href="../../metadat/html/dat.nielweise2008.html">dat.nielweise2008</a></code>.
+</p>
+
+
+
+<h5>Measures for Quantitative Variables</h5>
+
+<p>When the response or dependent variable assessed in the individual studies is measured on some quantitative scale, it is customary to report certain summary statistics, such as the mean and standard deviation of the observations. The data layout for a study comparing two groups with respect to such a variable is then of the form:
+</p>
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: left;">
+                 </td><td style="text-align: center;"> mean       </td><td style="text-align: center;"> standard deviation </td><td style="text-align: center;"> group size </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+         group 1 </td><td style="text-align: center;"> <code>m1i</code> </td><td style="text-align: center;"> <code>sd1i</code>        </td><td style="text-align: center;"> <code>n1i</code> </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+         group 2 </td><td style="text-align: center;"> <code>m2i</code> </td><td style="text-align: center;"> <code>sd2i</code>        </td><td style="text-align: center;"> <code>n2i</code>
+         </td>
+</tr>
+
+</table>
+<p> where <code>m1i</code> and <code>m2i</code> are the observed means of the two groups, <code>sd1i</code> and <code>sd2i</code> are the observed standard deviations, and <code>n1i</code> and <code>n2i</code> denote the number of individuals in each group. Again, the two groups may be experimentally created (e.g., a treatment and control group based on random assignment) or naturally occurring (e.g., men and women). In either case, the raw mean difference, the standardized mean difference, and the (log transformed) ratio of means (also called log response ratio) are useful outcome measures when meta-analyzing studies of this type.
+</p>
+<p>The options for the <code>measure</code> argument are then:
+</p>
+
+<ul>
+<li> <p><code>"MD"</code> for the <em>raw mean difference</em> (e.g., Borenstein, 2009),
+</p>
+</li>
+<li> <p><code>"SMD"</code> for the <em>standardized mean difference</em> (Hedges, 1981),
+</p>
+</li>
+<li> <p><code>"SMDH"</code> for the <em>standardized mean difference</em> with heteroscedastic population variances in the two groups (Bonett, 2008, 2009),
+</p>
+</li>
+<li> <p><code>"SMD1"</code> for the <em>standardized mean difference</em> where the mean difference is divided by the standard deviation of a single group,
+</p>
+</li>
+<li> <p><code>"ROM"</code> for the <em>log transformed ratio of means</em> (Hedges et al., 1999; Lajeunesse, 2011).
+</p>
+</li></ul>
+
+<p>For <code>measure="SMD"</code>, the standardized mean difference is computed with <code>(m1i - m2i) / sdpi</code>, where <code>sdpi = sqrt(((n1i-1)*sd1i^2 + (n2i-1)*sd2i^2) / (n1i+n2i-2))</code> is the pooled standard deviation of the two groups. For <code>measure="SMDH"</code>, <code>sdpi = sqrt((sd1i^2 + sd2i^2)/2)</code> is the square root of the average variance, and for <code>measure="SMD1"</code>, we simply use <code>sdpi = sd2i</code> (hence, for this measure, only <code>sd2i</code> needs to be specified and <code>sd1i</code> is ignored).
+</p>
+<p>For <code>measure="SMD"</code>, the positive bias in the standardized mean difference (i.e., in a Cohen's d value) is automatically corrected for within the function, yielding Hedges' g (Hedges, 1981). Similarly, the same bias correction is applied for <code>measure="SMDH"</code> (Bonett, 2009) and <code>measure="SMD1"</code> (Hedges, 1981).
+</p>
+<p>For <code>measure="ROM"</code>, the log is taken of the ratio of means, which makes this outcome measure symmetric around 0 and yields a corresponding sampling distribution that is closer to normality. Hence, this measure cannot be computed when <code>m1i</code> and <code>m2i</code> have opposite signs (i.e., it is meant to be used for ratio scale measurements, where both means should be positive anyway).
+</p>
+<p>For <code>measure="SMD"</code>, if the means and standard deviations are unknown for a study, but the t-statistic from an independent samples t-test is reported (or the corresponding p-value, which can be transformed into the t-statistic), one can easily transform the t-statistic to a d-value directly. See <a href="https://www.metafor-project.org/doku.php/tips:assembling_data_smd">here</a> for an illustration/discussion of this.
+</p>
+<p>For <code>measure="MD"</code>, one can choose between <code>vtype="LS"</code> (the default) and <code>vtype="HO"</code>. The former computes the sampling variances without assuming homoscedasticity (i.e., that the true variances of the measurements are the same in group 1 and group 2 within each study), while the latter assumes homoscedasticity (equations 12.5 and 12.3 in Borenstein, 2009, respectively). For <code>measure="SMD"</code>, one can choose between <code>vtype="LS"</code> (the default) for the usual large-sample approximation to compute the sampling variances (equation 8 in Hedges, 1982), <code>vtype="UB"</code> to compute unbiased estimates of the sampling variances (equation 9 in Hedges, 1983), <code>vtype="LS2"</code> to compute the sampling variances as described in Borenstein (2009) (i.e., equation 12.17), and <code>vtype="AV"</code> to compute the sampling variances with the usual large-sample approximation but plugging the sample-size weighted average of the Hedges' g values into the equation. The same choices also apply to <code>measure="SMD1"</code>. For <code>measure="ROM"</code>, one can choose between <code>vtype="LS"</code> (the default) for the usual large-sample approximation to compute the sampling variances (equation 1 in Hedges et al., 1999), <code>vtype="HO"</code> to compute the sampling variances assuming homoscedasticity (the unnumbered equation after equation 1 in Hedges et al., 1999), <code>vtype="AV"</code> to compute the sampling variances assuming homoscedasticity of the coefficient of variation within each group across studies, and <code>vtype="AVHO"</code> to compute the sampling variances assuming homoscedasticity of the coefficient of variation for both groups across studies.
+</p>
+<p>Datasets corresponding to data of this type are provided in <code><a href="../../metadat/html/dat.normand1999.html">dat.normand1999</a></code> and <code><a href="../../metadat/html/dat.curtis1998.html">dat.curtis1998</a></code>.
+</p>
+<p>It is also possible to transform standardized mean differences into log odds ratios (e.g., Cox &amp; Snell, 1989; Chinn, 2000; Hasselblad &amp; Hedges, 1995; Sánchez-Meca et al., 2003). The options for the <code>measure</code> argument are then:
+</p>
+
+<ul>
+<li> <p><code>"D2ORN"</code> for the <em>transformed standardized mean difference</em> as an estimate of the log odds ratio (assuming normal distributions),
+</p>
+</li>
+<li> <p><code>"D2ORL"</code> for the <em>transformed standardized mean difference</em> as an estimate of the log odds ratio (assuming logistic distributions).
+</p>
+</li></ul>
+
+<p>Both of these transformations provide an estimate of the log odds ratio, the first assuming that the responses within the two groups are normally distributed, while the second assumes that the responses follow logistic distributions.
+</p>
+<p>A dataset illustrating the combined analysis of standardized mean differences and probit transformed risk differences is provided in <code><a href="../../metadat/html/dat.gibson2002.html">dat.gibson2002</a></code>.
+</p>
+<p>Finally, interest may also be focused on differences between the two groups with respect to their variability. Here, the (log transformed) ratio of the coefficient of variation of the two groups (also called the coefficient of variation ratio) can be a useful measure (Nakagawa et al., 2015). If focus is solely on the variability of the measurements within the two groups, then the (log transformed) ratio of the standard deviations (also called the variability ratio) can be used (Nakagawa et al., 2015). For the latter, one only needs to specify <code>sd1i</code>, <code>sd2i</code>, <code>n1i</code>, and <code>n2i</code>. The options for the <code>measure</code> argument are:
+</p>
+
+<ul>
+<li> <p><code>"CVR"</code> for the <em>log transformed coefficient of variation ratio</em>,
+</p>
+</li>
+<li> <p><code>"VR"</code> for the <em>log transformed variability ratio</em>.
+</p>
+</li></ul>
+
+<p>Note that a slight bias correction is applied for both of these measures (Nakagawa et al., 2015). Also, the sampling variance for <code>measure="CVR"</code> is computed as given by equation 12 in Nakagawa et al. (2015), but without the &lsquo;\(-2 \rho \ldots\)&rsquo; terms, since for normally distributed data (which we assume here) the mean and variance (and transformations thereof) are independent.
+</p>
+
+
+
+
+<h4>Outcome Measures for Variable Association</h4>
+
+<p>Meta-analyses are often used to synthesize studies that examine the direction and strength of the association between two variables measured concurrently and/or without manipulation by experimenters. In this section, a variety of outcome measures will be discussed that may be suitable for a meta-analyses with this purpose. We can distinguish between measures that are applicable when both variables are measured on quantitative scales, when both variables measured are dichotomous, and when the two variables are of mixed types.
+</p>
+
+
+<h5>Measures for Two Quantitative Variables</h5>
+
+<p>The (Pearson or product-moment) correlation coefficient quantifies the direction and strength of the (linear) relationship between two quantitative variables and is therefore frequently used as the outcome measure for meta-analyses. Two alternative measures are a bias-corrected version of the correlation coefficient and Fisher's r-to-z transformed correlation coefficient.
+</p>
+<p>For these measures, one needs to specify <code>ri</code>, the vector with the raw correlation coefficients, and <code>ni</code>, the corresponding sample sizes. The options for the <code>measure</code> argument are then:
+</p>
+
+<ul>
+<li> <p><code>"COR"</code> for the <em>raw correlation coefficient</em>,
+</p>
+</li>
+<li> <p><code>"UCOR"</code> for the <em>raw correlation coefficient</em> corrected for its slight negative bias (based on equation 2.3 in Olkin &amp; Pratt, 1958),
+</p>
+</li>
+<li> <p><code>"ZCOR"</code> for <em>Fisher's r-to-z transformed correlation coefficient</em> (Fisher, 1921).
+</p>
+</li></ul>
+
+<p>For <code>measure="COR"</code> and <code>measure="UCOR"</code>, one can choose between <code>vtype="LS"</code> (the default) for the usual large-sample approximation to compute the sampling variances (i.e., plugging the (biased-corrected) correlation coefficients into equation 12.27 in Borenstein, 2009), <code>vtype="UB"</code> to compute unbiased estimates of the sampling variances (see Hedges, 1989, but using the exact equation instead of the approximation), and <code>vtype="AV"</code> to compute the sampling variances with the usual large-sample approximation but plugging the sample-size weighted average of the (bias-corrected) correlation coefficients into the equation.
+</p>
+<p>Datasets corresponding to data of this type are provided in <code><a href="../../metadat/html/dat.mcdaniel1994.html">dat.mcdaniel1994</a></code> and <code><a href="../../metadat/html/dat.molloy2014.html">dat.molloy2014</a></code>.
+</p>
+<p>For meta-analyses involving multiple correlations extracted from the same sample, see also the <code><a href="rcalc.html">rcalc</a></code> function.
+</p>
+
+
+
+<h5>Measures for Two Dichotomous Variables</h5>
+
+<p>When the goal of a meta-analysis is to examine the relationship between two dichotomous variables, the data for each study can again be presented in the form of a \(2 \times 2\) table, except that there may not be a clear distinction between the grouping variable and the outcome variable. Moreover, the table may be a result of cross-sectional (i.e., multinomial) sampling, where none of the table margins (except the total sample size) are fixed by the study design.
+</p>
+<p>The phi coefficient and the odds ratio are commonly used measures of association for \(2 \times 2\) table data (e.g., Fleiss &amp; Berlin, 2009). The latter is particularly advantageous, as it is directly comparable to values obtained from stratified sampling (as described earlier). Yule's Q and Yule's Y (Yule, 1912) are additional measures of association for \(2 \times 2\) table data (although they are not typically used in meta-analyses). Finally, assuming that the two dichotomous variables are actually dichotomized versions of the responses on two underlying quantitative scales (and assuming that the two variables follow a bivariate normal distribution), it is also possible to estimate the correlation between the two variables using the tetrachoric correlation coefficient (Pearson, 1900; Kirk, 1973).
+</p>
+<p>For any of these outcome measures, one needs to specify the cell frequencies via the <code>ai</code>, <code>bi</code>, <code>ci</code>, and <code>di</code> arguments (or alternatively, one can use the <code>ai</code>, <code>ci</code>, <code>n1i</code>, and <code>n2i</code> arguments). The options for the <code>measure</code> argument are then:
+</p>
+
+<ul>
+<li> <p><code>"OR"</code> for the <em>log odds ratio</em>,
+</p>
+</li>
+<li> <p><code>"PHI"</code> for the <em>phi coefficient</em>,
+</p>
+</li>
+<li> <p><code>"YUQ"</code> for <em>Yule's Q</em> (Yule, 1912),
+</p>
+</li>
+<li> <p><code>"YUY"</code> for <em>Yule's Y</em> (Yule, 1912),
+</p>
+</li>
+<li> <p><code>"RTET"</code> for the <em>tetrachoric correlation coefficient</em>.
+</p>
+</li></ul>
+
+<p>Tables with one or more zero counts are handled as described earlier. For <code>measure="PHI"</code>, one must indicate via <code>vtype="ST"</code> or <code>vtype="CS"</code> whether the data for the studies were obtained using stratified or cross-sectional (i.e., multinomial) sampling, respectively (it is also possible to specify an entire vector for the <code>vtype</code> argument in case the sampling scheme differed for the various studies).
+</p>
+<p>A dataset corresponding to data of this type is provided in <code><a href="../../metadat/html/dat.bourassa1996.html">dat.bourassa1996</a></code>.
+</p>
+
+
+
+<h5>Measures for Mixed Variable Types</h5>
+
+<p>Finally, we can consider outcome measures that can be used to describe the relationship between two variables, where one variable is dichotomous and the other variable measures some quantitative characteristic. In that case, it is likely that study authors again report summary statistics, such as the mean and standard deviation of the measurements within the two groups (defined by the dichotomous variable). Based on this information, one can compute the point-biserial correlation coefficient (Tate, 1954) as a measure of association between the two variables. If the dichotomous variable is actually a dichotomized version of the responses on an underlying quantitative scale (and assuming that the two variables follow a bivariate normal distribution), it is also possible to estimate the correlation between the two variables using the biserial correlation coefficient (Pearson, 1909; Soper, 1914; Jacobs &amp; Viechtbauer, 2017).
+</p>
+<p>Here, one again needs to specify <code>m1i</code> and <code>m2i</code> for the observed means of the two groups, <code>sd1i</code> and <code>sd2i</code> for the observed standard deviations, and <code>n1i</code> and <code>n2i</code> for the number of individuals in each group. The options for the <code>measure</code> argument are then:
+</p>
+
+<ul>
+<li> <p><code>"RPB"</code> for the <em>point-biserial correlation coefficient</em>,
+</p>
+</li>
+<li> <p><code>"RBIS"</code> for the <em>biserial correlation coefficient</em>.
+</p>
+</li></ul>
+
+<p>For <code>measure="RPB"</code>, one must indicate via <code>vtype="ST"</code> or <code>vtype="CS"</code> whether the data for the studies were obtained using stratified or cross-sectional (i.e., multinomial) sampling, respectively (it is also possible to specify an entire vector for the <code>vtype</code> argument in case the sampling scheme differed for the various studies).
+</p>
+
+
+
+
+<h4>Outcome Measures for Individual Groups</h4>
+
+<p>In this section, outcome measures will be described which may be useful when the goal of a meta-analysis is to synthesize studies that characterize some property of individual groups. We will again distinguish between measures that are applicable when the characteristic of interest is a dichotomous variable, when the characteristic represents an event count, or when the characteristic assessed is a quantitative variable.
+</p>
+
+
+<h5>Measures for Dichotomous Variables</h5>
+
+<p>A meta-analysis may be conducted to aggregate studies that provide data about individual groups with respect to a dichotomous dependent variable. Here, one needs to specify <code>xi</code> and <code>ni</code>, denoting the number of individuals experiencing the event of interest and the total number of individuals within each study, respectively. Instead of specifying <code>ni</code>, one can use <code>mi</code> to specify the number of individuals that do not experience the event of interest. The options for the <code>measure</code> argument are then:
+</p>
+
+<ul>
+<li> <p><code>"PR"</code> for the <em>raw proportion</em>,
+</p>
+</li>
+<li> <p><code>"PLN"</code> for the <em>log transformed proportion</em>,
+</p>
+</li>
+<li> <p><code>"PLO"</code> for the <em>logit transformed proportion</em> (i.e., log odds),
+</p>
+</li>
+<li> <p><code>"PAS"</code> for the <em>arcsine square root transformed proportion</em> (i.e., the angular transformation),
+</p>
+</li>
+<li> <p><code>"PFT"</code> for the <em>Freeman-Tukey double arcsine transformed proportion</em> (Freeman &amp; Tukey, 1950).
+</p>
+</li></ul>
+
+<p>Zero cell entries can be problematic for certain outcome measures. When <code>to="only0"</code> (the default), the value of <code>add</code> (the default is <code>1/2</code>; but see &lsquo;Note&rsquo;) is added to <code>xi</code> and <code>mi</code> only for studies where <code>xi</code> or <code>mi</code> is equal to 0. When <code>to="all"</code>, the value of <code>add</code> is added to <code>xi</code> and <code>mi</code> in all studies. When <code>to="if0all"</code>, the value of <code>add</code> is added in all studies, but only when there is at least one study with a zero value for <code>xi</code> or <code>mi</code>. Setting <code>to="none"</code> or <code>add=0</code> has the same effect: No adjustment to the observed values is made. Depending on the outcome measure and the data, this may lead to division by zero (when this occurs, the resulting value is recoded to <code>NA</code>).
+</p>
+<p>Datasets corresponding to data of this type are provided in <code><a href="../../metadat/html/dat.pritz1997.html">dat.pritz1997</a></code> and <code><a href="../../metadat/html/dat.debruin2009.html">dat.debruin2009</a></code>.
+</p>
+
+
+
+<h5>Measures for Event Counts</h5>
+
+<p>Various measures can be used to characterize individual groups when the dependent variable assessed is an event count. Here, one needs to specify <code>xi</code> and <code>ti</code>, denoting the number of events that occurred and the total person-times at risk, respectively. The options for the <code>measure</code> argument are then:
+</p>
+
+<ul>
+<li> <p><code>"IR"</code> for the <em>raw incidence rate</em>,
+</p>
+</li>
+<li> <p><code>"IRLN"</code> for the <em>log transformed incidence rate</em>,
+</p>
+</li>
+<li> <p><code>"IRS"</code> for the <em>square root transformed incidence rate</em>,
+</p>
+</li>
+<li> <p><code>"IRFT"</code> for the <em>Freeman-Tukey transformed incidence rate</em> (Freeman &amp; Tukey, 1950).
+</p>
+</li></ul>
+
+<p>Measures <code>"IR"</code> and <code>"IRLN"</code> can also be used when meta-analyzing standardized incidence ratios (SIRs), where the observed number of events is divided by the expected number of events. In this case, arguments <code>xi</code> and <code>ti</code> are used to specify the observed and expected number of events in the studies. Since SIRs are not symmetric around 1, it is usually more appropriate to meta-analyze the log transformed SIRs (i.e., using measure <code>"IRLN"</code>), which are symmetric around 0.
+</p>
+<p>Studies with zero events can be problematic, especially for the log transformed incidence rate. Adding a small constant to the number of events is a common solution to this problem. When <code>to="only0"</code> (the default), the value of <code>add</code> (the default is <code>1/2</code>; but see &lsquo;Note&rsquo;) is added to <code>xi</code> only in the studies that have zero events. When <code>to="all"</code>, the value of <code>add</code> is added to <code>xi</code> in all studies. When <code>to="if0all"</code>, the value of <code>add</code> is added to <code>xi</code> in all studies, but only when there is at least one study with zero events. Setting <code>to="none"</code> or <code>add=0</code> has the same effect: No adjustment to the observed number of events is made. Depending on the outcome measure and the data, this may lead to division by zero (when this occurs, the resulting value is recoded to <code>NA</code>).
+</p>
+
+
+
+<h5>Measures for Quantitative Variables</h5>
+
+<p>The goal of a meta-analysis may also be to characterize individual groups, where the response, characteristic, or dependent variable assessed in the individual studies is measured on some quantitative scale. In the simplest case, the raw mean for the quantitative variable is reported for each group, which then becomes the observed outcome for the meta-analysis. Here, one needs to specify <code>mi</code>, <code>sdi</code>, and <code>ni</code> for the observed means, the observed standard deviations, and the sample sizes, respectively. For ratio scale measurements, the log transformed mean or the log transformed coefficient of variation (with bias correction) may also be of interest (Nakagawa et al., 2015). If focus is solely on the variability of the measurements, then the log transformed standard deviation (with bias correction) is a useful measure (Nakagawa et al., 2015; Raudenbush &amp; Bryk, 1987). Here, one only needs to specify <code>sdi</code> and <code>ni</code>.
+</p>
+<p>The options for the <code>measure</code> argument are:
+</p>
+
+<ul>
+<li> <p><code>"MN"</code> for the <em>raw mean</em>,
+</p>
+</li>
+<li> <p><code>"MNLN"</code> for the <em>log transformed mean</em>,
+</p>
+</li>
+<li> <p><code>"CVLN"</code> for the <em>log transformed coefficient of variation</em>,
+</p>
+</li>
+<li> <p><code>"SDLN"</code> for the <em>log transformed standard deviation</em>.
+</p>
+</li></ul>
+
+<p>Note that <code>sdi</code> is used to specify the standard deviations of the observed values of the response, characteristic, or dependent variable and not the standard errors of the means. Also, the sampling variance for <code>measure="CVLN"</code> is computed as given by equation 27 in Nakagawa et al. (2015), but without the &lsquo;\(-2 \rho \ldots\)&rsquo; term, since for normally distributed data (which we assume here) the mean and variance (and transformations thereof) are independent.
+</p>
+
+
+
+
+<h4>Outcome Measures for Change or Matched Pairs</h4>
+
+<p>A more complicated situation arises when the purpose of the meta-analysis is to assess the amount of change within individual groups (e.g., before and after a treatment or under two different treatments) or when dealing with matched pairs designs.
+</p>
+
+
+<h5>Measures for Dichotomous Variables</h5>
+
+<p>For dichotomous variables, the data for a study of this type gives rise to a paired \(2 \times 2\) table, which is of the form:
+</p>
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: left;">
+                         </td><td style="text-align: center;"> trt 2 outcome 1 </td><td style="text-align: center;"> trt 2 outcome 2 </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+         trt 1 outcome 1 </td><td style="text-align: center;"> <code>ai</code>       </td><td style="text-align: center;"> <code>bi</code> </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+         trt 1 outcome 2 </td><td style="text-align: center;"> <code>ci</code>       </td><td style="text-align: center;"> <code>di</code>
+         </td>
+</tr>
+
+</table>
+<p> where <code>ai</code>, <code>bi</code>, <code>ci</code>, and <code>di</code> denote the cell frequencies. Note that &lsquo;trt1&rsquo; and &lsquo;trt2&rsquo; may be applied to a single group of subjects or to matched pairs of subjects. Also, &lsquo;trt1&rsquo; and &lsquo;trt2&rsquo; might refer to two different time points (e.g., before and after a treatment). In any case, the data from such a study can be rearranged into a marginal table of the form:
+</p>
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: left;">
+               </td><td style="text-align: center;"> outcome 1    </td><td style="text-align: center;"> outcome 2 </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+         trt 1 </td><td style="text-align: center;"> <code>ai+bi</code> </td><td style="text-align: center;"> <code>ci+di</code> </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+         trt 2 </td><td style="text-align: center;"> <code>ai+ci</code> </td><td style="text-align: center;"> <code>bi+di</code>
+         </td>
+</tr>
+
+</table>
+<p> which is of the same form as a \(2 \times 2\) table that would arise in a study comparing/contrasting two independent groups.
+</p>
+<p>The options for the <code>measure</code> argument that will compute outcome measures based on the marginal table are:
+</p>
+
+<ul>
+<li> <p><code>"MPRR"</code> for the matched pairs <em>marginal log risk ratio</em>,
+</p>
+</li>
+<li> <p><code>"MPOR"</code> for the matched pairs <em>marginal log odds ratio</em>,
+</p>
+</li>
+<li> <p><code>"MPRD"</code> for the matched pairs <em>marginal risk difference</em>.
+</p>
+</li></ul>
+
+<p>See Becker and Balagtas (1993), Curtin et al. (2002), Elbourne et al. (2002), Fagerland et al. (2014), May and Johnson (1997), Newcombe (1998), Stedman et al. (2011), and Zou (2007) for discussions of these measures.
+</p>
+<p>The options for the <code>measure</code> argument that will compute outcome measures based on the paired table are:
+</p>
+
+<ul>
+<li> <p><code>"MPORC"</code> for the <em>conditional log odds ratio</em>,
+</p>
+</li>
+<li> <p><code>"MPPETO"</code> for the <em>conditional log odds ratio</em> estimated with Peto's method.
+</p>
+</li></ul>
+
+<p>See Curtin et al. (2002) and Zou (2007) for discussions of these measures.
+</p>
+<p>If only marginal tables are available, then another possibility is to compute the marginal log odds ratios based on these table directly. However, for the correct computation of the sampling variances, the correlations (phi coefficients) from the paired tables must be known (or &lsquo;guestimated&rsquo;). To use this approach, set <code>measure="MPORM"</code> and use argument <code>ri</code> to specify the correlation coefficients.
+</p>
+
+
+
+<h5>Measures for Quantitative Variables</h5>
+
+<p>When the response or dependent variable assessed in the individual studies is measured on some quantitative scale, the raw mean change, standardized versions thereof, or the (log transformed) ratio of means (log response ratio) can be used as outcome measures (Becker, 1988; Gibbons et al., 1993; Lajeunesse, 2011; Morris, 2000). Here, one needs to specify <code>m1i</code> and <code>m2i</code>, the observed means at the two measurement occasions, <code>sd1i</code> and <code>sd2i</code> for the corresponding observed standard deviations, <code>ri</code> for the correlation between the measurements at the two measurement occasions, and <code>ni</code> for the sample size. The options for the <code>measure</code> argument are then:
+</p>
+
+<ul>
+<li> <p><code>"MC"</code> for the <em>raw mean change</em>,
+</p>
+</li>
+<li> <p><code>"SMCC"</code> for the <em>standardized mean change</em> using change score standardization (Gibbons et al., 1993),
+</p>
+</li>
+<li> <p><code>"SMCR"</code> for the <em>standardized mean change</em> using raw score standardization (Becker, 1988),
+</p>
+</li>
+<li> <p><code>"SMCRH"</code> for the <em>standardized mean change</em> using raw score standardization with heteroscedastic population variances at the two measurement occasions (Bonett, 2008),
+</p>
+</li>
+<li> <p><code>"ROMC"</code> for the <em>log transformed ratio of means</em> (Lajeunesse, 2011).
+</p>
+</li></ul>
+
+<p>See also Morris and DeShon (2002) for a thorough discussion of the difference between the change score measures.
+</p>
+<p>A few notes about the change score measures. In practice, one often has a mix of information available from the individual studies to compute these measures. In particular, if <code>m1i</code> and <code>m2i</code> are unknown, but the raw mean change is directly reported in a particular study, then one can set <code>m1i</code> to that value and <code>m2i</code> to 0 (making sure that the raw mean change was computed as <code>m1i-m2i</code> within that study and not the other way around). Also, for the raw mean change (<code>"MC"</code>) or the standardized mean change using change score standardization (<code>"SMCC"</code>), if <code>sd1i</code>, <code>sd2i</code>, and <code>ri</code> are unknown, but the standard deviation of the change scores is directly reported, then one can set <code>sd1i</code> to that value and both <code>sd2i</code> and <code>ri</code> to 0. Finally, for the standardized mean change using raw score standardization (<code>"SMCR"</code>), argument <code>sd2i</code> is actually not needed, as the standardization is only based on <code>sd1i</code> (Becker, 1988; Morris, 2000), which is usually the pre-test standard deviation (if the post-test standard deviation should be used, then set <code>sd1i</code> to that). Note that all of these measures are also applicable for matched-pairs designs (subscripts 1 and 2 then simply denote the first and second group that are formed by the matching).
+</p>
+<p>Finally, interest may also be focused on differences in the variability of the measurements at the two measurement occasions (or between the two matched groups). Here, the (log transformed) ratio of the coefficient of variation (also called the coefficient of variation ratio) can be a useful measure (Nakagawa et al., 2015). If focus is solely on the variability of the measurements, then the (log transformed) ratio of the standard deviations (also called the variability ratio) can be used (Nakagawa et al., 2015). For the latter, one only needs to specify <code>sd1i</code>, <code>sd2i</code>, <code>ni</code>, and <code>ri</code>. The options for the <code>measure</code> argument are:
+</p>
+
+<ul>
+<li> <p><code>"CVRC"</code> for the <em>log transformed coefficient of variation ratio</em>,
+</p>
+</li>
+<li> <p><code>"VRC"</code> for the <em>log transformed variability ratio</em>.
+</p>
+</li></ul>
+
+<p>The definitions of these measures are the same as given in Nakagawa et al. (2015) but are here computed for two sets of dependent measurements. Hence, the computation of the sampling variances are adjusted to take the correlation between the measurements into consideration.
+</p>
+
+
+
+
+<h4>Other Outcome Measures for Meta-Analyses</h4>
+
+<p>Other outcome measures are sometimes used for meta-analyses that do not directly fall into the categories above. These are described in this section.
+</p>
+
+
+<h5>Cronbach's alpha and Transformations Thereof</h5>
+
+<p>Meta-analytic methods can also be used to aggregate Cronbach's alpha values from multiple studies. This is usually referred to as a &lsquo;reliability generalization meta-analysis&rsquo; (Vacha-Haase, 1998). Here, one needs to specify <code>ai</code>, <code>mi</code>, and <code>ni</code> for the observed alpha values, the number of items/replications/parts of the measurement instrument, and the sample sizes, respectively. One can either directly analyze the raw Cronbach's alpha values or transformations thereof (Bonett, 2002, 2010; Hakstian &amp; Whalen, 1976). The options for the <code>measure</code> argument are then:
+</p>
+
+<ul>
+<li> <p><code>"ARAW"</code> for <em>raw alpha</em> values,
+</p>
+</li>
+<li> <p><code>"AHW"</code> for <em>transformed alpha values</em> (Hakstian &amp; Whalen, 1976),
+</p>
+</li>
+<li> <p><code>"ABT"</code> for <em>transformed alpha values</em> (Bonett, 2002).
+</p>
+</li></ul>
+
+<p>Note that the transformations implemented here are slightly different from the ones described by Hakstian and Whalen (1976) and Bonett (2002). In particular, for <code>"AHW"</code>, the transformation \(1-(1-\alpha)^{1/3}\) is used, while for <code>"ABT"</code>, the transformation \(-\ln(1-\alpha)\) is used. This ensures that the transformed values are monotonically increasing functions of \(\alpha\).
+</p>
+<p>A dataset corresponding to data of this type is provided in <code><a href="../../metadat/html/dat.bonett2010.html">dat.bonett2010</a></code>.
+</p>
+
+
+
+<h5>Partial and Semi-Partial Correlations</h5>
+
+<p>Aloe and Becker (2012), Aloe and Thompson (2013), and Aloe (2014) describe the use of partial and semi-partial correlation coefficients as a method for meta-analyzing the results from regression models (when the focus is on a common regression coefficient of interest across studies). To compute these measures, one needs to specify <code>ti</code> for the test statistics (i.e., t-tests) of the regression coefficient of interest, <code>ni</code> for the sample sizes of the studies, <code>mi</code> for the number of predictors in the regression models, and <code>r2i</code> for the \(R^2\) value of the regression models (the latter is only needed when <code>measure="SPCOR"</code>). The options for the <code>measure</code> argument are then:
+</p>
+
+<ul>
+<li> <p><code>"PCOR"</code> for the <em>partial correlation coefficient</em>,
+</p>
+</li>
+<li> <p><code>"ZPCOR"</code> for <em>Fisher's r-to-z transformed partial correlation coefficient</em>,
+</p>
+</li>
+<li> <p><code>"SPCOR"</code> for the <em>semi-partial correlation coefficient</em>.
+</p>
+</li></ul>
+
+<p>Note that the sign of the (semi-)partial correlation coefficients is determined based on the signs of the values specified via the <code>ti</code> argument. Also, the Fisher transformation can only be applied to partial correlation coefficient, not semi-partial coefficients.
+</p>
+<p>A dataset corresponding to data of this type is provided in <code><a href="../../metadat/html/dat.aloe2013.html">dat.aloe2013</a></code>.
+</p>
+
+
+
+<h5>Relative Excess Heterozygosity</h5>
+
+<p>Ziegler et al. (2011) describe the use of meta-analytic methods to examine deviations from Hardy-Weinberg equilibrium across multiple studies. The relative excess heterozygosity (REH) is the proposed measure for such a meta-analysis, which can be computed by setting <code>measure="REH"</code>. Here, one needs to specify <code>ai</code> for the number of individuals with homozygous dominant alleles, <code>bi</code> for the number of individuals with heterozygous alleles, and <code>ci</code> for the number of individuals with homozygous recessives alleles.
+</p>
+<p>Note that the log is taken of the REH values, which makes this outcome measure symmetric around 0 and yields a corresponding sampling distribution that is closer to normality.
+</p>
+<p>A dataset corresponding to data of this type is provided in <code><a href="../../metadat/html/dat.frank2008.html">dat.frank2008</a></code>.
+</p>
+
+
+
+
+<h4>Converting a Data Frame to an 'escalc' Object</h4>
+
+<p>The function can also be used to convert a regular data frame to an &lsquo;escalc&rsquo; object. One simply sets the <code>measure</code> argument to one of the options described above (or to <code>measure="GEN"</code> for a generic outcome measure not further specified) and passes the observed effect sizes or outcomes via the <code>yi</code> argument and the corresponding sampling variances via the <code>vi</code> argument (or the standard errors via the <code>sei</code> argument).
+</p>
+
+
+
+<h3>Value</h3>
+
+<p>An object of class <code>c("escalc","data.frame")</code>. The object is a data frame containing the following components:
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>yi</code></td>
+<td>
+<p>observed effect sizes or outcomes.</p>
+</td></tr>
+<tr valign="top"><td><code>vi</code></td>
+<td>
+<p>corresponding sampling variances.</p>
+</td></tr>
+</table>
+<p>If <code>append=TRUE</code> and a data frame was specified via the <code>data</code> argument, then <code>yi</code> and <code>vi</code> are appended to this data frame. Note that the <code>var.names</code> argument actually specifies the names of these two variables (<code>yi</code> and <code>vi</code> are the defaults).
+</p>
+<p>If the data frame already contains two variables with names as specified by the <code>var.names</code> argument, the values for these two variables will be overwritten when <code>replace=TRUE</code> (which is the default). By setting <code>replace=FALSE</code>, only values that are <code>NA</code> will be replaced.
+</p>
+<p>The <code>subset</code> argument can be used to select the studies that will be included in the data frame returned by the function. On the other hand, the <code>include</code> argument simply selects for which studies the measure will be computed (if it shouldn't be computed for all of them).
+</p>
+<p>The object is formatted and printed with the <code><a href="print.escalc.html">print</a></code> function. The <code><a href="print.escalc.html">summary</a></code> function can be used to obtain confidence intervals for the individual outcomes. See <code><a href="methods.escalc.html">methods.escalc</a></code> for some additional method functions for <code>"escalc"</code> objects.
+</p>
+<p>With the <code><a href="aggregate.escalc.html">aggregate</a></code> function, one can aggregate multiple effect sizes or outcomes belonging to the same study (or some other clustering variable) into a single combined effect size or outcome.
+</p>
+
+
+<h3>Note</h3>
+
+<p>The variable names specified under <code>var.names</code> should be syntactically valid variable names. If necessary, they are adjusted so that they are.
+</p>
+<p>Although the default value for <code>add</code> is <code>1/2</code>, for certain measures the use of such a bias correction makes little sense and for these measures, the function internally sets <code>add=0</code>. This applies to the following measures: <code>"AS"</code>, <code>"PHI"</code>, <code>"RTET"</code>, <code>"IRSD"</code>, <code>"PAS"</code>, <code>"PFT"</code>, <code>"IRS"</code>, and <code>"IRFT"</code>. One can still force the use of the bias correction by explicitly setting the <code>add</code> argument to some non-zero value.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Wolfgang Viechtbauer <a href="mailto:wvb@metafor-project.org">wvb@metafor-project.org</a> <a href="https://www.metafor-project.org">https://www.metafor-project.org</a>
+</p>
+
+
+<h3>References</h3>
+
+<p>Aloe, A. M. (2014). An empirical investigation of partial effect sizes in meta-analysis of correlational data. <em>Journal of General Psychology</em>, <b>141</b>(1), 47&ndash;64. <code style="white-space: pre;">https://doi.org/10.1080/00221309.2013.853021</code>
+</p>
+<p>Aloe, A. M., &amp; Becker, B. J. (2012). An effect size for regression predictors in meta-analysis. <em>Journal of Educational and Behavioral Statistics</em>, <b>37</b>(2), 278&ndash;297. <code style="white-space: pre;">https://doi.org/10.3102/1076998610396901</code>
+</p>
+<p>Aloe, A. M., &amp; Thompson, C. G. (2013). The synthesis of partial effect sizes. <em>Journal of the Society for Social Work and Research</em>, <b>4</b>(4), 390&ndash;405. <code style="white-space: pre;">https://doi.org/10.5243/jsswr.2013.24</code>
+</p>
+<p>Bagos, P. G., &amp; Nikolopoulos, G. K. (2009). Mixed-effects Poisson regression models for meta-analysis of follow-up studies with constant or varying durations. <em>The International Journal of Biostatistics</em>, <b>5</b>(1). <code style="white-space: pre;">https://doi.org/10.2202/1557-4679.1168</code>
+</p>
+<p>Becker, B. J. (1988). Synthesizing standardized mean-change measures. <em>British Journal of Mathematical and Statistical Psychology</em>, <b>41</b>(2), 257&ndash;278.  <code style="white-space: pre;">https://doi.org/10.1111/j.2044-8317.1988.tb00901.x</code>
+</p>
+<p>Becker, M. P., &amp; Balagtas, C. C. (1993). Marginal modeling of binary cross-over data. <em>Biometrics</em>, <b>49</b>(4), 997&ndash;1009. <code style="white-space: pre;">https://doi.org/10.2307/2532242</code>
+</p>
+<p>Bonett, D. G. (2002). Sample size requirements for testing and estimating coefficient alpha. <em>Journal of Educational and Behavioral Statistics</em>, <b>27</b>(4), 335&ndash;340. <code style="white-space: pre;">https://doi.org/10.3102/10769986027004335</code>
+</p>
+<p>Bonett, D. G. (2008). Confidence intervals for standardized linear contrasts of means. <em>Psychological Methods</em>, <b>13</b>(2), 99&ndash;109. <code style="white-space: pre;">https://doi.org/10.1037/1082-989X.13.2.99</code>
+</p>
+<p>Bonett, D. G. (2009). Meta-analytic interval estimation for standardized and unstandardized mean differences. <em>Psychological Methods</em>, <b>14</b>(3), 225&ndash;238. <code style="white-space: pre;">https://doi.org/10.1037/a0016619</code>
+</p>
+<p>Bonett, D. G. (2010). Varying coefficient meta-analytic methods for alpha reliability. <em>Psychological Methods</em>, <b>15</b>(4), 368&ndash;385. <code style="white-space: pre;">https://doi.org/10.1037/a0020142</code>
+</p>
+<p>Borenstein, M. (2009). Effect sizes for continuous data. In H. Cooper, L. V. Hedges, &amp; J. C. Valentine (Eds.), <em>The handbook of research synthesis and meta-analysis</em> (2nd ed., pp. 221&ndash;235). New York: Russell Sage Foundation.
+</p>
+<p>Chinn, S. (2000). A simple method for converting an odds ratio to effect size for use in meta-analysis. <em>Statistics in Medicine</em>, <b>19</b>(22), 3127&ndash;3131. <code style="white-space: pre;">https://doi.org/10.1002/1097-0258(20001130)19:22&lt;3127::aid-sim784&gt;3.0.co;2-m</code>
+</p>
+<p>Cohen, J. (1988). <em>Statistical power analysis for the behavioral sciences</em> (2nd ed.). Hillsdale, NJ: Lawrence Erlbaum Associates.
+</p>
+<p>Cox, D. R., &amp; Snell, E. J. (1989). <em>Analysis of binary data</em> (2nd ed.). London: Chapman &amp; Hall.
+</p>
+<p>Curtin, F., Elbourne, D., &amp; Altman, D. G. (2002). Meta-analysis combining parallel and cross-over clinical trials. II: Binary outcomes. <em>Statistics in Medicine</em>, <b>21</b>(15), 2145&ndash;2159. <code style="white-space: pre;">https://doi.org/10.1002/sim.1206</code>
+</p>
+<p>Elbourne, D. R., Altman, D. G., Higgins, J. P. T., Curtin, F., Worthington, H. V., &amp; Vail, A. (2002). Meta-analyses involving cross-over trials: Methodological issues. <em>International Journal of Epidemiology</em>, <b>31</b>(1), 140&ndash;149. <code style="white-space: pre;">https://doi.org/10.1093/ije/31.1.140</code>
+</p>
+<p>Fagerland, M. W., Lydersen, S., &amp; Laake, P. (2014). Recommended tests and confidence intervals for paired binomial proportions. <em>Statistics in Medicine</em>, <b>33</b>(16), 2850&ndash;2875. <code style="white-space: pre;">https://doi.org/10.1002/sim.6148</code>
+</p>
+<p>Fisher, R. A. (1921). On the &ldquo;probable error&rdquo; of a coefficient of correlation deduced from a small sample. <em>Metron</em>, <b>1</b>, 1&ndash;32. <code style="white-space: pre;">http://hdl.handle.net/2440/15169</code>
+</p>
+<p>Fleiss, J. L., &amp; Berlin, J. (2009). Effect sizes for dichotomous data. In H. Cooper, L. V. Hedges, &amp; J. C. Valentine (Eds.), <em>The handbook of research synthesis and meta-analysis</em> (2nd ed., pp. 237&ndash;253). New York: Russell Sage Foundation.
+</p>
+<p>Freeman, M. F., &amp; Tukey, J. W. (1950). Transformations related to the angular and the square root. <em>Annals of Mathematical Statistics</em>, <b>21</b>(4), 607&ndash;611. <code style="white-space: pre;">https://doi.org/10.1214/aoms/1177729756</code>
+</p>
+<p>Gibbons, R. D., Hedeker, D. R., &amp; Davis, J. M. (1993). Estimation of effect size from a series of experiments involving paired comparisons. <em>Journal of Educational Statistics</em>, <b>18</b>(3), 271&ndash;279. <code style="white-space: pre;">https://doi.org/10.3102/10769986018003271</code>
+</p>
+<p>Hakstian, A. R., &amp; Whalen, T. E. (1976). A k-sample significance test for independent alpha coefficients. <em>Psychometrika</em>, <b>41</b>(2), 219&ndash;231. <code style="white-space: pre;">https://doi.org/10.1007/BF02291840</code>
+</p>
+<p>Hasselblad, V., &amp; Hedges, L. V. (1995). Meta-analysis of screening and diagnostic tests. Psychological Bulletin, 117(1), 167-178. <code style="white-space: pre;">https://doi.org/10.1037/0033-2909.117.1.167</code>
+</p>
+<p>Hedges, L. V. (1981). Distribution theory for Glass's estimator of effect size and related estimators. <em>Journal of Educational Statistics</em>, <b>6</b>(2), 107&ndash;128. <code style="white-space: pre;">https://doi.org/10.3102/10769986006002107</code>
+</p>
+<p>Hedges, L. V. (1982). Estimation of effect size from a series of independent experiments. <em>Psychological Bulletin</em>, <b>92</b>(2), 490&ndash;499. <code style="white-space: pre;">https://doi.org/10.1037/0033-2909.92.2.490</code>
+</p>
+<p>Hedges, L. V. (1983). A random effects model for effect sizes. <em>Psychological Bulletin</em>, <b>93</b>(2), 388&ndash;395. <code style="white-space: pre;">https://doi.org/10.1037/0033-2909.93.2.388</code>
+</p>
+<p>Hedges, L. V. (1989). An unbiased correction for sampling error in validity generalization studies. <em>Journal of Applied Psychology</em>, <b>74</b>(3), 469&ndash;477. <code style="white-space: pre;">https://doi.org/10.1037/0021-9010.74.3.469</code>
+</p>
+<p>Hedges, L. V., Gurevitch, J., &amp; Curtis, P. S. (1999). The meta-analysis of response ratios in experimental ecology. <em>Ecology</em>, <b>80</b>(4), 1150&ndash;1156. <code style="white-space: pre;">https://doi.org/10.1890/0012-9658(1999)080[1150:TMAORR]2.0.CO;2</code>
+</p>
+<p>Higgins, J. P. T., Thomas, J., Chandler, J., Cumpston, M., Li, T., Page, M. J., &amp; Welch, V. A. (Eds.) (2019). <em>Cochrane handbook for systematic reviews of interventions</em> (2nd ed.). Chichester, UK: Wiley. <code style="white-space: pre;">https://training.cochrane.org/handbook</code>
+</p>
+<p>Jacobs, P., &amp; Viechtbauer, W. (2017). Estimation of the biserial correlation and its sampling variance for use in meta-analysis. <em>Research Synthesis Methods</em>, <b>8</b>(2), 161&ndash;180. <code style="white-space: pre;">https://doi.org/10.1002/jrsm.1218</code>
+</p>
+<p>Kirk, D. B. (1973). On the numerical approximation of the bivariate normal (tetrachoric) correlation coefficient. <em>Psychometrika</em>, <b>38</b>(2), 259&ndash;268. <code style="white-space: pre;">https://doi.org/10.1007/BF02291118</code>
+</p>
+<p>Lajeunesse, M. J. (2011). On the meta-analysis of response ratios for studies with correlated and multi-group designs. <em>Ecology</em>, <b>92</b>(11), 2049&ndash;2055. <code style="white-space: pre;">https://doi.org/10.1890/11-0423.1</code>
+</p>
+<p>May, W. L., &amp; Johnson, W. D. (1997). Confidence intervals for differences in correlated binary proportions. <em>Statistics in Medicine</em>, <b>16</b>(18), 2127&ndash;2136. <code style="white-space: pre;">https://doi.org/10.1002/(SICI)1097-0258(19970930)16:18&lt;2127::AID-SIM633&gt;3.0.CO;2-W</code>
+</p>
+<p>Morris, S. B. (2000). Distribution of the standardized mean change effect size for meta-analysis on repeated measures. <em>British Journal of Mathematical and Statistical Psychology</em>, <b>53</b>(1), 17&ndash;29. <code style="white-space: pre;">https://doi.org/10.1348/000711000159150</code>
+</p>
+<p>Morris, S. B., &amp; DeShon, R. P. (2002). Combining effect size estimates in meta-analysis with repeated measures and independent-groups designs. <em>Psychological Methods</em>, <b>7</b>(1), 105&ndash;125. <code style="white-space: pre;">https://doi.org/10.1037/1082-989x.7.1.105</code>
+</p>
+<p>Nakagawa, S., Poulin, R., Mengersen, K., Reinhold, K., Engqvist, L., Lagisz, M., &amp; Senior, A. M. (2015). Meta-analysis of variation: Ecological and evolutionary applications and beyond. <em>Methods in Ecology and Evolution</em>, <b>6</b>(2), 143&ndash;152. <code style="white-space: pre;">https://doi.org/10.1111/2041-210x.12309</code>
+</p>
+<p>Newcombe, R. G. (1998). Improved confidence intervals for the difference between binomial proportions based on paired data. <em>Statistics in Medicine</em>, <b>17</b>(22), 2635&ndash;2650. <code style="white-space: pre;">https://doi.org/10.1002/(SICI)1097-0258(19981130)17:22&lt;2635::AID-SIM954&gt;3.0.CO;2-C</code>
+</p>
+<p>Olkin, I., &amp; Pratt, J. W. (1958). Unbiased estimation of certain correlation coefficients. <em>Annals of Mathematical Statistics</em>, <b>29</b>(1), 201&ndash;211. <code style="white-space: pre;">https://doi.org/10.1214/aoms/1177706717</code>
+</p>
+<p>Pearson, K. (1900). Mathematical contributions to the theory of evolution. VII. On the correlation of characters not quantitatively measurable. <em>Philosophical Transactions of the Royal Society of London, Series A</em>, <b>195</b>, 1&ndash;47. <code style="white-space: pre;">https://doi.org/10.1098/rsta.1900.0022</code>
+</p>
+<p>Pearson, K. (1909). On a new method of determining correlation between a measured character A, and a character B, of which only the percentage of cases wherein B exceeds (or falls short of) a given intensity is recorded for each grade of A. <em>Biometrika</em>, <b>7</b>(1/2), 96&ndash;105. <code style="white-space: pre;">https://doi.org/10.1093/biomet/7.1-2.96</code>
+</p>
+<p>Raudenbush, S. W., &amp; Bryk, A. S. (1987). Examining correlates of diversity. <em>Journal of Educational Statistics</em>, <b>12</b>(3), 241&ndash;269. <code style="white-space: pre;">https://doi.org/10.3102/10769986012003241</code>
+</p>
+<p>Rothman, K. J., Greenland, S., &amp; Lash, T. L. (2008). <em>Modern epidemiology</em> (3rd ed.). Philadelphia: Lippincott Williams &amp; Wilkins.
+</p>
+<p>Rücker, G., Schwarzer, G., Carpenter, J., &amp; Olkin, I. (2009). Why add anything to nothing? The arcsine difference as a measure of treatment effect in meta-analysis with zero cells. <em>Statistics in Medicine</em>, <b>28</b>(5), 721&ndash;738. <code style="white-space: pre;">https://doi.org/10.1002/sim.3511</code>
+</p>
+<p>Sánchez-Meca, J., Marín-Martínez, F., &amp; Chacón-Moscoso, S. (2003). Effect-size indices for dichotomized outcomes in meta-analysis. <em>Psychological Methods</em>, <b>8</b>(4), 448&ndash;467. <code style="white-space: pre;">https://doi.org/10.1037/1082-989X.8.4.448</code>
+</p>
+<p>Soper, H. E. (1914). On the probable error of the bi-serial expression for the correlation coefficient. <em>Biometrika</em>, <b>10</b>(2/3), 384&ndash;390. <code style="white-space: pre;">https://doi.org/10.1093/biomet/10.2-3.384</code>
+</p>
+<p>Stedman, M. R., Curtin, F., Elbourne, D. R., Kesselheim, A. S., &amp; Brookhart, M. A. (2011). Meta-analyses involving cross-over trials: Methodological issues. <em>International Journal of Epidemiology</em>, <b>40</b>(6), 1732&ndash;1734. <code style="white-space: pre;">https://doi.org/10.1093/ije/dyp345</code>
+</p>
+<p>Tate, R. F. (1954). Correlation between a discrete and a continuous variable: Point-biserial correlation. <em>Annals of Mathematical Statistics</em>, <b>25</b>(3), 603&ndash;607. <code style="white-space: pre;">https://doi.org/10.1214/aoms/1177728730</code>
+</p>
+<p>Vacha-Haase, T. (1998). Reliability generalization: Exploring variance in measurement error affecting score reliability across studies. <em>Educational and Psychological Measurement</em>, <b>58</b>(1), 6&ndash;20. <code style="white-space: pre;">https://doi.org/10.1177/0013164498058001002</code>
+</p>
+<p>Viechtbauer, W. (2010). Conducting meta-analyses in R with the metafor package. <em>Journal of Statistical Software</em>, <b>36</b>(3), 1&ndash;48. <code style="white-space: pre;">https://doi.org/10.18637/jss.v036.i03</code>
+</p>
+<p>Yule, G. U. (1912). On the methods of measuring association between two attributes. <em>Journal of the Royal Statistical Society</em>, <b>75</b>(6), 579&ndash;652. <code style="white-space: pre;">https://doi.org/10.2307/2340126</code>
+</p>
+<p>Yusuf, S., Peto, R., Lewis, J., Collins, R., &amp; Sleight, P. (1985). Beta blockade during and after myocardial infarction: An overview of the randomized trials. <em>Progress in Cardiovascular Disease</em>, <b>27</b>(5), 335&ndash;371. <code style="white-space: pre;">https://doi.org/10.1016/s0033-0620(85)80003-7</code>
+</p>
+<p>Ziegler, A., Steen, K. V. &amp; Wellek, S. (2011). Investigating Hardy-Weinberg equilibrium in case-control or cohort studies or meta-analysis. <em>Breast Cancer Research and Treatment</em>, <b>128</b>(1), 197&ndash;201. <code style="white-space: pre;">https://doi.org/10.1007/s10549-010-1295-z</code>
+</p>
+<p>Zou, G. Y. (2007). One relative risk versus two odds ratios: Implications for meta-analyses involving paired and unpaired binary data. <em>Clinical Trials</em>, <b>4</b>(1), 25&ndash;31. <code style="white-space: pre;">https://doi.org/10.1177/1740774506075667</code>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="print.escalc.html">print.escalc</a></code> and <code><a href="print.escalc.html">summary.escalc</a></code> for the print and summary methods.
+</p>
+<p><code><a href="rma.uni.html">rma.uni</a></code> and <code><a href="rma.mv.html">rma.mv</a></code> for model fitting functions that can take the calculated effect sizes or outcomes (and the corresponding sampling variances) as input.
+</p>
+<p><code><a href="rma.mh.html">rma.mh</a></code>, <code><a href="rma.peto.html">rma.peto</a></code>, and <code><a href="rma.glmm.html">rma.glmm</a></code> for model fitting functions that take similar inputs.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+### calculate log risk ratios and corresponding sampling variances
+dat &lt;- escalc(measure="RR", ai=tpos, bi=tneg, ci=cpos, di=cneg, data=dat.bcg)
+dat
+
+### suppose that for a particular study, yi and vi are known (i.e., have
+### already been calculated) but the 2x2 table counts are not known; with
+### replace=FALSE, the yi and vi values for that study are not replaced
+dat[1:12,10:11] &lt;- NA
+dat[13,4:7] &lt;- NA
+dat
+dat &lt;- escalc(measure="RR", ai=tpos, bi=tneg, ci=cpos, di=cneg, data=dat, replace=FALSE)
+dat
+
+### illustrate difference between 'subset' and 'include' arguments
+escalc(measure="RR", ai=tpos, bi=tneg, ci=cpos, di=cneg, data=dat.bcg, subset=1:6)
+escalc(measure="RR", ai=tpos, bi=tneg, ci=cpos, di=cneg, data=dat.bcg, include=1:6)
+
+### convert a regular data frame to an 'escalc' object
+### dataset from Lipsey &amp; Wilson (2001), Table 7.1, page 130
+dat &lt;- data.frame(id = c(100, 308, 1596, 2479, 9021, 9028, 161, 172, 537, 7049),
+                  yi = c(-0.33, 0.32, 0.39, 0.31, 0.17, 0.64, -0.33, 0.15, -0.02, 0.00),
+                  vi = c(0.084, 0.035, 0.017, 0.034, 0.072, 0.117, 0.102, 0.093, 0.012, 0.067),
+                  random = c(0, 0, 0, 0, 0, 0, 1, 1, 1, 1),
+                  intensity = c(7, 3, 7, 5, 7, 7, 4, 4, 5, 6))
+dat &lt;- escalc(measure="SMD", yi=yi, vi=vi, data=dat, slab=paste("Study ID:", id), digits=3)
+dat
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>metafor</em> version 3.4-0 <a href="00Index.html">Index</a>]</div>
+</body></html>

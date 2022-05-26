@@ -1,0 +1,35 @@
+Package: CirceR
+Type: Package
+Title: An R Wrapper for CIRCE
+Version: 1.1.1
+Date: 2021-02-23
+Authors@R: c(
+ person("Chris", "Knoll", , "cknoll@ohdsi.org", role = c("aut", "cre")),
+ person("Martijn", "Schuemie", role = c("aut"))
+ )
+Maintainer: Chris Knoll <cknoll@ohdsi.org>
+Description: An R wrapper around the CIRCE Java library, allowing cohort definition expressions to be edited, and converted to Markdown or SQL.
+License: Apache License 2.0
+VignetteBuilder: knitr
+URL: https://ohdsi.github.io/CirceR, https://github.com/OHDSI/CirceR
+BugReports: https://github.com/OHDSI/CirceR/issues
+SystemRequirements: Java version 8 or higher (https://www.java.com/)
+Depends: R (>= 3.5.0)
+Imports: rJava, RJSONIO
+Suggests: testthat, knitr, rmarkdown
+NeedsCompilation: no
+RoxygenNote: 7.1.1
+Language: en-US
+Encoding: UTF-8
+Author: Chris Knoll [aut, cre],
+ Martijn Schuemie [aut]
+Built: R 4.0.1; ; 2022-05-24 19:35:05 UTC; windows
+RemoteType: github
+RemoteHost: api.github.com
+RemoteRepo: CirceR
+RemoteUsername: ohdsi
+RemoteRef: v1.1.1
+GithubHost: api.github.com
+GithubRepo: CirceR
+GithubUsername: ohdsi
+GithubRef: v1.1.1

@@ -1,0 +1,230 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Miscellaneous Options and Features</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for misc-options {metafor}"><tr><td>misc-options {metafor}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Miscellaneous Options and Features</h2>
+
+<h3>Description</h3>
+
+<p>This page documents some miscellaneous options and features that do not fit very well elsewhere.
+</p>
+
+
+<h3>Details</h3>
+
+
+
+<h4>Controlling the Number of Digits in the Output</h4>
+
+<p>Many functions in the <span class="pkg">metafor</span> package have a <code>digits</code> argument, which can be used to control the number of digits that are displayed in the output when printing numeric values. For more control over the displayed output, one can set this argument to a named vector of the form:
+</p>
+<pre>digits=c(est=2, se=3, test=2, pval=3, ci=2, var=3, sevar=3, fit=3, het=3)</pre>
+<p>where the elements control the displayed number of digits for various aspects of the output, namely:
+</p>
+
+<ul>
+<li> <p><code>est</code> for estimates (e.g., effect sizes, model coefficients, predicted values),
+</p>
+</li>
+<li> <p><code>se</code> for standard errors,
+</p>
+</li>
+<li> <p><code>test</code> for test statistics,
+</p>
+</li>
+<li> <p><code>pval</code> for p-values,
+</p>
+</li>
+<li> <p><code>ci</code> for confidence/prediction interval bounds,
+</p>
+</li>
+<li> <p><code>var</code> for sampling variances and variance components,
+</p>
+</li>
+<li> <p><code>sevar</code> for standard errors thereof,
+</p>
+</li>
+<li> <p><code>fit</code> for fit statistics,
+</p>
+</li>
+<li> <p><code>het</code> for heterogeneity statistics.
+</p>
+</li></ul>
+
+<p>Instead of setting this argument in each function call (which would be tedious), one can also create a vector named <code>.digits</code> in the workspace (at the beginning of an analysis script) with:
+</p>
+<pre>.digits &lt;- c(est=2, se=3, test=2, pval=3, ci=2, var=3, sevar=3, fit=3, het=3)</pre>
+<p>which then controls the displayed output. The values for the elements shown above could be a sensible choice when analyzing various types of standardized effect size measures.
+</p>
+
+
+
+<h4>Styled Output with the <span class="pkg">crayon</span> Package</h4>
+
+<p>The <a href="https://cran.r-project.org/package=crayon">crayon</a> package provides a way to create colored output. The <span class="pkg">metafor</span> package is designed to automatically make use of this feature when the <span class="pkg">crayon</span> package is installed (<code>install.packages("crayon")</code>) and loaded (<code>library(crayon)</code>). Note that this only works on terminals that support &lsquo;ANSI&rsquo; color and highlight codes (e.g., not under RGui on Windows or R.app on macOS, but the RStudio console and all modern terminals should support this).
+</p>
+<p>The default color theme that is used is quite plain, but should work with a light or dark colored background. One can modify the color theme by creating an object in the workspace named <code>.mtheme</code>, which should be a list whose elements specify the styles for various parts of the output (see below for some examples and the documentation of the <span class="pkg">crayon</span> package for the syntax to specify styles). The following elements are recognized:
+</p>
+
+<ul>
+<li> <p><code>header</code> for the header of tables (underlined by default),
+</p>
+</li>
+<li> <p><code>body1</code> for odd numbered rows in the body of tables,
+</p>
+</li>
+<li> <p><code>body2</code> for even numbered rows in the body of tables,
+</p>
+</li>
+<li> <p><code>na</code> for missing values in tables,
+</p>
+</li>
+<li> <p><code>section</code> for section headers (bold by default),
+</p>
+</li>
+<li> <p><code>text</code> for descriptive text in the output,
+</p>
+</li>
+<li> <p><code>result</code> for the corresponding result(s),
+</p>
+</li>
+<li> <p><code>stop</code> for errors (bold red by default),
+</p>
+</li>
+<li> <p><code>warning</code> for warnings (yellow by default),
+</p>
+</li>
+<li> <p><code>message</code> for messages (green by default),
+</p>
+</li>
+<li> <p><code>verbose</code> for the text in verbose output (cyan by default),
+</p>
+</li>
+<li> <p><code>legend</code> for legends (gray by default).
+</p>
+</li></ul>
+
+<p>Elements not specified are styled according to their defaults. For example, one could use:
+</p>
+<pre>.mstyle &lt;- list(header=combine_styles("gray20", "underline"),
+                body1=make_style("gray40"),
+                body2=make_style("gray40"),
+                na=bold,
+                section=combine_styles("gray15", "bold"),
+                text=make_style("gray50"),
+                result=make_style("gray30"))</pre>
+<p>or
+</p>
+<pre>.mstyle &lt;- list(header=combine_styles("gray80", "underline"),
+                body1=make_style("gray60"),
+                body2=make_style("gray60"),
+                na=bold,
+                section=combine_styles("gray85", "bold"),
+                text=make_style("gray50"),
+                result=make_style("gray70"))</pre>
+<p>for a light or dark colored background, respectively. A slightly more colorful theme could be:
+</p>
+<pre>.mstyle &lt;- list(header=combine_styles("snow", make_style("royalblue4", bg=TRUE)),
+                body1=combine_styles("gray20", make_style("gray95", bg=TRUE)),
+                body2=combine_styles("gray20", make_style("gray85", bg=TRUE)),
+                na=combine_styles("red4", "bold"),
+                section=combine_styles("black", "bold", make_style("lightskyblue", bg=TRUE)),
+                text=make_style("gray50"),
+                result=make_style("blue"))</pre>
+<p>or
+</p>
+<pre>.mstyle &lt;- list(header=combine_styles("snow", make_style("royalblue4", bg=TRUE)),
+                body1=combine_styles("gray95", make_style("gray20", bg=TRUE)),
+                body2=combine_styles("gray95", make_style("gray30", bg=TRUE)),
+                na=combine_styles("orange1", "bold"),
+                section=combine_styles("white", "bold", make_style("blue", bg=TRUE)),
+                text=make_style("steelblue4"),
+                result=make_style("steelblue1"))</pre>
+<p>for a light and dark colored background, respectively.
+</p>
+<p>The following code snippet includes all output elements (except for an error) and can be used to test out a chosen color theme:
+</p>
+<pre># calculate log risk ratios and corresponding sampling variances
+dat &lt;- escalc(measure="RR", ai=tpos, bi=tneg,
+                            ci=cpos, di=cneg, data=dat.bcg)
+dat$yi[1] &lt;- NA # set one estimate to missing so we get a warning below
+dat
+
+# fit random-effects model
+res &lt;- rma(yi, vi, mods = ~ ablat, data=dat, verbose=3)
+summary(res)</pre>
+<p>For example, using the color scheme above (for a light colored background), the output should look like this:
+</p>
+<p><img src="../help/figures/crayon1.png" width=800 />
+<img src="../help/figures/crayon2.png" width=800 />
+</p>
+<p>Note that support for 256 different colors and text formatting (such as underlined and bold text) differs across terminals.
+</p>
+
+
+
+<h4>Removing Empty Lines Before and After the Output</h4>
+
+<p>When printing output, an empty line is usually added before and after the output. For more compact output, this can be suppressed by creating an object named <code>.rmspace</code> in the workspace. For example, running the following code:
+</p>
+<pre># calculate log risk ratios and corresponding sampling variances
+dat &lt;- escalc(measure="RR", ai=tpos, bi=tneg,
+                            ci=cpos, di=cneg, data=dat.bcg)
+
+# fit random-effects model
+res &lt;- rma(yi, vi, data=dat)
+res
+
+.rmspace &lt;- TRUE
+res</pre>
+<p>shows the difference.
+</p>
+
+
+
+<h4>Version Check</h4>
+
+<p>When loading the <span class="pkg">metafor</span> package in an <code><a href="../../base/html/interactive.html">interactive</a></code> session, an automatic check is run to compare the version number of the installed package with the one available on <a href="https://cran.r-project.org/package=metafor">CRAN</a>. If the installed version is older than the one available at CRAN, the user is notified that a new version is available. This check can be suppressed by setting the environment variable <span class="env">METAFOR_VERSION_CHECK</span> to <code>FALSE</code> (e.g., with <code>Sys.setenv(METAFOR_VERSION_CHECK=FALSE)</code>).
+</p>
+<p>By setting the environment variable to <code>"devel"</code> (e.g., with <code>Sys.setenv(METAFOR_VERSION_CHECK="devel")</code>), the version check is run against the &lsquo;development version&rsquo; available on <a href="https://github.com/wviechtb/metafor">GitHub</a>.
+</p>
+
+
+
+<h4>Model Fitting / Processing Time</h4>
+
+<p>The various model fitting functions (i.e., <code><a href="rma.uni.html">rma.uni</a></code>, <code><a href="rma.mh.html">rma.mh</a></code>, <code><a href="rma.peto.html">rma.peto</a></code>, <code><a href="rma.glmm.html">rma.glmm</a></code>, <code><a href="rma.mv.html">rma.mv</a></code>, and <code><a href="selmodel.html">selmodel</a></code>) and various other functions (e.g., <code><a href="confint.rma.html">confint</a></code>, <code><a href="cumul.html">cumul</a></code>, <code><a href="leave1out.html">leave1out</a></code>, <code><a href="profile.rma.html">profile</a></code>, <code><a href="residuals.rma.html">rstudent</a></code>) automatically keep track of the model fitting / processing time. This information is stored as element <code>time</code> (in seconds) in the object that is returned. One can also use argument <code>time=TRUE</code> to nicely print this information. For example:
+</p>
+<pre># fit multilevel mixed-effects meta-regression model and print processing time
+res &lt;- rma.mv(yi, vi, mods = ~ condition,
+              random = list(~ 1 | article/experiment/sample/id, ~ 1 | pairing),
+              data=dat.mccurdy2020, sparse=TRUE, digits=3, time=TRUE)
+
+# extract processing time (should take somewhere around 10-20 seconds on a modern CPU)
+res$time</pre>
+
+
+
+<h4>Load Balancing</h4>
+
+<p>Several functions in the <span class="pkg">metafor</span> package can make use of parallel processing (e.g., <code><a href="profile.rma.html">profile</a></code>) to speed up intensive computations on machines with multiple cores. When using <code>parallel="snow"</code>, the default is to use the <code><a href="../../parallel/html/parLapply.html">parLapply</a></code> function from the <code><a href="../../parallel/html/parallel.html">parallel</a></code> package for this purpose. In some cases (especially when the parallelized computations take up quite variable amounts of time to complete), using &lsquo;load balancing&rsquo; may help to speed things up further (by using the <code><a href="../../parallel/html/parLapplyLB.html">parLapplyLB</a></code> function). This can be enabled with <code>pbapply::pboptions(use_lb=TRUE)</code> before running the function that makes use of parallel processing. Whether this really does speed things up depends on many factors and is hard to predict.
+</p>
+
+
+
+<h3>Author(s)</h3>
+
+<p>Wolfgang Viechtbauer <a href="mailto:wvb@metafor-project.org">wvb@metafor-project.org</a> <a href="https://www.metafor-project.org">https://www.metafor-project.org</a>
+</p>
+
+
+<h3>References</h3>
+
+<p>Viechtbauer, W. (2010). Conducting meta-analyses in R with the metafor package. <em>Journal of Statistical Software</em>, <b>36</b>(3), 1&ndash;48. <code style="white-space: pre;">https://doi.org/10.18637/jss.v036.i03</code>
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>metafor</em> version 3.4-0 <a href="00Index.html">Index</a>]</div>
+</body></html>

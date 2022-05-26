@@ -1,0 +1,168 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Print and Summary Methods for 'rma' Objects</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for print.rma {metafor}"><tr><td>print.rma {metafor}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Print and Summary Methods for 'rma' Objects</h2>
+
+<h3>Description</h3>
+
+<p>Print and summary methods for objects of class <code>"rma.uni"</code>, <code>"rma.mh"</code>, <code>"rma.peto"</code>, <code>"rma.glmm"</code>, <code>"rma.glmm"</code>, and <code>"rma.mv"</code>. <script id="MathJax-script" async src="../../mathjaxr/doc/mathjax/es5/tex-chtml-full.js"></script>
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'rma.uni'
+print(x, digits, showfit=FALSE, signif.stars=getOption("show.signif.stars"),
+      signif.legend=signif.stars, ...)
+
+## S3 method for class 'rma.mh'
+print(x, digits, showfit=FALSE, ...)
+
+## S3 method for class 'rma.peto'
+print(x, digits, showfit=FALSE, ...)
+
+## S3 method for class 'rma.glmm'
+print(x, digits, showfit=FALSE, signif.stars=getOption("show.signif.stars"),
+      signif.legend=signif.stars, ...)
+
+## S3 method for class 'rma.mv'
+print(x, digits, showfit=FALSE, signif.stars=getOption("show.signif.stars"),
+      signif.legend=signif.stars, ...)
+
+## S3 method for class 'rma'
+summary(object, digits, showfit=TRUE, ...)
+
+## S3 method for class 'summary.rma'
+print(x, digits, showfit=TRUE, signif.stars=getOption("show.signif.stars"),
+      signif.legend=signif.stars, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>an object of class <code>"rma.uni"</code>, <code>"rma.mh"</code>, <code>"rma.peto"</code>, <code>"rma.glmm"</code>, <code>"rma.mv"</code>, or <code>"summary.rma"</code> (for <code>print</code>).</p>
+</td></tr>
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>an object of class <code>"rma"</code> (for <code>summary</code>).</p>
+</td></tr>
+<tr valign="top"><td><code>digits</code></td>
+<td>
+<p>integer to specify the number of decimal places to which the printed results should be rounded. If unspecified, the default is to take the value from the object. See also <a href="misc-options.html">here</a> for further details on how to control the number of digits in the output.</p>
+</td></tr>
+<tr valign="top"><td><code>showfit</code></td>
+<td>
+<p>logical to specify whether the fit statistics and information criteria should be printed (the default is <code>FALSE</code> for <code>print</code> and <code>TRUE</code> for <code>summary</code>).</p>
+</td></tr>
+<tr valign="top"><td><code>signif.stars</code></td>
+<td>
+<p>logical to specify whether p-values should be encoded visually with &lsquo;significance stars&rsquo;. Defaults to the <code>show.signif.stars</code> slot of <code><a href="../../base/html/options.html">options</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>signif.legend</code></td>
+<td>
+<p>logical to specify whether the legend for the &lsquo;significance stars&rsquo; should be printed. Defaults to the value for <code>signif.stars</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>other arguments.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The output includes:
+</p>
+
+<ul>
+<li><p> the log-likelihood, deviance, AIC, BIC, and AICc value (when setting <code>showfit=TRUE</code> or by default for <code>summary</code>).
+</p>
+</li>
+<li><p> for objects of class <code>"rma.uni"</code> and <code>"rma.glmm"</code>, the amount of (residual) heterogeneity in the random/mixed-effects model (i.e., the estimate of \(\tau^2\) and its square root). Suppressed for equal-effects models. The (asymptotic) standard error of the estimate of \(\tau^2\) is also provided (where possible).
+</p>
+</li>
+<li><p> for objects of <code>"rma.mv"</code>, a table providing information about the variance components and correlations in the model. For \(\sigma^2\) components, the estimate and its square root are provided, in addition to the number of values/levels, whether the component was fixed or estimated, and the name of the grouping variable/factor. If the <code>R</code> argument was used to specify known correlation matrices, this is also indicated. For models with an &lsquo;<code>~ inner | outer</code>&rsquo; formula term, the name of the inner and outer grouping variable/factor are given and the number of values/levels of these variables/factors. In addition, for each \(\tau^2\) component, the estimate and its square root are provided, the number of effects or outcomes observed at each level of the inner grouping variable/factor (only for <code>struct="HCS"</code>, <code>struct="DIAG"</code>, <code>struct="HAR"</code>, and <code>struct="UN"</code>), and whether the component was fixed or estimated. Finally, either the estimate of \(\rho\) (for <code>struct="CS"</code>, <code>struct="AR"</code>, <code>struct="CAR"</code>, <code>struct="HAR"</code>, or <code>struct="HCS"</code>) or the entire estimated correlation matrix (for <code>struct="UN"</code>) between the levels of the inner grouping variable/factor is provided, again with information whether a particular correlation was fixed or estimated, and how often each combination of levels of the inner grouping variable/factor was observed across the levels of the outer grouping variable/factor. If there is a second &lsquo;<code>~ inner | outer</code>&rsquo; formula term, the same information as described above will be provided, but now for the \(\gamma^2\) and \(\phi\) components.
+</p>
+</li>
+<li><p> the \(I^2\) statistic, which estimates (in percent) how much of the total variability in the observed effect sizes or outcomes (which is composed of heterogeneity plus sampling variability) can be attributed to heterogeneity among the true effects. For a meta-regression model, \(I^2\) estimates how much of the unaccounted variability (which is composed of residual heterogeneity plus sampling variability) can be attributed to residual heterogeneity. See &lsquo;Note&rsquo; for how \(I^2\) is computed.
+</p>
+</li>
+<li><p> the \(H^2\) statistic, which estimates the ratio of the total amount of variability in the observed effect sizes or outcomes to the amount of sampling variability. For a meta-regression model, \(H^2\) estimates the ratio of the unaccounted variability in the observed effect sizes or outcomes to the amount of sampling variability. See &lsquo;Note&rsquo; for how \(H^2\) is computed.
+</p>
+</li>
+<li><p> for objects of class <code>"rma.uni"</code>, the \(R^2\) statistic, which estimates the amount of heterogeneity accounted for by the moderators included in the model and can be regarded as a pseudo \(R^2\) statistic (Raudenbush, 2009). Only provided when fitting a model including moderators. This is suppressed (and set to <code>NULL</code>) for models without moderators or if the model does not contain an intercept. See &lsquo;Note&rsquo; for how \(R^2\) is computed.
+</p>
+</li>
+<li><p> for objects of class <code>"rma.glmm"</code>, the amount of study level variability (only when using a model that models study level differences as a random effect).
+</p>
+</li>
+<li><p> the results of the test for (residual) heterogeneity. This is the usual \(Q\)-test for heterogeneity when not including moderators in the model and the \(Q_E\)-test for residual heterogeneity when moderators are included. For objects of class <code>"rma.glmm"</code>, the results from a Wald-type test and a likelihood ratio test are provided (see <code><a href="rma.glmm.html">rma.glmm</a></code> for more details).
+</p>
+</li>
+<li><p> the results of the omnibus (Wald-type) test of the coefficients in the model (the indices of the coefficients tested are also indicated). Suppressed if the model includes only one coefficient (e.g., only an intercept, like in the equal- and random-effects models).
+</p>
+</li>
+<li><p> a table with the estimated coefficients, corresponding standard errors, test statistics, p-values, and confidence interval bounds.
+</p>
+</li>
+<li><p> the Cochran-Mantel-Haenszel test and Tarone's test for heterogeneity (only when analyzing odds ratios using the Mantel-Haenszel method, i.e., <code>"rma.mh"</code>).
+</p>
+</li></ul>
+
+<p>See also <a href="misc-options.html">here</a> for details on the option to create styled/colored output with the help of the <a href="https://cran.r-project.org/package=crayon">crayon</a> package.
+</p>
+
+
+<h3>Value</h3>
+
+<p>The <code>print</code> functions do not return an object. The <code>summary</code> function returns the object passed to it (with additional class <code>"summary.rma"</code>).
+</p>
+
+
+<h3>Note</h3>
+
+<p>For random-effects models, the \(I^2\) statistic is computed with \[I^2 = 100\% \times \frac{\hat{\tau}^2}{\hat{\tau}^2 + \tilde{v}},\] where \(\hat{\tau}^2\) is the estimated value of \(\tau^2\) and \[\tilde{v} = \frac{(k-1) \sum w_i}{(\sum w_i)^2 - \sum w_i^2},\] where \(w_i = 1 / v_i\) is the inverse of the sampling variance of the \(i\textrm{th}\) study (\(\tilde{v}\) is equation 9 in Higgins &amp; Thompson, 2002, and can be regarded as the &lsquo;typical&rsquo; within-study variance of the observed effect sizes or outcomes). The \(H^2\) statistic is computed with \[H^2 = \frac{\hat{\tau}^2 + \tilde{v}}{\tilde{v}}.\] Analogous equations are used for mixed-effects models.
+</p>
+<p>Therefore, depending on the estimator of \(\tau^2\) used, the values of \(I^2\) and \(H^2\) will change. For random-effects models, \(I^2\) and \(H^2\) are often computed with \(I^2 = (Q-(k-1))/Q\) and \(H^2 = Q/(k-1)\), where \(Q\) denotes the statistic of the test for heterogeneity and \(k\) the number of studies (i.e., observed effect sizes or outcomes) included in the meta-analysis. The equations used in the metafor package to compute these statistics are more general and have the advantage that the values of \(I^2\) and \(H^2\) will be consistent with the estimated value of \(\tau^2\) (i.e., if \(\hat{\tau}^2 = 0\), then \(I^2 = 0\) and \(H^2 = 1\) and if \(\hat{\tau}^2 > 0\), then \(I^2 > 0\) and \(H^2 > 1\)).
+</p>
+<p>The two definitions of \(I^2\) and \(H^2\) actually coincide when using the DerSimonian-Laird estimator of \(\tau^2\) (i.e., the commonly used equations are actually special cases of the more general definitions given above). Therefore, if you prefer the more conventional definitions of these statistics, use <code>method="DL"</code> when fitting the random/mixed-effects model with the <code><a href="rma.uni.html">rma.uni</a></code> function. The conventional definitions are also automatically used when fitting an equal-effects models.
+</p>
+<p>For mixed-effects models, the pseudo \(R^2\) statistic (Raudenbush, 2009) is computed with \[R^2 = \frac{\hat{\tau}_{RE}^2 - \hat{\tau}_{ME}^2}{\hat{\tau}_{RE}^2},\] where \(\hat{\tau}_{RE}^2\) denotes the estimated value of \(\tau^2\) based on the random-effects model (i.e., the total amount of heterogeneity) and \(\hat{\tau}_{ME}^2\) denotes the estimated value of \(\tau^2\) based on the mixed-effects model (i.e., the residual amount of heterogeneity). It can happen that \(\hat{\tau}_{RE}^2 < \hat{\tau}_{ME}^2\), in which case \(R^2\) is set to zero (and also if \(\hat{\tau}_{RE}^2 = 0\)). Again, the value of \(R^2\) will change depending on the estimator of \(\tau^2\) used. This statistic is only computed when the mixed-effects model includes an intercept (so that the random-effects model is clearly nested within the mixed-effects model). You can also use the <code><a href="anova.rma.html">anova</a></code> function to compute \(R^2\) for any two models that are known to be nested. Note that the pseudo \(R^2\) statistic may not be very accurate unless \(k\) is large (Lopez-Lopez et al., 2014).
+</p>
+<p>For fixed-effects with moderators models, the \(R^2\) statistic is simply the standard \(R^2\) statistic (also known as the &lsquo;coefficient of determination&rsquo;) computed based on weighted least squares estimation. To be precise, the so-called &lsquo;adjusted&rsquo; \(R^2\) statistic is provided, since \(k\) is often relatively small in meta-analyses, in which case the adjustment is relevant.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Wolfgang Viechtbauer <a href="mailto:wvb@metafor-project.org">wvb@metafor-project.org</a> <a href="https://www.metafor-project.org">https://www.metafor-project.org</a>
+</p>
+
+
+<h3>References</h3>
+
+<p>Higgins, J. P. T., &amp; Thompson, S. G. (2002). Quantifying heterogeneity in a meta-analysis. <em>Statistics in Medicine</em>, <b>21</b>(11), 1539&ndash;1558. <code style="white-space: pre;">https://doi.org/10.1002/sim.1186</code>
+</p>
+<p>López-López, J. A., Marín-Martínez, F., Sánchez-Meca, J., Van den Noortgate, W., &amp; Viechtbauer, W. (2014). Estimation of the predictive power of the model in mixed-effects meta-regression: A simulation study. <em>British Journal of Mathematical and Statistical Psychology</em>, <b>67</b>(1), 30&ndash;48. <code style="white-space: pre;">https://doi.org/10.1111/bmsp.12002</code>
+</p>
+<p>Raudenbush, S. W. (2009). Analyzing effect sizes: Random effects models. In H. Cooper, L. V. Hedges, &amp; J. C. Valentine (Eds.), <em>The handbook of research synthesis and meta-analysis</em> (2nd ed., pp. 295&ndash;315). New York: Russell Sage Foundation.
+</p>
+<p>Viechtbauer, W. (2010). Conducting meta-analyses in R with the metafor package. <em>Journal of Statistical Software</em>, <b>36</b>(3), 1&ndash;48. <code style="white-space: pre;">https://doi.org/10.18637/jss.v036.i03</code>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="rma.uni.html">rma.uni</a></code>, <code><a href="rma.mh.html">rma.mh</a></code>, <code><a href="rma.peto.html">rma.peto</a></code>, <code><a href="rma.glmm.html">rma.glmm</a></code>, and <code><a href="rma.mv.html">rma.mv</a></code> for the corresponding model fitting functions.
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>metafor</em> version 3.4-0 <a href="00Index.html">Index</a>]</div>
+</body></html>

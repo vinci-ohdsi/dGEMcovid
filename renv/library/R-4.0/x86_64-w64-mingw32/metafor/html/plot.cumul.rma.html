@@ -1,0 +1,149 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Plot Method for 'cumul.rma' Objects</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for plot.cumul.rma {metafor}"><tr><td>plot.cumul.rma {metafor}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Plot Method for 'cumul.rma' Objects</h2>
+
+<h3>Description</h3>
+
+<p>Plot method for objects of class <code>"cumul.rma"</code>. <script id="MathJax-script" async src="../../mathjaxr/doc/mathjax/es5/tex-chtml-full.js"></script>
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'cumul.rma'
+plot(x, yaxis, xlim, ylim, xlab, ylab,
+     at, transf, atransf, targs, digits, cols=c("gray80","gray10"),
+     grid=TRUE, pch=19, cex=1, lwd=2, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>an object of class <code>"cumul.rma"</code> obtained with <code><a href="cumul.html">cumul</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>yaxis</code></td>
+<td>
+<p>either <code>"tau2"</code>, <code>"I2"</code>, or <code>"H2"</code> to indicate what values should be placed on the y-axis. See &lsquo;Details&rsquo;.</p>
+</td></tr>
+<tr valign="top"><td><code>xlim</code></td>
+<td>
+<p>x-axis limits. If unspecified, the function tries to set the x-axis limits to some sensible values.</p>
+</td></tr>
+<tr valign="top"><td><code>ylim</code></td>
+<td>
+<p>y-axis limits. If unspecified, the function tries to set the y-axis limits to some sensible values.</p>
+</td></tr>
+<tr valign="top"><td><code>xlab</code></td>
+<td>
+<p>title for the x-axis. If unspecified, the function tries to set an appropriate axis title.</p>
+</td></tr>
+<tr valign="top"><td><code>ylab</code></td>
+<td>
+<p>title for the y-axis. If unspecified, the function tries to set an appropriate axis title.</p>
+</td></tr>
+<tr valign="top"><td><code>at</code></td>
+<td>
+<p>position of the x-axis tick marks and corresponding labels. If unspecified, the function tries to set the tick mark positions/labels to some sensible values.</p>
+</td></tr>
+<tr valign="top"><td><code>transf</code></td>
+<td>
+<p>optional argument to specify a function that should be used to transform the summary estimates (e.g., <code>transf=exp</code>; see also <a href="transf.html">transf</a>). If unspecified, no transformation is used.</p>
+</td></tr>
+<tr valign="top"><td><code>atransf</code></td>
+<td>
+<p>optional argument to specify a function that should be used to transform the x-axis labels (e.g., <code>atransf=exp</code>; see also <a href="transf.html">transf</a>). If unspecified, no transformation is used.</p>
+</td></tr>
+<tr valign="top"><td><code>targs</code></td>
+<td>
+<p>optional arguments needed by the function specified via <code>transf</code> or <code>atransf</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>digits</code></td>
+<td>
+<p>optional integer to specify the number of decimal places to which the tick mark labels of the x- and y-axis should be rounded. Can also be a vector of two integers, the first to specify the number of decimal places for the x-axis, the second for the y-axis labels (e.g., <code>digits=c(2,3)</code>). If unspecified, the function tries to set the argument to some sensible values.</p>
+</td></tr>
+<tr valign="top"><td><code>cols</code></td>
+<td>
+<p>vector with two or more colors to use for visualizing the order of the cumulative results.</p>
+</td></tr>
+<tr valign="top"><td><code>grid</code></td>
+<td>
+<p>logical to specify whether a grid should be added to the plot. Can also be a color name.</p>
+</td></tr>
+<tr valign="top"><td><code>pch</code></td>
+<td>
+<p>plotting symbol to use. By default, a filled circle is used. See <code><a href="../../graphics/html/points.html">points</a></code> for other options.</p>
+</td></tr>
+<tr valign="top"><td><code>cex</code></td>
+<td>
+<p>symbol expansion factor.</p>
+</td></tr>
+<tr valign="top"><td><code>lwd</code></td>
+<td>
+<p>line width.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>other arguments.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The function can be used to visualize the results from a cumulative meta-analysis as obtained with the <code><a href="cumul.html">cumul</a></code> function.
+</p>
+<p>The plot shows the model estimate (i.e., the estimated overall/average outcome) on the x-axis and some measure of heterogeneity on the y-axis in the cumulative order of the results in the <code>"cumul.rma"</code> object. By default, \(\tau^2\) is shown on the y-axis for a random-effects model and \(I^2\) otherwise, but one can also use argument <code>yaxis</code> to specify the measure of heterogeneity to place on the y-axis.
+</p>
+<p>The color gradient of the points/lines indicates the order of the cumulative results (by default, light gray at the beginning, dark gray at the end). A different set of colors can be chosen via the <code>cols</code> argument. See &lsquo;Examples&rsquo;.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Wolfgang Viechtbauer <a href="mailto:wvb@metafor-project.org">wvb@metafor-project.org</a> <a href="https://www.metafor-project.org">https://www.metafor-project.org</a>
+</p>
+
+
+<h3>References</h3>
+
+<p>Viechtbauer, W. (2010). Conducting meta-analyses in R with the metafor package. <em>Journal of Statistical Software</em>, <b>36</b>(3), 1&ndash;48. <code style="white-space: pre;">https://doi.org/10.18637/jss.v036.i03</code>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="cumul.html">cumul.rma.uni</a></code> for the function to conduct a cumulative meta-analysis.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+### calculate log risk ratios and corresponding sampling variances
+dat &lt;- escalc(measure="RR", ai=tpos, bi=tneg, ci=cpos, di=cneg, data=dat.bcg)
+
+### random-effects model
+res &lt;- rma(yi, vi, data=dat)
+
+### cumulative meta-analysis (in the order of publication year)
+sav &lt;- cumul(res, transf=exp, order=year)
+
+### plot of model estimate and tau^2 over time
+plot(sav)
+
+### illustrate some other plot options
+plot(sav, yaxis="I2", ylim=c(0,100), atransf=exp, at=log(seq(1.3, 1.6, by=.1)),
+     lwd=5, cex=1.5, cols=c("green","blue","red"))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>metafor</em> version 3.4-0 <a href="00Index.html">Index</a>]</div>
+</body></html>

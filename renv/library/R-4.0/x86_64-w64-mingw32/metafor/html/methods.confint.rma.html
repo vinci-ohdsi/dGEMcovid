@@ -1,0 +1,91 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Methods for 'confint.rma' Objects</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for methods.confint.rma {metafor}"><tr><td>methods.confint.rma {metafor}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Methods for 'confint.rma' Objects</h2>
+
+<h3>Description</h3>
+
+<p>Methods for objects of class <code>"confint.rma"</code> and <code>"list.confint.rma"</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'confint.rma'
+as.data.frame(x, ...)
+## S3 method for class 'list.confint.rma'
+as.data.frame(x, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>an object of class <code>"confint.rma"</code> or <code>"list.confint.rma"</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>other arguments.</p>
+</td></tr>
+</table>
+
+
+<h3>Author(s)</h3>
+
+<p>Wolfgang Viechtbauer <a href="mailto:wvb@metafor-project.org">wvb@metafor-project.org</a> <a href="https://www.metafor-project.org">https://www.metafor-project.org</a>
+</p>
+
+
+<h3>References</h3>
+
+<p>Viechtbauer, W. (2010). Conducting meta-analyses in R with the metafor package. <em>Journal of Statistical Software</em>, <b>36</b>(3), 1&ndash;48. <code style="white-space: pre;">https://doi.org/10.18637/jss.v036.i03</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+### copy data into 'dat'
+dat &lt;- dat.bcg
+
+### calculate log risk ratios and corresponding sampling variances
+dat &lt;- escalc(measure="RR", ai=tpos, bi=tneg, ci=cpos, di=cneg, data=dat)
+
+### fit random-effects model
+res &lt;- rma(yi, vi, data=dat)
+
+### get 95% CI for tau^2, tau, I^2, and H^2
+sav &lt;- confint(res)
+sav
+
+### turn object into a regular data frame
+as.data.frame(sav)
+
+############################################################################
+
+### copy data into 'dat'
+dat &lt;- dat.berkey1998
+
+### construct block diagonal var-cov matrix of the observed outcomes based on variables v1i and v2i
+V &lt;- vcalc(vi=1, cluster=author, rvars=c(v1i, v2i), data=dat)
+
+### fit multivariate model
+res &lt;- rma.mv(yi, V, mods = ~ outcome - 1, random = ~ outcome | trial, struct="UN", data=dat)
+
+### get 95% CI for variance components and correlation
+sav &lt;- confint(res)
+sav
+
+### turn object into a regular data frame
+as.data.frame(sav)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>metafor</em> version 3.4-0 <a href="00Index.html">Index</a>]</div>
+</body></html>

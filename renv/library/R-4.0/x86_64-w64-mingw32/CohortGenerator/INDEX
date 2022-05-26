@@ -1,0 +1,31 @@
+checkSettingsColumns    Custom checkmate assertion for ensuring the
+                        settings columns are properly specified
+computeChecksum         Computes the checksum for a value
+createCohortTables      Create cohort tables
+createEmptyCohortDefinitionSet
+                        Create an empty cohort definition set
+dropCohortStatsTables   Drop cohort statistics tables
+exportCohortStatsTables
+                        Export the cohort statistics tables to the file
+                        system
+generateCohort          Generates a cohort
+generateCohortSet       Generate a set of cohorts
+getCohortCounts         Count the cohort(s)
+getCohortDefinitionSet
+                        Get a cohort definition set
+getCohortTableNames     Used to get a list of cohort table names to use
+                        when creating the cohort tables
+getRequiredTasks        Get a list of tasks required when running in
+                        incremental mode
+insertInclusionRuleNames
+                        Used to insert the inclusion rule names from a
+                        cohort definition set when generating cohorts
+                        that include cohort statistics
+isTaskRequired          Is a task required when running in incremental
+                        mode
+recordTasksDone         Record a task as complete
+saveCohortDefinitionSet
+                        Save the cohort definition set to the file
+                        system
+saveIncremental         Used in incremental mode to save values to a
+                        file

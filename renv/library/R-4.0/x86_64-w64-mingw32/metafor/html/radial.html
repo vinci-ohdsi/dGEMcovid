@@ -1,0 +1,191 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Radial (Galbraith) Plots for 'rma' Objects</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for radial {metafor}"><tr><td>radial {metafor}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Radial (Galbraith) Plots for 'rma' Objects</h2>
+
+<h3>Description</h3>
+
+<p>Function to create radial (also called Galbraith) plots for objects of class <code>"rma"</code>. <script id="MathJax-script" async src="../../mathjaxr/doc/mathjax/es5/tex-chtml-full.js"></script>
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+radial(x, ...)
+galbraith(x, ...)
+
+## S3 method for class 'rma'
+radial(x, center=FALSE, xlim, zlim, xlab, zlab,
+       atz, aty, steps=7, level=x$level, digits=2, back="lightgray",
+       transf, targs, pch=19, arc.res=100, cex, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>an object of class <code>"rma"</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>center</code></td>
+<td>
+<p>logical to indicate whether the plot should be centered horizontally at the model estimate (the default is <code>FALSE</code>).</p>
+</td></tr>
+<tr valign="top"><td><code>xlim</code></td>
+<td>
+<p>x-axis limits. If unspecified, the function tries to set the x-axis limits to some sensible values.</p>
+</td></tr>
+<tr valign="top"><td><code>zlim</code></td>
+<td>
+<p>z-axis limits. If unspecified, the function tries to set the z-axis limits to some sensible values (note that the z-axis limits are the actual vertical limit of the plotting region).</p>
+</td></tr>
+<tr valign="top"><td><code>xlab</code></td>
+<td>
+<p>title for the x-axis. If unspecified, the function tries to set an appropriate axis title.</p>
+</td></tr>
+<tr valign="top"><td><code>zlab</code></td>
+<td>
+<p>title for the z-axis. If unspecified, the function tries to set an appropriate axis title.</p>
+</td></tr>
+<tr valign="top"><td><code>atz</code></td>
+<td>
+<p>position for the z-axis tick marks and labels. If unspecified, these values are set by the function.</p>
+</td></tr>
+<tr valign="top"><td><code>aty</code></td>
+<td>
+<p>position for the y-axis tick marks and labels. If unspecified, these values are set by the function.</p>
+</td></tr>
+<tr valign="top"><td><code>steps</code></td>
+<td>
+<p>the number of tick marks for the y-axis (the default is 7). Ignored when argument <code>aty</code> is used.</p>
+</td></tr>
+<tr valign="top"><td><code>level</code></td>
+<td>
+<p>numeric value between 0 and 100 to specify the level of the z-axis error region (the default is to take the value from the object).</p>
+</td></tr>
+<tr valign="top"><td><code>digits</code></td>
+<td>
+<p>integer to specify the number of decimal places to which the tick mark labels of the y-axis should be rounded (the default is 2).</p>
+</td></tr>
+<tr valign="top"><td><code>back</code></td>
+<td>
+<p>color of the z-axis error region. Set to <code>NA</code> to suppress shading of the region.</p>
+</td></tr>
+<tr valign="top"><td><code>transf</code></td>
+<td>
+<p>optional argument to specify a function that should be used to transform the y-axis labels (e.g., <code>transf=exp</code>; see also <a href="transf.html">transf</a>). If unspecified, no transformation is used.</p>
+</td></tr>
+<tr valign="top"><td><code>targs</code></td>
+<td>
+<p>optional arguments needed by the function specified via <code>transf</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>pch</code></td>
+<td>
+<p>plotting symbol. By default, a filled circle is used. See <code><a href="../../graphics/html/points.html">points</a></code> for other options.</p>
+</td></tr>
+<tr valign="top"><td><code>arc.res</code></td>
+<td>
+<p>integer to specify the number of line segments to use when drawing the y-axis and confidence interval arcs (the default is 100).</p>
+</td></tr>
+<tr valign="top"><td><code>cex</code></td>
+<td>
+<p>optional character and symbol expansion factor. If unspecified, the function tries to set this to a sensible value.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>other arguments.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>For an equal-effects model, the plot shows the inverse of the standard errors on the horizontal axis against the observed effect sizes or outcomes standardized by their corresponding standard errors on the vertical axis. Since the vertical axis corresponds to standardized values, it is referred to as the z-axis within this function. On the right hand side of the plot, an arc is drawn (referred to as the y-axis within this function) corresponding to the observed effect sizes or outcomes. A line projected from (0,0) through a particular point within the plot onto this arc indicates the value of the observed effect size or outcome for that point.
+</p>
+<p>For a random-effects model, the function uses \(1/\sqrt{v_i + \tau^2}\) for the horizontal axis, where \(v_i\) is the sampling variance of the observed effect size or outcome and \(\tau^2\) is the amount of heterogeneity as estimated based on the model. For the z-axis, \(\sqrt{v_i + \tau^2}\) is used to standardize the observed effect sizes or outcomes.
+</p>
+<p>If the model contains moderators, the function returns an error.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A data frame with components:
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>the x-axis coordinates of the points that were plotted.</p>
+</td></tr>
+<tr valign="top"><td><code>y</code></td>
+<td>
+<p>the y-axis coordinates of the points that were plotted.</p>
+</td></tr>
+<tr valign="top"><td><code>ids</code></td>
+<td>
+<p>the study id numbers.</p>
+</td></tr>
+<tr valign="top"><td><code>slab</code></td>
+<td>
+<p>the study labels.</p>
+</td></tr>
+</table>
+<p>Note that the data frame is returned invisibly.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Wolfgang Viechtbauer <a href="mailto:wvb@metafor-project.org">wvb@metafor-project.org</a> <a href="https://www.metafor-project.org">https://www.metafor-project.org</a>
+</p>
+
+
+<h3>References</h3>
+
+<p>Galbraith, R. F. (1988). Graphical display of estimates having differing standard errors. <em>Technometrics</em>, <b>30</b>(3), 271&ndash;281. <code style="white-space: pre;">https://doi.org/10.1080/00401706.1988.10488400</code>
+</p>
+<p>Galbraith, R. F. (1988). A note on graphical presentation of estimated odds ratios from several clinical trials. <em>Statistics in Medicine</em>, <b>7</b>(8), 889&ndash;894. <code style="white-space: pre;">https://doi.org/10.1002/sim.4780070807</code>
+</p>
+<p>Galbraith, R. F (1994). Some applications of radial plots. <em>Journal of the American Statistical Association</em>, <b>89</b>(428), 1232&ndash;1242. <code style="white-space: pre;">https://doi.org/10.1080/01621459.1994.10476864</code>
+</p>
+<p>Viechtbauer, W. (2010). Conducting meta-analyses in R with the metafor package. <em>Journal of Statistical Software</em>, <b>36</b>(3), 1&ndash;48. <code style="white-space: pre;">https://doi.org/10.18637/jss.v036.i03</code>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="rma.uni.html">rma.uni</a></code>, <code><a href="rma.mh.html">rma.mh</a></code>, <code><a href="rma.peto.html">rma.peto</a></code>, <code><a href="rma.glmm.html">rma.glmm</a></code>, and <code><a href="rma.mv.html">rma.mv</a></code> for functions to fit models for which radial plots can be drawn.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+### calculate log risk ratios and corresponding sampling variances
+dat &lt;- escalc(measure="RR", ai=tpos, bi=tneg, ci=cpos, di=cneg, data=dat.bcg)
+dat
+
+### fit equal-effects model
+res &lt;- rma(yi, vi, data=dat, method="EE")
+
+### draw radial plot
+radial(res)
+
+### line from (0,0) with slope equal to the log risk ratio from the 4th study
+abline(a=0, b=dat$yi[4], lty="dotted")
+
+### meta-analysis of the log risk ratios using a random-effects model
+res &lt;- rma(yi, vi, data=dat)
+
+### draw radial plot
+radial(res)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>metafor</em> version 3.4-0 <a href="00Index.html">Index</a>]</div>
+</body></html>
